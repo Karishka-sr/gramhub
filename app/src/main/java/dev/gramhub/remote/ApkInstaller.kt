@@ -119,18 +119,29 @@ class ApkInstaller(private val context: Context) {
             ContextCompat.RECEIVER_NOT_EXPORTED,
         )
 
-        // Fallback for a missed broadcast: ask the manager for the terminal status.
+        // Fallback for a missed broadcast: ask the manager for status and byte
+        // counters. This is also what feeds the progress readout, since the
+        // completion broadcast carries no size information.
         val poller = launch {
             while (isActive) {
-                delay(1000)
-                when (runCatching { manager.query(DownloadManager.Query().setFilterById(id)) }
+                delay(500)
+                val snapshot = runCatching { manager.query(DownloadManager.Query().setFilterById(id)) }
                     .getOrNull()?.use { cursor ->
-                        if (cursor.moveToFirst()) {
-                            cursor.getInt(cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_STATUS))
-                        } else {
-                            null
-                        }
-                    }) {
+                        if (!cursor.moveToFirst()) return@use null
+                        val status = cursor.getInt(cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_STATUS))
+                        val downloaded = cursor.getLong(
+                            cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR),
+                        )
+                        val total = cursor.getLong(
+                            cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_TOTAL_SIZE_BYTES),
+                        )
+                        Triple(status, downloaded, total)
+                    }
+
+                if (snapshot == null) continue
+                val (status, downloaded, total) = snapshot
+
+                when (status) {
                     DownloadManager.STATUS_SUCCESSFUL -> {
                         trySend(DownloadProgress.Finished(id))
                         close()
@@ -143,7 +154,7 @@ class ApkInstaller(private val context: Context) {
                         return@launch
                     }
 
-                    else -> Unit
+                    else -> trySend(DownloadProgress.Progress(downloaded, total.takeIf { it > 0 } ?: 0L))
                 }
             }
         }
@@ -211,6 +222,12 @@ class ApkInstaller(private val context: Context) {
 
 /** Progress of an APK download. */
 sealed interface DownloadProgress {
+    /**
+     * Bytes transferred so far. [total] is 0 when the size is not known yet, in
+     * which case the UI shows the running byte count without a percentage.
+     */
+    data class Progress(val downloaded: Long, val total: Long) : DownloadProgress
+
     data class Finished(val downloadId: Long) : DownloadProgress
     data class Failed(val reason: String) : DownloadProgress
 }

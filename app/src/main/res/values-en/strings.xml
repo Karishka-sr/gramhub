@@ -127,6 +127,11 @@
     <!-- Installation -->
     <string name="install">Install</string>
     <string name="installing_downloading">Downloading…</string>
+    <string name="installing_progress">Downloading %1$d%% · %2$s of %3$s</string>
+    <string name="installing_progress_unknown">%1$s downloaded</string>
+    <string name="unit_mb">MB</string>
+    <string name="unit_kb">KB</string>
+    <string name="unit_bytes">B</string>
     <string name="installing_verifying">Verifying the file…</string>
     <string name="installing_installing">Opening the installer…</string>
     <string name="installing_done">Handed to the installer</string>

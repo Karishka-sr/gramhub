@@ -24,6 +24,7 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -79,8 +80,16 @@ data class InstallState(
     val clientId: String,
     val phase: Phase,
     val message: String? = null,
+    /** Bytes received so far, for the progress readout. */
+    val downloadedBytes: Long = 0L,
+    /** Expected total size, or 0 when unknown. */
+    val totalBytes: Long = 0L,
 ) {
     enum class Phase { DOWNLOADING, VERIFYING, INSTALLING, DONE, FAILED }
+
+    /** Fraction complete in 0..1, or null when the total size is unknown. */
+    val fraction: Float?
+        get() = if (totalBytes > 0L) (downloadedBytes.toFloat() / totalBytes).coerceIn(0f, 1f) else null
 }
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
@@ -117,8 +126,17 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     /** Incremented by the refresh button to force a re-scan of installed apps. */
     private val refreshTrigger = MutableStateFlow(0)
 
+    /**
+     * Package names the catalog vouches for, so a client installed from it is
+     * recognised as a Telegram client even when its fork package id is not in the
+     * built-in list. Defaults to the built-in list until the catalog has loaded.
+     */
+    private val catalogPackages: StateFlow<Set<String>> = _remote
+        .map { remote -> remote.entries.mapNotNull { it.packageName }.filter { it.isNotBlank() }.toSet() }
+        .stateIn(viewModelScope, SharingStarted.Eagerly, emptySet())
+
     val uiState: StateFlow<LauncherUiState> = combine(
-        clients.clients(),
+        clients.clients(catalogPackages),
         settingsRepo.settings,
         _query,
         refreshTrigger,
@@ -135,7 +153,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
      */
     val catalogState: StateFlow<CatalogUiState> = combine(
         _remote,
-        clients.clients(),
+        clients.clients(catalogPackages),
         settingsRepo.settings,
         _catalogQuery,
     ) { remote, installed, prefs, query ->
@@ -236,11 +254,24 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         val target = installer.fileFor(entry)
 
         if (!installer.hasDownload(entry)) {
-            _installState.value = InstallState(entry.id, InstallState.Phase.DOWNLOADING)
+            _installState.value = InstallState(
+                entry.id,
+                InstallState.Phase.DOWNLOADING,
+                totalBytes = apk.size.coerceAtLeast(0L),
+            )
             val failure = runCatching {
                 installer.download(apk, target).collect { progress ->
-                    if (progress is DownloadProgress.Failed) {
-                        throw IllegalStateException(progress.reason)
+                    when (progress) {
+                        is DownloadProgress.Progress -> _installState.value = InstallState(
+                            entry.id,
+                            InstallState.Phase.DOWNLOADING,
+                            downloadedBytes = progress.downloaded,
+                            totalBytes = if (progress.total > 0) progress.total else apk.size.coerceAtLeast(0L),
+                        )
+
+                        is DownloadProgress.Failed -> throw IllegalStateException(progress.reason)
+
+                        is DownloadProgress.Finished -> Unit
                     }
                 }
             }.exceptionOrNull()
@@ -281,6 +312,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 _installState.value = InstallState(entry.id, InstallState.Phase.INSTALLING)
                 installer.promptInstall(outcome.file)
                 _installState.value = InstallState(entry.id, InstallState.Phase.DONE)
+                // The package broadcast will arrive on its own; this makes the
+                // "Installed" tab move the entry over without waiting for it.
+                refresh()
             }
         }
     }

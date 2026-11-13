@@ -34,6 +34,25 @@ class CatalogApi(
     private val baseUrl: String
         get() = baseUrlProvider().trim().trimEnd('/')
 
+    /**
+     * The URL that actually returns the catalog document.
+     *
+     * A configured address is either a live server (append `/clients`) or a
+     * direct link to a static JSON snapshot, such as the one GitHub Pages serves.
+     * Telling them apart by extension keeps the app working with both without a
+     * separate setting.
+     */
+    private val clientsUrl: String
+        get() = if (baseUrl.substringAfterLast('?').endsWith(".json", ignoreCase = true)) {
+            baseUrl
+        } else {
+            "$baseUrl/clients"
+        }
+
+    /** True when the address points straight at a static catalog snapshot. */
+    private val isStaticCatalog: Boolean
+        get() = baseUrl.substringAfterLast('?').endsWith(".json", ignoreCase = true)
+
     suspend fun fetchClients(forceRefresh: Boolean = false): CatalogResult =
         withContext(Dispatchers.IO) {
             if (baseUrl.isBlank()) {
@@ -44,7 +63,7 @@ class CatalogApi(
                 )
             }
 
-            runCatching { get("$baseUrl/clients") }
+            runCatching { get(clientsUrl) }
                 .map { body ->
                     cacheFile.writeText(body)
                     CatalogResult(CatalogJson.parseClients(body), CatalogSource.NETWORK)
@@ -62,7 +81,7 @@ class CatalogApi(
 
     /** Asks the server to download and scan the entry's APK. */
     suspend fun scan(clientId: String): RemoteScan? = withContext(Dispatchers.IO) {
-        if (baseUrl.isBlank()) return@withContext null
+        if (baseUrl.isBlank() || isStaticCatalog) return@withContext null
         runCatching {
             val body = post("$baseUrl/clients/$clientId/scan")
             CatalogJson.parseScan(
@@ -71,9 +90,16 @@ class CatalogApi(
         }.getOrNull()
     }
 
+    /**
+     * Whether the configured address answers.
+     *
+     * A static snapshot has no `/health`, so its own document stands in for it:
+     * if the catalog file loads, the address is alive.
+     */
     suspend fun health(): Boolean = withContext(Dispatchers.IO) {
         if (baseUrl.isBlank()) return@withContext false
-        runCatching { get("$baseUrl/health"); true }.getOrDefault(false)
+        val target = if (isStaticCatalog) clientsUrl else "$baseUrl/health"
+        runCatching { get(target); true }.getOrDefault(false)
     }
 
     private fun readCache(): List<RemoteClient> =

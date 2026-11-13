@@ -22,6 +22,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -35,6 +36,7 @@ import dev.gramhub.R
 import dev.gramhub.remote.RemoteClient
 import dev.gramhub.remote.Verdict
 import dev.gramhub.ui.InstallState
+import kotlin.math.roundToInt
 
 /**
  * One catalog entry: a client that is not installed.
@@ -220,18 +222,39 @@ private fun InstallRow(
     ) {
         when {
             busy -> {
-                CircularProgressIndicator(modifier = Modifier.size(18.dp), strokeWidth = 2.dp)
-                Text(
-                    text = stringResource(
-                        when (installState?.phase) {
-                            InstallState.Phase.DOWNLOADING -> R.string.installing_downloading
-                            InstallState.Phase.VERIFYING -> R.string.installing_verifying
-                            else -> R.string.installing_installing
-                        },
-                    ),
-                    style = MaterialTheme.typography.labelMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                )
+                if (installState?.phase == InstallState.Phase.DOWNLOADING) {
+                    Column(
+                        modifier = Modifier.weight(1f),
+                        verticalArrangement = Arrangement.spacedBy(6.dp),
+                    ) {
+                        Text(
+                            text = downloadProgressText(installState),
+                            style = MaterialTheme.typography.labelMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        )
+                        val fraction = installState.fraction
+                        if (fraction != null) {
+                            LinearProgressIndicator(
+                                progress = { fraction },
+                                modifier = Modifier.fillMaxWidth(),
+                            )
+                        } else {
+                            LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
+                        }
+                    }
+                } else {
+                    CircularProgressIndicator(modifier = Modifier.size(18.dp), strokeWidth = 2.dp)
+                    Text(
+                        text = stringResource(
+                            when (installState?.phase) {
+                                InstallState.Phase.VERIFYING -> R.string.installing_verifying
+                                else -> R.string.installing_installing
+                            },
+                        ),
+                        style = MaterialTheme.typography.labelMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                }
             }
 
             installState?.phase == InstallState.Phase.DONE -> {
@@ -328,4 +351,35 @@ private fun installMessage(code: String?): String = when (code) {
     "digest_mismatch" -> stringResource(R.string.install_digest_mismatch)
     "no_apk" -> stringResource(R.string.install_no_apk)
     else -> stringResource(R.string.install_failed)
+}
+
+/**
+ * The download readout: a percentage with "12,4 МБ из 44,0 МБ" when the total is
+ * known, or just the running byte count when the server did not report a size.
+ */
+@Composable
+private fun downloadProgressText(state: InstallState): String {
+    val fraction = state.fraction
+    return if (fraction != null) {
+        stringResource(
+            R.string.installing_progress,
+            (fraction * 100).roundToInt(),
+            formatBytes(state.downloadedBytes),
+            formatBytes(state.totalBytes),
+        )
+    } else {
+        stringResource(R.string.installing_progress_unknown, formatBytes(state.downloadedBytes))
+    }
+}
+
+/** Formats a byte count for people: 1,4 МБ, 512 КБ, 800 Б. */
+@Composable
+private fun formatBytes(bytes: Long): String {
+    val mb = 1024.0 * 1024.0
+    val kb = 1024.0
+    return when {
+        bytes >= mb -> "%.1f %s".format(bytes / mb, stringResource(R.string.unit_mb))
+        bytes >= kb -> "%.0f %s".format(bytes / kb, stringResource(R.string.unit_kb))
+        else -> "%d %s".format(bytes, stringResource(R.string.unit_bytes))
+    }
 }

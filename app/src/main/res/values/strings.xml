@@ -127,6 +127,11 @@
     <!-- Установка -->
     <string name="install">Установить</string>
     <string name="installing_downloading">Загрузка…</string>
+    <string name="installing_progress">Загрузка %1$d%% · %2$s из %3$s</string>
+    <string name="installing_progress_unknown">Загружено %1$s</string>
+    <string name="unit_mb">МБ</string>
+    <string name="unit_kb">КБ</string>
+    <string name="unit_bytes">Б</string>
     <string name="installing_verifying">Проверка файла…</string>
     <string name="installing_installing">Открываем установщик…</string>
     <string name="installing_done">Передано установщику</string>
