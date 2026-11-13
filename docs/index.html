@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GramHub — каталог клиентов Telegram</title>
+<style>
+  :root { color-scheme: light dark; }
+  body { font-family: system-ui, sans-serif; margin: 0; padding: 2.5rem 1.25rem;
+         line-height: 1.55; max-width: 42rem; margin-inline: auto; }
+  h1 { margin: 0 0 .25rem; font-size: 1.75rem; }
+  p.lead { color: #666; margin-top: 0; }
+  a.card { display: block; padding: 1rem 1.25rem; margin: .75rem 0;
+           border: 1px solid #8883; border-radius: .75rem; text-decoration: none;
+           color: inherit; }
+  a.card strong { display: block; }
+  a.card span { color: #666; font-size: .9rem; }
+  code { background: #8881; padding: .15rem .35rem; border-radius: .25rem; }
+</style>
+</head>
+<body>
+  <h1>GramHub</h1>
+  <p class="lead">Лаунчер для клиентов Telegram. Этот адрес отдаёт каталог,
+     который читает приложение.</p>
+
+  <a class="card" href="clients.json">
+    <strong>Каталог клиентов</strong>
+    <span>clients.json — список клиентов с release-APK</span>
+  </a>
+  <a class="card" href="https://github.com/Karishka-sr/gramhub/releases/latest">
+    <strong>Скачать GramHub</strong>
+    <span>последний релиз на GitHub</span>
+  </a>
+  <a class="card" href="https://github.com/Karishka-sr/gramhub">
+    <strong>Исходный код</strong>
+    <span>github.com/Karishka-sr/gramhub</span>
+  </a>
+
+  <p><small>В приложении этот адрес задан по умолчанию:
+     Настройки → Каталог клиентов →
+     <code>https://karishka-sr.github.io/gramhub/clients.json</code></small></p>
+</body>
+</html>
