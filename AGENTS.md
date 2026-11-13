@@ -124,3 +124,33 @@ User-facing strings live in `values/` (Russian, the default) and `values-en/`
 The test emulator is software-rendered with no KVM, so it is slow: allow ~40-60 s
 after `am start` before taking a screenshot or a `uiautomator dump`, and expect
 occasional "System UI isn't responding" dialogs that need dismissing.
+
+## Catalog delivery
+
+The app's default catalog address is a **static snapshot**, not a running
+server: `docs/clients.json`, served by GitHub Pages at
+`https://karishka-sr.github.io/gramhub/clients.json`. This keeps clients visible
+with no host to maintain and no tunnel that can expire.
+
+- Regenerate it with `GITHUB_TOKEN=... python tools/refresh_catalog.py -o docs/clients.json`
+  (discovers from GitHub and writes the snapshot in one step). `tools/export_catalog.py`
+  only re-serialises an existing database.
+- `.github/workflows/refresh-catalog.yml` refreshes it daily. It is kept as a
+  local file only: pushing a workflow needs a token with the `workflow` scope,
+  and the available tokens (`ghu_` app token, classic `ghp_` with `repo`) do not
+  have it. Add the file to the repository by hand when a suitably scoped token is
+  available.
+- `CatalogApi` accepts either a live server (`https://host`, appends `/clients`
+  and can POST `/scan`) or a direct `.json` link (fetched as-is; `scan()` and
+  `health()` degrade gracefully). The two are told apart by the `.json` suffix.
+- The committed snapshot is parsed by `StaticCatalogSnapshotTest`, so a broken
+  export fails the build rather than shipping an empty catalog.
+
+## Recognising installed clients
+
+`ClientRepository` matches installed apps against `TelegramClientCatalog`, which
+knows a fixed package list plus label keywords. A fork installed from the catalog
+can have an arbitrary package id and a name with no "Telegram"/"gram" in it, so
+it would never appear in the "Installed" tab. `MainViewModel` therefore feeds the
+catalog's package names into `clients(catalogPackages)` as `extraPackages`, and
+`matchReason` accepts them as `KNOWN_PACKAGE`. The hard denylist still wins.
