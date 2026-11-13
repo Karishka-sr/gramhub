@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">GramHub</string>
+
+    <string name="launcher_title">Мои клиенты</string>
+
+    <string name="nav_clients">Клиенты</string>
+    <string name="nav_settings">Настройки</string>
+
+    <string name="search_hint">Поиск клиента</string>
+    <string name="search_clear">Очистить поиск</string>
+
+    <string name="refresh">Обновить список</string>
+    <string name="launch_failed">Не удалось запустить приложение</string>
+    <string name="open">Открыть</string>
+    <string name="open_app_info">О приложении</string>
+    <string name="more_actions">Действия</string>
+    <string name="uninstall">Удалить</string>
+    <string name="uninstall_confirm_title">Удалить %1$s?</string>
+    <string name="uninstall_confirm_message">Приложение будет удалено с устройства вместе с локальными данными.</string>
+    <string name="cancel">Отмена</string>
+
+
+    <string name="empty_title">Клиенты Telegram не найдены</string>
+    <string name="empty_message">Установите Telegram или любой его форк — он появится здесь автоматически.</string>
+    <string name="empty_search_title">Ничего не найдено</string>
+    <string name="empty_search_message">Попробуйте изменить поисковый запрос.</string>
+    <string name="empty_button">Проверить снова</string>
+
+    <string name="hidden_count">Скрыто: %1$d</string>
+
+    <string name="pin">В избранное</string>
+    <string name="unpin">Убрать из избранного</string>
+    <string name="hide">Скрыть</string>
+    <string name="unhide">Показать</string>
+
+
+    <string name="settings_title">Настройки</string>
+
+    <string name="settings_group_appearance">Внешний вид</string>
+    <string name="settings_theme">Тема оформления</string>
+    <string name="settings_theme_system">Системная</string>
+    <string name="settings_theme_light">Светлая</string>
+    <string name="settings_theme_dark">Тёмная</string>
+    <string name="settings_dynamic_color">Динамические цвета</string>
+    <string name="settings_dynamic_color_summary">Использовать палитру обоев (Android 12+)</string>
+    <string name="settings_amoled">AMOLED-режим</string>
+    <string name="settings_amoled_summary">Абсолютно чёрный фон в тёмной теме</string>
+
+    <string name="settings_group_list">Список клиентов</string>
+    <string name="settings_density">Плотность списка</string>
+    <string name="settings_density_compact">Компактная</string>
+    <string name="settings_density_cozy">Обычная</string>
+    <string name="settings_density_comfortable">Просторная</string>
+    <string name="settings_show_other">Показывать другие приложения</string>
+    <string name="settings_show_other_summary">Приложения со словом «telegram» в названии</string>
+    <string name="settings_pin_favorites">Избранное сверху</string>
+    <string name="settings_pin_favorites_summary">Закреплённые клиенты всегда в начале списка</string>
+    <string name="settings_show_hidden">Показывать скрытые</string>
+    <string name="settings_show_hidden_summary">Отображать клиенты, скрытые вручную</string>
+    <string name="settings_default_client">Клиент по умолчанию</string>
+    <string name="settings_default_client_none">Не выбран</string>
+    <string name="settings_default_client_summary">Запускается долгим нажатием на иконку GramHub</string>
+    <string name="settings_sort">Сортировка</string>
+    <string name="settings_sort_name">По названию</string>
+    <string name="settings_sort_installed">По дате установки</string>
+    <string name="settings_sort_custom">Вручную</string>
+    <string name="settings_sort_custom_hint">Меняйте порядок стрелками</string>
+
+    <string name="settings_group_behavior">Поведение</string>
+    <string name="settings_haptic">Вибрация при удержании</string>
+    <string name="settings_haptic_summary">Короткий отклик на долгое нажатие</string>
+    <string name="settings_confirm_uninstall">Подтверждать удаление</string>
+    <string name="settings_confirm_uninstall_summary">Показывать диалог перед удалением</string>
+    <string name="settings_hidden_manage">Скрытые клиенты</string>
+    <string name="settings_reset">Сбросить настройки</string>
+    <string name="settings_reset_summary">Вернуть все параметры к значениям по умолчанию</string>
+    <string name="settings_reset_confirm_title">Сбросить настройки?</string>
+    <string name="settings_reset_confirm_message">Избранное, скрытые клиенты и порядок будут удалены.</string>
+
+    <string name="settings_group_about">О приложении</string>
+    <string name="settings_version">Версия %1$s</string>
+    <string name="settings_about_body">GramHub не заменяет Telegram: он собирает установленные клиенты в аккуратный список и запускает нужный в один тап.</string>
+    <string name="settings_clients_found">Найдено клиентов: %1$d</string>
+
+    <!-- Вкладки "Установленные" / "Не установленные" -->
+    <string name="tab_installed">Установленные</string>
+    <string name="tab_available">Не установленные</string>
+
+    <!-- Каталог: список доступных клиентов -->
+    <string name="catalog_loading">Загрузка каталога…</string>
+    <string name="catalog_empty_title">Нет доступных клиентов</string>
+    <string name="catalog_empty_message">Каталог пуст. Возможно, все клиенты уже установлены.</string>
+    <string name="catalog_empty_search_title">Ничего не найдено</string>
+    <string name="catalog_empty_search_message">Попробуйте другое название или имя репозитория.</string>
+    <string name="catalog_offline_title">Каталог недоступен</string>
+    <string name="catalog_offline_message">Не удалось связаться с сервером %1$s. Проверьте адрес в настройках.</string>
+    <string name="catalog_cached_notice">Показаны сохранённые данные: сервер недоступен</string>
+    <string name="catalog_disabled_title">Каталог отключён</string>
+    <string name="catalog_disabled_message">Включите каталог в настройках, чтобы видеть клиентов, которых нет на телефоне.</string>
+    <string name="catalog_search_hint">Поиск в каталоге</string>
+    <string name="catalog_count">Доступно: %1$d</string>
+    <string name="catalog_stars">%1$d ★</string>
+    <string name="catalog_repository">Открыть репозиторий</string>
+    <string name="catalog_release_page">Страница релиза</string>
+
+    <!-- Проверка безопасности -->
+    <string name="verdict_trusted">Проверено</string>
+    <string name="verdict_caution">Стоит проверить</string>
+    <string name="verdict_dangerous">Опасно</string>
+    <string name="verdict_unknown">Не проверено</string>
+    <string name="verdict_checking">Проверка…</string>
+    <string name="verdict_trusted_summary">Подпись верна, подозрительных разрешений нет</string>
+    <string name="verdict_caution_summary">Есть замечания — посмотрите подробности</string>
+    <string name="verdict_dangerous_summary">Устанавливать не рекомендуется</string>
+    <string name="verdict_unknown_summary">Сервер ещё не проверял этот файл</string>
+    <string name="verdict_check">Проверить</string>
+    <string name="verdict_recheck">Проверить заново</string>
+    <string name="verdict_digest_ok">SHA-256 совпадает с релизом</string>
+    <string name="verdict_digest_bad">SHA-256 НЕ совпадает с релизом</string>
+    <string name="verdict_digest_absent">Релиз не публикует SHA-256</string>
+    <string name="verdict_debug_signed">Подписано отладочным ключом</string>
+    <string name="verdict_findings_title">Что нашла проверка</string>
+    <string name="verdict_scan_failed">Не удалось проверить файл на сервере</string>
+    <string name="security_title">Безопасность</string>
+
+    <!-- Установка -->
+    <string name="install">Установить</string>
+    <string name="installing_downloading">Загрузка…</string>
+    <string name="installing_verifying">Проверка файла…</string>
+    <string name="installing_installing">Открываем установщик…</string>
+    <string name="installing_done">Передано установщику</string>
+    <string name="install_failed">Не удалось установить</string>
+    <string name="install_digest_mismatch">Файл не совпал с проверенной версией — загрузка удалена</string>
+    <string name="install_no_apk">Для этого клиента нет APK в релизах</string>
+    <string name="install_permission">Разрешите GramHub устанавливать приложения</string>
+    <string name="install_retry">Повторить</string>
+    <string name="install_cancel">Отмена</string>
+    <string name="install_confirm_title">Установить %1$s?</string>
+    <string name="install_confirm_message">Приложение будет скачано с GitHub и установлено. Продолжить?</string>
+    <string name="install_dangerous_warning">Сервер считает этот файл опасным. Установка может навредить устройству.</string>
+    <string name="install_size">Размер: %1$s</string>
+    <string name="installed_badge">Установлено</string>
+
+    <!-- Настройки: каталог -->
+    <string name="settings_group_catalog">Каталог клиентов</string>
+    <string name="settings_catalog_enabled">Показывать каталог</string>
+    <string name="settings_catalog_enabled_summary">Вкладка с клиентами, которых нет на телефоне</string>
+    <string name="settings_catalog_url">Адрес сервера</string>
+    <string name="settings_catalog_url_summary">Адрес каталога GramHub, например https://example.com</string>
+    <string name="settings_catalog_insecure">Адрес без HTTPS: каталог может быть подменён в вашей сети. APK всё равно проверяется по SHA-256.</string>
+    <string name="settings_catalog_url_hint">https://example.com</string>
+    <string name="settings_catalog_test">Проверить соединение</string>
+    <string name="settings_catalog_ok">Сервер отвечает</string>
+    <string name="settings_catalog_fail">Сервер не отвечает</string>
+    <string name="settings_catalog_saved">Адрес сохранён</string>
+    <string name="settings_catalog_reload">Обновить каталог</string>
+</resources>

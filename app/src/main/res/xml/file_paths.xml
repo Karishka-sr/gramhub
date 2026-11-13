@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Files the installer may hand to the system package installer.
+
+  DownloadManager can only write to external storage, so a downloaded APK lands
+  in this app's own external files dir (Android/data/<package>/files/Download).
+  That directory is app-specific and unreadable by other apps on modern Android,
+  but the FileProvider still has to declare it or getUriForFile throws.
+-->
+<paths>
+    <files-path name="downloads" path="downloads/" />
+    <external-files-path name="downloads_external" path="Download/" />
+</paths>

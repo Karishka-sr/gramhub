@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  GramHub talks to a self-hosted catalog, which in practice runs on the user's
+  own machine or LAN and is reached over plain HTTP (for example
+  http://192.168.1.5:8080). Android blocks cleartext by default from API 28 on,
+  so without this the default server address can never connect.
+
+  Cleartext is permitted for the catalog only. APKs themselves are always fetched
+  from GitHub over HTTPS by the server, and the app verifies the SHA-256 the
+  server reports before handing the file to the installer. Settings warns when
+  the configured address is not HTTPS, because an attacker on the same network
+  could otherwise alter the catalog.
+-->
+<network-security-config>
+    <base-config cleartextTrafficPermitted="true">
+        <trust-anchors>
+            <certificates src="system" />
+        </trust-anchors>
+    </base-config>
+</network-security-config>

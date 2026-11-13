@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">GramHub</string>
+
+    <string name="launcher_title">My clients</string>
+
+    <string name="nav_clients">Clients</string>
+    <string name="nav_settings">Settings</string>
+
+    <string name="search_hint">Search clients</string>
+    <string name="search_clear">Clear search</string>
+
+    <string name="refresh">Refresh list</string>
+    <string name="launch_failed">Could not launch the app</string>
+    <string name="open">Open</string>
+    <string name="open_app_info">App info</string>
+    <string name="more_actions">Actions</string>
+    <string name="uninstall">Uninstall</string>
+    <string name="uninstall_confirm_title">Uninstall %1$s?</string>
+    <string name="uninstall_confirm_message">The app will be removed from this device together with its local data.</string>
+    <string name="cancel">Cancel</string>
+
+
+    <string name="empty_title">No Telegram clients found</string>
+    <string name="empty_message">Install Telegram or any of its forks and it will show up here automatically.</string>
+    <string name="empty_search_title">Nothing found</string>
+    <string name="empty_search_message">Try a different search query.</string>
+    <string name="empty_button">Check again</string>
+
+    <string name="hidden_count">Hidden: %1$d</string>
+
+    <string name="pin">Add to favorites</string>
+    <string name="unpin">Remove from favorites</string>
+    <string name="hide">Hide</string>
+    <string name="unhide">Unhide</string>
+
+
+    <string name="settings_title">Settings</string>
+
+    <string name="settings_group_appearance">Appearance</string>
+    <string name="settings_theme">Theme</string>
+    <string name="settings_theme_system">System</string>
+    <string name="settings_theme_light">Light</string>
+    <string name="settings_theme_dark">Dark</string>
+    <string name="settings_dynamic_color">Dynamic color</string>
+    <string name="settings_dynamic_color_summary">Use the wallpaper palette (Android 12+)</string>
+    <string name="settings_amoled">AMOLED mode</string>
+    <string name="settings_amoled_summary">Pure black background in dark theme</string>
+
+    <string name="settings_group_list">Client list</string>
+    <string name="settings_density">List density</string>
+    <string name="settings_density_compact">Compact</string>
+    <string name="settings_density_cozy">Cozy</string>
+    <string name="settings_density_comfortable">Comfortable</string>
+    <string name="settings_show_other">Show other apps</string>
+    <string name="settings_show_other_summary">Apps with "telegram" in their name</string>
+    <string name="settings_pin_favorites">Favorites on top</string>
+    <string name="settings_pin_favorites_summary">Pinned clients always come first</string>
+    <string name="settings_show_hidden">Show hidden</string>
+    <string name="settings_show_hidden_summary">Display clients hidden by hand</string>
+    <string name="settings_default_client">Default client</string>
+    <string name="settings_default_client_none">Not selected</string>
+    <string name="settings_default_client_summary">Launched by long-pressing the GramHub icon</string>
+    <string name="settings_sort">Sorting</string>
+    <string name="settings_sort_name">By name</string>
+    <string name="settings_sort_installed">By install date</string>
+    <string name="settings_sort_custom">Custom</string>
+    <string name="settings_sort_custom_hint">Reorder with the arrows</string>
+
+    <string name="settings_group_behavior">Behavior</string>
+    <string name="settings_haptic">Haptic on long press</string>
+    <string name="settings_haptic_summary">Short feedback when holding a card</string>
+    <string name="settings_confirm_uninstall">Confirm uninstall</string>
+    <string name="settings_confirm_uninstall_summary">Show a dialog before uninstalling</string>
+    <string name="settings_hidden_manage">Hidden clients</string>
+    <string name="settings_reset">Reset settings</string>
+    <string name="settings_reset_summary">Restore every option to its default value</string>
+    <string name="settings_reset_confirm_title">Reset settings?</string>
+    <string name="settings_reset_confirm_message">Favorites, hidden clients and custom order will be removed.</string>
+
+    <string name="settings_group_about">About</string>
+    <string name="settings_version">Version %1$s</string>
+    <string name="settings_about_body">GramHub does not replace Telegram: it gathers your installed clients into one tidy list and launches the right one in a single tap.</string>
+    <string name="settings_clients_found">Clients found: %1$d</string>
+
+    <!-- Tabs: installed / not installed -->
+    <string name="tab_installed">Installed</string>
+    <string name="tab_available">Not installed</string>
+
+    <!-- Catalog: available clients -->
+    <string name="catalog_loading">Loading catalog…</string>
+    <string name="catalog_empty_title">No clients available</string>
+    <string name="catalog_empty_message">The catalog is empty. Perhaps every client is already installed.</string>
+    <string name="catalog_empty_search_title">Nothing found</string>
+    <string name="catalog_empty_search_message">Try a different name or repository.</string>
+    <string name="catalog_offline_title">Catalog unreachable</string>
+    <string name="catalog_offline_message">Could not reach the server at %1$s. Check the address in settings.</string>
+    <string name="catalog_cached_notice">Showing saved data: the server is unreachable</string>
+    <string name="catalog_disabled_title">Catalog turned off</string>
+    <string name="catalog_disabled_message">Turn the catalog on in settings to see clients that are not on this phone.</string>
+    <string name="catalog_search_hint">Search the catalog</string>
+    <string name="catalog_count">Available: %1$d</string>
+    <string name="catalog_stars">%1$d ★</string>
+    <string name="catalog_repository">Open repository</string>
+    <string name="catalog_release_page">Release page</string>
+
+    <!-- Security check -->
+    <string name="verdict_trusted">Checked</string>
+    <string name="verdict_caution">Worth a look</string>
+    <string name="verdict_dangerous">Dangerous</string>
+    <string name="verdict_unknown">Not checked</string>
+    <string name="verdict_checking">Checking…</string>
+    <string name="verdict_trusted_summary">Signature is valid, no suspicious permissions</string>
+    <string name="verdict_caution_summary">Some remarks — see the details</string>
+    <string name="verdict_dangerous_summary">Not recommended for installation</string>
+    <string name="verdict_unknown_summary">The server has not inspected this file yet</string>
+    <string name="verdict_check">Check</string>
+    <string name="verdict_recheck">Check again</string>
+    <string name="verdict_digest_ok">SHA-256 matches the release</string>
+    <string name="verdict_digest_bad">SHA-256 does NOT match the release</string>
+    <string name="verdict_digest_absent">The release publishes no SHA-256</string>
+    <string name="verdict_debug_signed">Signed with a debug key</string>
+    <string name="verdict_findings_title">What the check found</string>
+    <string name="verdict_scan_failed">The server could not inspect this file</string>
+    <string name="security_title">Security</string>
+
+    <!-- Installation -->
+    <string name="install">Install</string>
+    <string name="installing_downloading">Downloading…</string>
+    <string name="installing_verifying">Verifying the file…</string>
+    <string name="installing_installing">Opening the installer…</string>
+    <string name="installing_done">Handed to the installer</string>
+    <string name="install_failed">Installation failed</string>
+    <string name="install_digest_mismatch">The file did not match the checked version — the download was deleted</string>
+    <string name="install_no_apk">This client has no APK in its releases</string>
+    <string name="install_permission">Allow GramHub to install apps</string>
+    <string name="install_retry">Retry</string>
+    <string name="install_cancel">Cancel</string>
+    <string name="install_confirm_title">Install %1$s?</string>
+    <string name="install_confirm_message">The app will be downloaded from GitHub and installed. Continue?</string>
+    <string name="install_dangerous_warning">The server considers this file dangerous. Installing it may harm your device.</string>
+    <string name="install_size">Size: %1$s</string>
+    <string name="installed_badge">Installed</string>
+
+    <!-- Settings: catalog -->
+    <string name="settings_group_catalog">Client catalog</string>
+    <string name="settings_catalog_enabled">Show the catalog</string>
+    <string name="settings_catalog_enabled_summary">A tab with clients that are not on this phone</string>
+    <string name="settings_catalog_url">Server address</string>
+    <string name="settings_catalog_url_summary">Address of the GramHub catalog, e.g. https://example.com</string>
+    <string name="settings_catalog_insecure">Address is not HTTPS: the catalog could be altered on your network. The APK is still checked by SHA-256.</string>
+    <string name="settings_catalog_url_hint">https://example.com</string>
+    <string name="settings_catalog_test">Test the connection</string>
+    <string name="settings_catalog_ok">The server responds</string>
+    <string name="settings_catalog_fail">The server does not respond</string>
+    <string name="settings_catalog_saved">Address saved</string>
+    <string name="settings_catalog_reload">Refresh the catalog</string>
+</resources>
