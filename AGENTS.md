@@ -15,9 +15,11 @@ export JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64
 Toolchain: AGP 8.7.3, Kotlin 2.1.0, Compose BOM 2024.12.01, `compileSdk` 35,
 `minSdk` 24. Android SDK lives at `$HOME/android-sdk` (`local.properties`).
 
-Unit tests run on the JVM under Robolectric (`@Config(sdk = [34])`) — 22 tests in
-`ClientOrganizerTest`, `ClientRepositoryTest`, `TelegramClientCatalogTest`,
-`ScreenRenderingTest`, `AppActionsTest`.
+Unit tests run on the JVM under Robolectric (`@Config(sdk = [34])`) — 70 tests
+across 14 classes, including `ClientOrganizerTest`, `ClientRepositoryTest`,
+`TelegramClientCatalogTest`, `CatalogJsonTest`, `ScanOutcomeParsingTest`,
+`MainViewModelTest`, `ClientDetailSheetTest`, `ScreenRenderingTest` and
+`AppActionsTest`.
 
 ## Things that are easy to get wrong
 
@@ -133,16 +135,18 @@ server: `docs/clients.json`, served by GitHub Pages at
 with no host to maintain and no tunnel that can expire.
 
 - Regenerate it with `GITHUB_TOKEN=... python tools/refresh_catalog.py -o docs/clients.json`
-  (discovers from GitHub and writes the snapshot in one step). `tools/export_catalog.py`
-  only re-serialises an existing database.
+  (discovers from GitHub, downloads and scans each APK, and writes the snapshot in
+  one step; `--no-scan` reuses cached verdicts). `tools/export_catalog.py` only
+  re-serialises an existing database.
 - `.github/workflows/refresh-catalog.yml` refreshes it daily. It is kept as a
   local file only: pushing a workflow needs a token with the `workflow` scope,
   and the available tokens (`ghu_` app token, classic `ghp_` with `repo`) do not
   have it. Add the file to the repository by hand when a suitably scoped token is
   available.
 - `CatalogApi` accepts either a live server (`https://host`, appends `/clients`
-  and can POST `/scan`) or a direct `.json` link (fetched as-is; `scan()` and
-  `health()` degrade gracefully). The two are told apart by the `.json` suffix.
+  and can POST `/scan`) or a direct `.json` link (fetched as-is; `health()`
+  degrades gracefully, and `scan()` re-reads the snapshot for its embedded
+  verdict). The two are told apart by the `.json` suffix.
 - The committed snapshot is parsed by `StaticCatalogSnapshotTest`, so a broken
   export fails the build rather than shipping an empty catalog.
 
@@ -160,8 +164,13 @@ catalog's package names into `clients(catalogPackages)` as `extraPackages`, and
 Tapping a catalog card opens `ClientDetailSheet`, which is the only place the
 three checks live, so they cannot be confused:
 
-- **Проверить** (server scan) — `MainViewModel.scan`, calls `POST /clients/{id}/scan`
-  on a live server. Degrades to nothing against a static snapshot.
+- **Проверить** (server scan) — `MainViewModel.scan`, calls `CatalogApi.scan`.
+  Against a live server that is `POST /clients/{id}/scan`. Against the default
+  static snapshot there is no endpoint, so it re-fetches the snapshot instead:
+  the refresh workflow bakes the verdicts into it, so re-reading it is how a
+  fresh verdict arrives. When the snapshot carries none, the button reports
+  `ScanOutcome.Unavailable` and the UI says why (see below) instead of doing
+  nothing visible.
 - **Проверить полностью** (on-device) — `ApkFullCheck` in `remote/FullCheck.kt`.
   Reads the actual downloaded APK: verifies every ZIP entry against its stored
   CRC-32, parses the DEX header for a class count, scans DEX bytes for known-bad
@@ -174,6 +183,17 @@ Note: `java.util.zip.ZipFile` streams do **not** verify entry CRCs on the JVM, s
 
 The server's findings are rendered inline through `SecurityContent` (extracted
 from `SecuritySheet`), not as a second stacked sheet.
+
+When "Проверить" produces no verdict, `MainViewModel` sets a `ScanNotice`
+(the entry id plus a `ScanMessage`), which the card and the sheet render through
+`ScanNoticeRow` under the button that produced it. It is deliberately not a
+snackbar: a snackbar would be hidden behind the open sheet and would cover the
+card button. The notice carries the entry id so it only appears on its own card.
+
+The snapshot's verdicts are the only ones the default install ever shows, so
+`tools/refresh_catalog.py` must scan while generating it. That needs
+`apksigner`/`aapt2` (Android build-tools), which is why the refresh workflow
+installs them; without them every exported verdict is null.
 
 ## Interface style
 
@@ -193,11 +213,25 @@ surfaced as the "Сообщество" group at the bottom of Settings and as a 
 
 ## Session state (resume here)
 
-Branch `master`. The session work is in the latest commit on `master` ("Fix
-tab-switch ANR and cold-start catalog address"); nothing is pushed and no PR is
-open. Build is
-green; `server/.venv` is set up and `pytest -q` reports **85 passed**;
-`./gradlew testDebugUnitTest` reports **61 passed** (13 classes).
+Branch `master`. The latest commit is "Show catalog verdicts from the static
+snapshot"; nothing is pushed and no PR is open. Build is green:
+`server/.venv/bin/python -m pytest -q` reports **85 passed** and
+`./gradlew testDebugUnitTest` reports **70 passed** (14 classes).
+`docs/clients.json` holds 20 clients, all 20 with a verdict (18 caution,
+1 dangerous, 1 trusted). Version is `1.2.1` (versionCode 4).
+
+This session made the catalog's verdicts visible in the default install. The
+catalog is a static JSON snapshot, not a running server, so "Проверить" had no
+endpoint to call and did nothing visible. Now:
+
+- `tools/refresh_catalog.py` downloads and scans each entry's newest APK while
+  writing the snapshot (`--no-scan` reuses cached verdicts). It needs
+  Android build-tools for `apksigner`/`aapt2`; the refresh workflow installs them.
+- `CatalogApi.scan` returns `ScanOutcome` (`Verdict` / `Unavailable` / `Failed`);
+  against a static snapshot it re-reads the snapshot and takes the embedded
+  verdict for the entry.
+- The card and the detail sheet show a `ScanNoticeRow` under the button when a
+  check yields nothing, so the button never looks dead.
 
 Two bugs from the previous session are fixed and verified on device:
 

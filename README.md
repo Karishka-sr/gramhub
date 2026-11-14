@@ -31,6 +31,13 @@
 
 ## Что нового
 
+### 1.2.1
+
+- Кнопка «Проверить» теперь показывает вердикт: снимок каталога создаётся уже с
+  проверенными подписью и разрешениями каждого APK, и приложение читает их оттуда
+- Если проверить нельзя, приложение объясняет причину прямо под кнопкой, а не
+  молчит
+
 ### 1.2.0
 
 - Исправлено зависание при переключении вкладок «Установленные» / «Не установленные»:
@@ -159,6 +166,14 @@ Material Design 3 UI (Material You dynamic colour on Android 12+). Russian and
 English localisation. Requires Android 7.0 (API 24) or newer.
 
 ## What's new
+
+### 1.2.1
+
+- The Check button now shows a verdict: the catalog snapshot is generated with
+  each APK's signature and permissions already checked, and the app reads them
+  from there
+- When a check cannot run, the app explains why right under the button instead of
+  staying silent
 
 ### 1.2.0
 
