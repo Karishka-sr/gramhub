@@ -138,11 +138,12 @@ with no host to maintain and no tunnel that can expire.
   (discovers from GitHub, downloads and scans each APK, and writes the snapshot in
   one step; `--no-scan` reuses cached verdicts). `tools/export_catalog.py` only
   re-serialises an existing database.
-- `.github/workflows/refresh-catalog.yml` refreshes it daily. It is kept as a
-  local file only: pushing a workflow needs a token with the `workflow` scope,
-  and the available tokens (`ghu_` app token, classic `ghp_` with `repo`) do not
-  have it. Add the file to the repository by hand when a suitably scoped token is
-  available.
+- `.github/workflows/refresh-catalog.yml` refreshes it daily. It is committed and
+  lives on `main`. Pushing a workflow needs a token with the `workflow` scope:
+  `$GITHUB_TOKEN` is a read-only `ghu_` app token and cannot push at all, while
+  the classic `$PUSH_TOKEN` (`repo, workflow, write:packages`) can. Push with it
+  inline so the token never lands in `.git/config`:
+  `git push "https://${PUSH_TOKEN}@github.com/Karishka-sr/gramhub.git" main`.
 - `CatalogApi` accepts either a live server (`https://host`, appends `/clients`
   and can POST `/scan`) or a direct `.json` link (fetched as-is; `health()`
   degrades gracefully, and `scan()` re-reads the snapshot for its embedded
@@ -213,8 +214,10 @@ surfaced as the "Сообщество" group at the bottom of Settings and as a 
 
 ## Session state (resume here)
 
-Branch `master`. The latest commit is "Show catalog verdicts from the static
-snapshot"; nothing is pushed and no PR is open. Build is green:
+Branch `main`, tracking `origin/main` (the local branch was renamed from
+`master`; the remote default is `main`). The latest commit is "Update notes for
+the snapshot-verdict change", pushed to `origin/main`; no PR is open. Build is
+green:
 `server/.venv/bin/python -m pytest -q` reports **85 passed** and
 `./gradlew testDebugUnitTest` reports **70 passed** (14 classes).
 `docs/clients.json` holds 20 clients, all 20 with a verdict (18 caution,
