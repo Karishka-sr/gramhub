@@ -29,6 +29,28 @@
 - Три темы: системная, светлая, тёмная, плюс AMOLED-режим
 - Динамические цвета из обоев (Android 12+, Material You)
 
+## Что нового
+
+### 1.2.0
+
+- Исправлено зависание при переключении вкладок «Установленные» / «Не установленные»:
+  раньше интерфейс подвисал на несколько секунд, теперь переключение мгновенное
+- Исправлен первый запуск: адрес каталога из настроек подхватывается сразу, без
+  ручного нажатия «Обновить»
+- Нажатие на клиент в каталоге открывает карточку с деталями: версия, размер,
+  репозиторий, страница релиза и кнопки действий
+- Добавлена «Полная проверка» файла: все записи APK, хэши, код и подпись
+- Сборка и сортировка каталога перенесены вне главного потока
+
+### 1.1.0
+
+- Постоянный каталог: клиенты появляются автоматически из GitHub
+- Прогресс загрузки APK
+- Клиенты из каталога показываются и во вкладке «Установленные»
+- Выбор стиля Material Design: классический M3 и выразительный M3
+
+Полный список изменений — в разделе [Releases](../../releases).
+
 ## Скачать
 
 Готовые APK — в разделе [Releases](../../releases/latest):
@@ -114,8 +136,8 @@ server/                 FastAPI-сервер каталога
 
 ## Тесты
 
-- Приложение: 45 юнит-тестов
-- Сервер: 83 теста
+- Приложение: 61 юнит-тест
+- Сервер: 85 тестов
 
 ## Лицензия
 
@@ -131,6 +153,26 @@ clients you do not have yet.
 
 Material Design 3 UI (Material You dynamic colour on Android 12+). Russian and
 English localisation. Requires Android 7.0 (API 24) or newer.
+
+## What's new
+
+### 1.2.0
+
+- Fixed the freeze when switching the Installed / Not installed tabs; switching is
+  instant now
+- Fixed first launch: the catalog address from Settings is picked up immediately,
+  with no manual refresh needed
+- Tapping a client in the catalog opens a detail card: version, size, repository,
+  release page and action buttons
+- Added a full file check: every APK entry, hashes, code and signature
+- Catalog join and sort moved off the main thread
+
+### 1.1.0
+
+- Persistent catalog: clients are discovered from GitHub automatically
+- APK download progress
+- Catalog clients also appear in the Installed tab
+- Material Design style picker: classic M3 and expressive M3
 
 Download the latest APKs from [Releases](../../releases/latest). To build, run
 `./gradlew :app:assembleRelease` (JDK 21 and Android SDK 35 required). The release
