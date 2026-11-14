@@ -1,9 +1,9 @@
 package dev.gramhub.ui
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -12,12 +12,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Check
 import androidx.compose.material.icons.rounded.RestartAlt
 import androidx.compose.material.icons.rounded.Save
+import androidx.compose.material.icons.automirrored.rounded.Send
 import androidx.compose.material.icons.rounded.Warning
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
@@ -54,15 +54,13 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.gramhub.BuildConfig
 import dev.gramhub.R
+import dev.gramhub.data.DesignStyle
 import dev.gramhub.data.GramHubSettings
 import dev.gramhub.data.ListDensity
 import dev.gramhub.data.SortMode
-import dev.gramhub.data.TelegramClientCatalog
 import dev.gramhub.data.ThemeMode
 import dev.gramhub.ui.HealthState
 import dev.gramhub.ui.components.AppIcon
-import dev.gramhub.ui.components.EmptyState
-import dev.gramhub.ui.components.EmptyIcon
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -119,6 +117,12 @@ fun SettingsScreen(viewModel: MainViewModel) {
                 SettingsGroup(title = stringResource(R.string.settings_group_list)) {
                     SectionLabel(R.string.settings_density)
                     DensityPicker(current = settings.density, onSelect = viewModel::setDensity)
+                    HorizontalDivider(modifier = Modifier.padding(vertical = 4.dp))
+                    SectionLabel(R.string.settings_design_style)
+                    DesignStylePicker(
+                        current = settings.designStyle,
+                        onSelect = viewModel::setDesignStyle,
+                    )
                     HorizontalDivider(modifier = Modifier.padding(vertical = 4.dp))
                     SectionLabel(R.string.settings_sort)
                     SortPicker(current = settings.sortMode, onSelect = viewModel::setSortMode)
@@ -244,6 +248,33 @@ fun SettingsScreen(viewModel: MainViewModel) {
                     )
                 }
             }
+
+            item(key = "community") {
+                SettingsGroup(title = stringResource(R.string.settings_group_community)) {
+                    ListItem(
+                        headlineContent = { Text(stringResource(R.string.settings_channel)) },
+                        supportingContent = { Text(stringResource(R.string.settings_channel_summary)) },
+                        leadingContent = {
+                            Icon(
+                                imageVector = Icons.AutoMirrored.Rounded.Send,
+                                contentDescription = null,
+                                tint = MaterialTheme.colorScheme.primary,
+                            )
+                        },
+                        trailingContent = {
+                            Text(
+                                text = GramHubSettings.CHANNEL_URL.substringAfter("t.me/"),
+                                style = MaterialTheme.typography.labelMedium,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            )
+                        },
+                        colors = ListItemDefaults.colors(containerColor = Color.Transparent),
+                        modifier = Modifier.clickable {
+                            viewModel.openUrl(GramHubSettings.CHANNEL_URL)
+                        },
+                    )
+                }
+            }
         }
     }
 
@@ -363,6 +394,22 @@ private fun DensityPicker(current: ListDensity, onSelect: (ListDensity) -> Unit)
             selected = current == ListDensity.COMFORTABLE,
             onClick = { onSelect(ListDensity.COMFORTABLE) },
             label = { Text(stringResource(R.string.settings_density_comfortable)) },
+        )
+    }
+}
+
+@Composable
+private fun DesignStylePicker(current: DesignStyle, onSelect: (DesignStyle) -> Unit) {
+    ChipRow {
+        FilterChip(
+            selected = current == DesignStyle.STANDARD,
+            onClick = { onSelect(DesignStyle.STANDARD) },
+            label = { Text(stringResource(R.string.settings_design_standard)) },
+        )
+        FilterChip(
+            selected = current == DesignStyle.EXPRESSIVE,
+            onClick = { onSelect(DesignStyle.EXPRESSIVE) },
+            label = { Text(stringResource(R.string.settings_design_expressive)) },
         )
     }
 }

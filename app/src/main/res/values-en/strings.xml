@@ -100,7 +100,7 @@
     <string name="catalog_disabled_message">Turn the catalog on in settings to see clients that are not on this phone.</string>
     <string name="catalog_search_hint">Search the catalog</string>
     <string name="catalog_count">Available: %1$d</string>
-    <string name="catalog_stars">%1$d ★</string>
+    <string name="catalog_stars">%1$d</string>
     <string name="catalog_repository">Open repository</string>
     <string name="catalog_release_page">Release page</string>
 
@@ -160,4 +160,57 @@
     <string name="settings_catalog_fail">The server does not respond</string>
     <string name="settings_catalog_saved">Address saved</string>
     <string name="settings_catalog_reload">Refresh the catalog</string>
+
+    <!-- Client card: details and actions -->
+    <string name="client_details">Details</string>
+    <string name="client_description_title">Description</string>
+    <string name="client_no_description">No description provided.</string>
+    <string name="client_version">Version: %1$s</string>
+    <string name="client_size">Size: %1$s</string>
+    <string name="client_repository">Repository: %1$s</string>
+    <string name="client_installed_version">Installed: %1$s</string>
+    <string name="client_downloaded_badge">File downloaded</string>
+    <string name="client_check">Check</string>
+    <string name="client_check_summary">Server-side check: signature, permissions, version</string>
+    <string name="client_full_check">Full check</string>
+    <string name="client_full_check_summary">Deep on-device check: every entry, hash, code and signature</string>
+    <string name="client_delete">Delete file</string>
+    <string name="client_delete_summary">Remove the downloaded APK from the device</string>
+    <string name="client_delete_confirm_title">Delete the file?</string>
+    <string name="client_delete_confirm_message">The downloaded APK will be removed. The installed app stays where it is.</string>
+    <string name="client_open">Open</string>
+    <string name="client_open_repo">Open repository</string>
+    <string name="client_open_release">Release page</string>
+    <string name="client_file_missing">The file has not been downloaded yet</string>
+
+    <!-- Full check -->
+    <string name="fullcheck_running">Full check…</string>
+    <string name="fullcheck_title">Full check</string>
+    <string name="fullcheck_progress">Processed %1$d%% · %2$s</string>
+    <string name="fullcheck_summary_ok">Every entry is intact, signature and permissions verified</string>
+    <string name="fullcheck_summary_caution">The check finished with remarks</string>
+    <string name="fullcheck_summary_bad">The check found dangerous signs</string>
+    <string name="fullcheck_entries">APK entries: %1$d, verified: %2$d</string>
+    <string name="fullcheck_integrity_ok">Archive integrity is intact</string>
+    <string name="fullcheck_integrity_bad">Damaged or suspicious entries: %1$d</string>
+    <string name="fullcheck_signature_ok">APK signature verified</string>
+    <string name="fullcheck_signature_missing">The APK is not signed</string>
+    <string name="fullcheck_dex">Classes in code: %1$d</string>
+    <string name="fullcheck_native">Native libraries: %1$d</string>
+    <string name="fullcheck_suspicious">Suspicious strings: %1$d</string>
+    <string name="fullcheck_ok">Check passed</string>
+    <string name="fullcheck_failed">The check could not be completed</string>
+    <string name="fullcheck_no_file">Download the APK first</string>
+
+    <!-- Material Design style -->
+    <string name="settings_design_style">Material Design style</string>
+    <string name="settings_design_style_summary">Shape of cards and interface elements</string>
+    <string name="settings_design_standard">Classic M3</string>
+    <string name="settings_design_expressive">Expressive M3</string>
+
+    <!-- Channel link -->
+    <string name="settings_group_community">Community</string>
+    <string name="settings_channel">Telegram channel</string>
+    <string name="settings_channel_summary">GramHub news and updates</string>
+    <string name="settings_channel_open">Open</string>
 </resources>

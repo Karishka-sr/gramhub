@@ -2,11 +2,14 @@ package dev.gramhub.ui.theme
 
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.dp
+import dev.gramhub.data.DesignStyle
 import dev.gramhub.data.GramHubSettings
 import dev.gramhub.data.ThemeMode
 
@@ -26,9 +29,29 @@ fun GramHubTheme(
     MaterialTheme(
         colorScheme = resolveColorScheme(settings, darkTheme, context),
         typography = GramHubTypography,
+        shapes = resolveShapes(settings.designStyle),
         content = content,
     )
 }
+
+/**
+ * Shapes for the two design styles.
+ *
+ * "Expressive" leans on the rounder Material 3 corner scale, so cards read as
+ * soft pills and the list feels lighter; "standard" keeps the default scale, which
+ * is what most Material 3 apps ship with.
+ */
+internal fun resolveShapes(style: DesignStyle): androidx.compose.material3.Shapes =
+    when (style) {
+        DesignStyle.STANDARD -> androidx.compose.material3.Shapes()
+        DesignStyle.EXPRESSIVE -> androidx.compose.material3.Shapes(
+            extraSmall = RoundedCornerShape(8.dp),
+            small = RoundedCornerShape(16.dp),
+            medium = RoundedCornerShape(20.dp),
+            large = RoundedCornerShape(28.dp),
+            extraLarge = RoundedCornerShape(36.dp),
+        )
+    }
 
 /**
  * Picks the colour scheme for [settings]. Dynamic colour wins over the AMOLED

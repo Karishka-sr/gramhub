@@ -55,61 +55,72 @@ fun SecuritySheet(
             verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
             Text(text = title, style = MaterialTheme.typography.titleLarge)
-            Text(
-                text = stringResource(R.string.security_title),
-                style = MaterialTheme.typography.labelLarge,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-            )
-
-            if (scan == null) {
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(10.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    Icon(
-                        imageVector = Icons.AutoMirrored.Rounded.HelpOutline,
-                        contentDescription = null,
-                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                        modifier = Modifier.size(18.dp),
-                    )
-                    Text(
-                        text = stringResource(R.string.verdict_unknown_summary),
-                        style = MaterialTheme.typography.bodyMedium,
-                    )
-                }
-                return@Column
-            }
-
-            DigestLine(scan)
-            if (scan.debugSigned) {
-                NoteLine(stringResource(R.string.verdict_debug_signed), Severity.HIGH)
-            }
-
-            HorizontalDivider(modifier = Modifier.padding(vertical = 4.dp))
-
-            Text(
-                text = stringResource(R.string.verdict_findings_title),
-                style = MaterialTheme.typography.labelLarge,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-            )
-
-            scan.findings.forEach { finding ->
-                FindingRow(
-                    icon = severityIcon(finding.severity),
-                    tint = severityColor(finding.severity),
-                    summary = finding.summary,
-                    detail = finding.detail,
-                )
-            }
-
-            if (scan.unexpectedPermissions.isNotEmpty()) {
-                Text(
-                    text = scan.unexpectedPermissions.joinToString(", ") { it.substringAfterLast('.') },
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                )
-            }
+            SecurityContent(scan)
         }
+    }
+}
+
+/**
+ * The server's findings, without any sheet around them.
+ *
+ * Kept separate from [SecuritySheet] so the client detail sheet can show the same
+ * list inline instead of stacking a second modal sheet on top of the first.
+ */
+@Composable
+fun SecurityContent(scan: RemoteScan?) {
+    Text(
+        text = stringResource(R.string.security_title),
+        style = MaterialTheme.typography.labelLarge,
+        color = MaterialTheme.colorScheme.onSurfaceVariant,
+    )
+
+    if (scan == null) {
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(10.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Icon(
+                imageVector = Icons.AutoMirrored.Rounded.HelpOutline,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier.size(18.dp),
+            )
+            Text(
+                text = stringResource(R.string.verdict_unknown_summary),
+                style = MaterialTheme.typography.bodyMedium,
+            )
+        }
+        return
+    }
+
+    DigestLine(scan)
+    if (scan.debugSigned) {
+        NoteLine(stringResource(R.string.verdict_debug_signed), Severity.HIGH)
+    }
+
+    HorizontalDivider(modifier = Modifier.padding(vertical = 4.dp))
+
+    Text(
+        text = stringResource(R.string.verdict_findings_title),
+        style = MaterialTheme.typography.labelLarge,
+        color = MaterialTheme.colorScheme.onSurfaceVariant,
+    )
+
+    scan.findings.forEach { finding ->
+        FindingRow(
+            icon = severityIcon(finding.severity),
+            tint = severityColor(finding.severity),
+            summary = finding.summary,
+            detail = finding.detail,
+        )
+    }
+
+    if (scan.unexpectedPermissions.isNotEmpty()) {
+        Text(
+            text = scan.unexpectedPermissions.joinToString(", ") { it.substringAfterLast('.') },
+            style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+        )
     }
 }
 

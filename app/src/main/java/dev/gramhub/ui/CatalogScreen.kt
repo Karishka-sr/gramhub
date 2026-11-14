@@ -14,11 +14,13 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.CloudOff
 import androidx.compose.material.icons.rounded.ExtensionOff
 import androidx.compose.material.icons.rounded.SearchOff
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -33,9 +35,9 @@ import androidx.compose.ui.unit.dp
 import dev.gramhub.R
 import dev.gramhub.remote.RemoteClient
 import dev.gramhub.ui.components.CatalogCard
+import dev.gramhub.ui.components.ClientDetailSheet
 import dev.gramhub.ui.components.InstallConfirmDialog
 import dev.gramhub.ui.components.SearchField
-import dev.gramhub.ui.components.SecuritySheet
 
 /**
  * The "Not installed" tab.
@@ -51,9 +53,12 @@ fun CatalogContent(
     query: String,
     installState: InstallState?,
     scanning: Set<String>,
+    fullCheckState: FullCheckState?,
+    installed: List<dev.gramhub.data.TelegramClient>,
 ) {
-    var securityTarget by remember { mutableStateOf<RemoteClient?>(null) }
+    var detailTarget by remember { mutableStateOf<RemoteClient?>(null) }
     var confirmTarget by remember { mutableStateOf<RemoteClient?>(null) }
+    var deleteTarget by remember { mutableStateOf<RemoteClient?>(null) }
 
     Box(modifier = Modifier.fillMaxSize()) {
         when {
@@ -127,7 +132,7 @@ fun CatalogContent(
                         entry = entry,
                         installState = installState?.takeIf { it.clientId == entry.id },
                         isScanning = entry.id in scanning,
-                        onClick = { securityTarget = entry },
+                        onClick = { detailTarget = entry },
                         onInstall = { confirmTarget = entry },
                         onScan = { viewModel.scan(entry) },
                         onOpenRepository = { viewModel.openUrl(entry.repoUrl) },
@@ -140,11 +145,29 @@ fun CatalogContent(
         }
     }
 
-    securityTarget?.let { entry ->
-        SecuritySheet(
-            title = entry.label,
-            scan = entry.scan,
-            onDismiss = { securityTarget = null },
+    detailTarget?.let { entry ->
+        val installedClient = installed.firstOrNull {
+            it.packageName == entry.packageName ||
+                it.label.equals(entry.label, ignoreCase = true)
+        }
+        ClientDetailSheet(
+            entry = entry,
+            installed = installedClient,
+            hasDownload = viewModel.hasDownload(entry),
+            installState = installState?.takeIf { it.clientId == entry.id },
+            fullCheckState = fullCheckState?.takeIf { it.clientId == entry.id },
+            isScanning = entry.id in scanning,
+            onDismiss = {
+                detailTarget = null
+                viewModel.clearFullCheck()
+            },
+            onInstall = { confirmTarget = entry },
+            onCheck = { viewModel.scan(entry) },
+            onFullCheck = { viewModel.runFullCheck(entry) },
+            onDelete = { deleteTarget = entry },
+            onOpen = { installedClient?.let(viewModel::launch) },
+            onOpenRepository = { viewModel.openUrl(entry.repoUrl) },
+            onOpenRelease = { viewModel.openUrl(entry.latestReleaseUrl ?: entry.repoUrl) },
         )
     }
 
@@ -156,6 +179,32 @@ fun CatalogContent(
                 viewModel.install(entry)
             },
             onDismiss = { confirmTarget = null },
+        )
+    }
+
+    deleteTarget?.let { entry ->
+        AlertDialog(
+            onDismissRequest = { deleteTarget = null },
+            title = { Text(stringResource(R.string.client_delete_confirm_title)) },
+            text = { Text(stringResource(R.string.client_delete_confirm_message)) },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        viewModel.deleteDownload(entry)
+                        deleteTarget = null
+                    },
+                ) {
+                    Text(
+                        text = stringResource(R.string.client_delete),
+                        color = MaterialTheme.colorScheme.error,
+                    )
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { deleteTarget = null }) {
+                    Text(stringResource(R.string.cancel))
+                }
+            },
         )
     }
 }

@@ -154,3 +154,98 @@ can have an arbitrary package id and a name with no "Telegram"/"gram" in it, so
 it would never appear in the "Installed" tab. `MainViewModel` therefore feeds the
 catalog's package names into `clients(catalogPackages)` as `extraPackages`, and
 `matchReason` accepts them as `KNOWN_PACKAGE`. The hard denylist still wins.
+
+## Client detail sheet and checks
+
+Tapping a catalog card opens `ClientDetailSheet`, which is the only place the
+three checks live, so they cannot be confused:
+
+- **Проверить** (server scan) — `MainViewModel.scan`, calls `POST /clients/{id}/scan`
+  on a live server. Degrades to nothing against a static snapshot.
+- **Проверить полностью** (on-device) — `ApkFullCheck` in `remote/FullCheck.kt`.
+  Reads the actual downloaded APK: verifies every ZIP entry against its stored
+  CRC-32, parses the DEX header for a class count, scans DEX bytes for known-bad
+  indicators, and reads the package id plus signer certificates through
+  `PackageManager.getPackageArchiveInfo`. If nothing is on disk it downloads the
+  APK first without handing it to the installer.
+
+Note: `java.util.zip.ZipFile` streams do **not** verify entry CRCs on the JVM, so
+`drainEntry` computes CRC-32 itself; do not "simplify" it back to a bare read.
+
+The server's findings are rendered inline through `SecurityContent` (extracted
+from `SecuritySheet`), not as a second stacked sheet.
+
+## Interface style
+
+`GramHubSettings.designStyle` (`DesignStyle.STANDARD` / `EXPRESSIVE`) is applied
+in `ui/theme/Theme.kt` via `resolveShapes`, changing the Material 3 corner scale
+across cards, sheets and chips. The picker sits in Settings under the
+"Список клиентов" group, not "Внешний вид".
+
+No emoji is used anywhere in the UI: every indicator is a Material icon, including
+the catalog star (`Icons.Rounded.Star` next to the count, not a `★` glyph).
+
+## Community link
+
+The project's Telegram channel is `GramHubSettings.CHANNEL_URL` (`https://t.me/NeonBeatt`),
+surfaced as the "Сообщество" group at the bottom of Settings and as a card on
+`docs/index.html`.
+
+## Session state (resume here)
+
+Branch `master`. The session work is in the latest commit on `master` ("Fix
+tab-switch ANR and cold-start catalog address"); nothing is pushed and no PR is
+open. Build is
+green; `server/.venv` is set up and `pytest -q` reports **85 passed**;
+`./gradlew testDebugUnitTest` reports **61 passed** (13 classes).
+
+Two bugs from the previous session are fixed and verified on device:
+
+1. **ANR when switching the Clients tabs.** `TabRow` is subcompose-based and
+   measured tab-label intrinsics on every frame, which froze the main thread for
+   5-10 s under the emulator's software renderer. `ClientsScreen.kt` now uses
+   `SecondaryTabRow`, which has fixed-height tabs and does no subcompose. Verified:
+   rapid back-and-forth switching between "Installed" and "Not installed" produces
+   no ANR dialog and no `Input dispatching timed out` in logcat; the only ANRs left
+   are Google Play Services' own (system, from the slow emulation).
+
+2. **"Catalog unreachable" on the first launch.** `MainViewModel` fired
+   `refreshCatalog()` from `init`, but the address lives in DataStore and is
+   delivered asynchronously, so that first request always went to the built-in
+   default. The `init` block now follows `settingsRepo.settings.map { it.catalogUrl
+   }.distinctUntilChanged()` and refetches, which waits for the saved value and
+   also re-fetches when the address is edited in Settings.
+   `app/src/test/java/dev/gramhub/ui/MainViewModelTest.kt` drives the real HTTP path
+   against a local socket server and fails if the view model stops following the
+   configured address.
+
+Both derived state flows (`uiState`, `catalogState`) also moved their join / sort /
+filter work onto `Dispatchers.Default` via `flowOn`, since the catalog can hold
+dozens of entries.
+
+Verified on device this session (emulator-5554, `dev.gramhub.debug`):
+
+- Cold start with no interaction loads the catalog straight from the configured
+  server (10 entries, `GET /clients 200`), no Retry needed.
+- Settings renders Appearance / Theme / List / Sorting / Behavior / Client catalog
+  groups; the "Material Design style" picker (Classic M3 / Expressive M3) is under
+  "Client list". Version row reads from `BuildConfig.VERSION_NAME`.
+- No emoji anywhere in `app/src/main` (scanned programmatically); every indicator is
+  a Material icon.
+
+### Running against the local server
+
+The emulator here has no working network route (`10.0.2.2` is "Network is
+unreachable", no DNS), so use `adb reverse` and point the app at `127.0.0.1`:
+
+```
+server/.venv/bin/python -m uvicorn gramhub_server.api:create_app --factory --host 0.0.0.0 --port 8080
+adb reverse tcp:8080 tcp:8080
+# set the catalog address to http://127.0.0.1:8080 in Settings
+```
+
+The DataStore file can also be written directly to skip the UI step:
+`app/src/main/.../gramhub_settings.preferences_pb` under the app's
+`files/datastore/` directory (protobuf: key entry with field 1 = name, field 2 =
+value message whose field 5 holds the string).
+

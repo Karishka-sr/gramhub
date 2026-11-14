@@ -14,10 +14,10 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SecondaryTabRow
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Tab
-import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
@@ -57,6 +57,7 @@ fun ClientsScreen(viewModel: MainViewModel) {
     val settings by viewModel.settings.collectAsStateWithLifecycle()
     val query by viewModel.query.collectAsStateWithLifecycle()
     val installState by viewModel.installState.collectAsStateWithLifecycle()
+    val fullCheckState by viewModel.fullCheckState.collectAsStateWithLifecycle()
     val scanning by viewModel.scanning.collectAsStateWithLifecycle()
     val message by viewModel.message.collectAsStateWithLifecycle()
 
@@ -128,7 +129,7 @@ fun ClientsScreen(viewModel: MainViewModel) {
     ) { innerPadding ->
         Box(modifier = Modifier.fillMaxSize().padding(innerPadding)) {
             androidx.compose.foundation.layout.Column {
-                TabRow(selectedTabIndex = tab) {
+                SecondaryTabRow(selectedTabIndex = tab) {
                     Tab(
                         selected = tab == ClientsTab.INSTALLED.ordinal,
                         onClick = { tab = ClientsTab.INSTALLED.ordinal },
@@ -155,6 +156,8 @@ fun ClientsScreen(viewModel: MainViewModel) {
                         query = catalogQuery,
                         installState = installState,
                         scanning = scanning,
+                        fullCheckState = fullCheckState,
+                        installed = state.rows.map { it.client },
                     )
 
                     else -> LauncherContent(

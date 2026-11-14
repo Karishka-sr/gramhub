@@ -66,6 +66,27 @@ class TestLooksLikeClient:
     def test_rejects_a_non_android_language(self):
         assert not looks_like_client(repo(language="Rust"))
 
+    def test_rejects_an_apk_release_mirror(self):
+        # A repo that only publishes someone else's APKs is not the client, and
+        # offering it next to the real project invites installing an unmaintained
+        # build.
+        assert not looks_like_client(
+            repo(full_name="someone/CherrygramBeta-APKs", name="CherrygramBeta-APKs",
+                 description="APK files for Cherrygram Beta")
+        )
+        assert not looks_like_client(
+            repo(full_name="someone/cherrygram-plus-releases", name="cherrygram-plus-releases",
+                 description="Official Public Release Hub, Binary APKs for Cherrygram")
+        )
+
+    def test_accepts_a_brand_named_fork(self):
+        # "Finegram" carries no "telegram" and no standalone "gram" word, which is
+        # exactly the shape the search has to keep.
+        assert looks_like_client(
+            repo(full_name="Th3Nekit/Finegram", name="Finegram",
+                 description="Клиент Telegram для Android на базе Cherrygram")
+        )
+
 
 class TestClassifyAsset:
     def test_universal_apk(self):

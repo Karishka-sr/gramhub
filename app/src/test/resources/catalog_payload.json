@@ -1,5 +1,7 @@
 {
- "count": 17,
+ "count": 20,
+ "scanner_version": "1.2.0",
+ "generated_at": "2026-11-13T13:26:18+00:00",
  "clients": [
   {
    "id": "tgx-android-telegram-x",
@@ -9,12 +11,16 @@
    "repo_url": "https://github.com/TGX-Android/Telegram-X",
    "description": "The main repository of Telegram X — official alternative Telegram client for Android.",
    "stars": 6191,
+   "source": "github",
    "archived": false,
    "latest_version": "v0.29.2.1829-beta",
    "latest_release_url": "https://github.com/TGX-Android/Telegram-X/releases/tag/v0.29.2.1829-beta",
    "releases": [
     {
      "tag": "v0.29.2.1829-beta",
+     "published_at": "2026-11-11T23:54:01Z",
+     "prerelease": true,
+     "html_url": "https://github.com/TGX-Android/Telegram-X/releases/tag/v0.29.2.1829-beta",
      "assets": [
       {
        "name": "Telegram-X-0.29.2.1829-beta.apk",
@@ -68,6 +74,9 @@
     },
     {
      "tag": "v0.29.1.1817",
+     "published_at": "2026-10-11T12:53:43Z",
+     "prerelease": false,
+     "html_url": "https://github.com/TGX-Android/Telegram-X/releases/tag/v0.29.1.1817",
      "assets": [
       {
        "name": "Telegram-X-0.29.1.1817-legacy.apk",
@@ -105,6 +114,9 @@
     },
     {
      "tag": "v0.29.0.1813",
+     "published_at": "2026-09-17T17:29:58Z",
+     "prerelease": false,
+     "html_url": "https://github.com/TGX-Android/Telegram-X/releases/tag/v0.29.0.1813",
      "assets": [
       {
        "name": "Telegram-X-0.29.0.1813-legacy.apk",
@@ -141,73 +153,7 @@
      ]
     }
    ],
-   "scan": {
-    "verdict": "dangerous",
-    "digest_verified": true,
-    "debug_signed": false,
-    "signers": [
-     "eb801a303294ba02a84d030ebb1216c438ac985ad4b89208e32d7a7190dcdd33"
-    ],
-    "unexpected_permissions": [
-     "android.permission.ACCESS_BACKGROUND_LOCATION",
-     "android.permission.ACCESS_COARSE_LOCATION",
-     "android.permission.ACCESS_FINE_LOCATION",
-     "android.permission.CHANGE_CONFIGURATION",
-     "android.permission.FLASHLIGHT",
-     "android.permission.FOREGROUND_SERVICE_LOCATION",
-     "android.permission.FOREGROUND_SERVICE_SPECIAL_USE",
-     "android.permission.READ_APP_BADGE",
-     "android.permission.READ_SYNC_SETTINGS",
-     "android.permission.USE_FULL_SCREEN_INTENT",
-     "android.permission.WRITE_SYNC_SETTINGS",
-     "com.anddoes.launcher.permission.UPDATE_COUNT",
-     "com.android.vending.BILLING",
-     "com.google.android.c2dm.permission.RECEIVE",
-     "com.google.android.providers.gsf.permission.READ_GSERVICES",
-     "com.htc.launcher.permission.READ_SETTINGS",
-     "com.htc.launcher.permission.UPDATE_SHORTCUT",
-     "com.huawei.android.launcher.permission.CHANGE_BADGE",
-     "com.huawei.android.launcher.permission.READ_SETTINGS",
-     "com.huawei.android.launcher.permission.WRITE_SETTINGS",
-     "com.majeur.launcher.permission.UPDATE_BADGE",
-     "com.oppo.launcher.permission.READ_SETTINGS",
-     "com.oppo.launcher.permission.WRITE_SETTINGS",
-     "com.sec.android.provider.badge.permission.READ",
-     "com.sec.android.provider.badge.permission.WRITE",
-     "com.sonyericsson.home.permission.BROADCAST_BADGE",
-     "com.sonymobile.home.permission.PROVIDER_INSERT_BADGE",
-     "me.everything.badger.permission.BADGE_COUNT_READ",
-     "me.everything.badger.permission.BADGE_COUNT_WRITE",
-     "org.thunderdog.challegram.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
-    ],
-    "scanned_at": "2026-11-13T09:27:21+00:00",
-    "findings": [
-     {
-      "check": "digest",
-      "severity": "info",
-      "summary": "SHA-256 matches the digest published by the release.",
-      "detail": "sha256:bb30caa27dd15fa08a486bf12cd9a26fa13767ac8cdff5cc8e13c29ebb696f6b"
-     },
-     {
-      "check": "signature",
-      "severity": "info",
-      "summary": "Signature verifies, signed by cn=viacheslav krylov.",
-      "detail": "Signers: eb801a303294ba02a84d030ebb1216c438ac985ad4b89208e32d7a7190dcdd33"
-     },
-     {
-      "check": "high-risk-permissions",
-      "severity": "high",
-      "summary": "The APK requests 2 high-risk permission(s).",
-      "detail": "REQUEST_INSTALL_PACKAGES, SYSTEM_ALERT_WINDOW. A messenger rarely needs these; they allow reading messages, installing other apps or drawing over the screen."
-     },
-     {
-      "check": "unexpected-permissions",
-      "severity": "low",
-      "summary": "30 permission(s) are outside the expected messenger set.",
-      "detail": "ACCESS_BACKGROUND_LOCATION, ACCESS_COARSE_LOCATION, ACCESS_FINE_LOCATION, BADGE_COUNT_READ, BADGE_COUNT_WRITE, BILLING, BROADCAST_BADGE, CHANGE_BADGE, CHANGE_CONFIGURATION, DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION, FLASHLIGHT, FOREGROUND_SERVICE_LOCATION. Review them before installing."
-     }
-    ]
-   }
+   "scan": null
   },
   {
    "id": "nekogram-nekogram",
@@ -216,13 +162,65 @@
    "repo": "Nekogram/Nekogram",
    "repo_url": "https://github.com/Nekogram/Nekogram",
    "description": "Open-source third-party Telegram client with not many but useful modifications.",
-   "stars": 4015,
+   "stars": 4016,
+   "source": "github",
    "archived": false,
-   "latest_version": "v13.1.1",
-   "latest_release_url": "https://github.com/Nekogram/Nekogram/releases/tag/v13.1.1",
+   "latest_version": "v13.2.2",
+   "latest_release_url": "https://github.com/Nekogram/Nekogram/releases/tag/v13.2.2",
    "releases": [
     {
+     "tag": "v13.2.2",
+     "published_at": "2026-11-13T10:07:47Z",
+     "prerelease": false,
+     "html_url": "https://github.com/Nekogram/Nekogram/releases/tag/v13.2.2",
+     "assets": [
+      {
+       "name": "Nekogram-13.2.2-7303-arm64-v8a.apk",
+       "url": "https://github.com/Nekogram/Nekogram/releases/download/v13.2.2/Nekogram-13.2.2-7303-arm64-v8a.apk",
+       "size": 45196813,
+       "sha256": "6031533855fabacfb71fe5b248641f610efafac4f0a8044089f901ce77253623",
+       "abi": "arm64-v8a",
+       "split": false
+      },
+      {
+       "name": "Nekogram-13.2.2-7303-armeabi-v7a.apk",
+       "url": "https://github.com/Nekogram/Nekogram/releases/download/v13.2.2/Nekogram-13.2.2-7303-armeabi-v7a.apk",
+       "size": 44099522,
+       "sha256": "dbfa6cc1dfd31db5f25471dd8cf53418ffaa1caffc839f62b862db6dff18359b",
+       "abi": "armeabi-v7a",
+       "split": false
+      },
+      {
+       "name": "Nekogram-13.2.2-7303-universal.apk",
+       "url": "https://github.com/Nekogram/Nekogram/releases/download/v13.2.2/Nekogram-13.2.2-7303-universal.apk",
+       "size": 84309611,
+       "sha256": "e457d672af8c37977838963fdc3becdd2aab373581bc392cf677c2ddaff760f7",
+       "abi": "universal",
+       "split": false
+      },
+      {
+       "name": "Nekogram-13.2.2-7303-x86.apk",
+       "url": "https://github.com/Nekogram/Nekogram/releases/download/v13.2.2/Nekogram-13.2.2-7303-x86.apk",
+       "size": 45926051,
+       "sha256": "177ce710dc3889d8001b81d079dc05724f722c233e166543e01003e1ea42c0d2",
+       "abi": "x86",
+       "split": false
+      },
+      {
+       "name": "Nekogram-13.2.2-7303-x86_64.apk",
+       "url": "https://github.com/Nekogram/Nekogram/releases/download/v13.2.2/Nekogram-13.2.2-7303-x86_64.apk",
+       "size": 45770746,
+       "sha256": "69400194f0e948e29b425d250e4dc7bf1b0e0ddbd59b4a0a0d9ce52aa4765105",
+       "abi": "x86_64",
+       "split": false
+      }
+     ]
+    },
+    {
      "tag": "v13.1.1",
+     "published_at": "2026-10-30T09:54:21Z",
+     "prerelease": false,
+     "html_url": "https://github.com/Nekogram/Nekogram/releases/tag/v13.1.1",
      "assets": [
       {
        "name": "Nekogram-13.1.1-7237-arm64-v8a.apk",
@@ -268,6 +266,9 @@
     },
     {
      "tag": "v13.0.3",
+     "published_at": "2026-10-24T07:50:13Z",
+     "prerelease": false,
+     "html_url": "https://github.com/Nekogram/Nekogram/releases/tag/v13.0.3",
      "assets": [
       {
        "name": "Nekogram-13.0.3-7183-arm64-v8a.apk",
@@ -310,48 +311,91 @@
        "split": false
       }
      ]
-    },
+    }
+   ],
+   "scan": null
+  },
+  {
+   "id": "nextalone-nagram",
+   "package_name": "org.telegram.messenger.regular",
+   "label": "Nagram",
+   "repo": "NextAlone/Nagram",
+   "repo_url": "https://github.com/NextAlone/Nagram",
+   "description": "The third-party Telegram android app.",
+   "stars": 3573,
+   "source": "github",
+   "archived": false,
+   "latest_version": "1258",
+   "latest_release_url": "https://github.com/NextAlone/Nagram/releases/tag/1258",
+   "releases": [
     {
-     "tag": "v13.0.2",
+     "tag": "1258",
+     "published_at": "2026-11-08T12:20:47Z",
+     "prerelease": false,
+     "html_url": "https://github.com/NextAlone/Nagram/releases/tag/1258",
      "assets": [
       {
-       "name": "Nekogram-13.0.2-7175-arm64-v8a.apk",
-       "url": "https://github.com/Nekogram/Nekogram/releases/download/v13.0.2/Nekogram-13.0.2-7175-arm64-v8a.apk",
-       "size": 41364394,
-       "sha256": "5128ee9cd41df76be45a761c20e9fb63307ba0294a13bae727ec644eea18e8b7",
+       "name": "Nagram-v13.1.1.1258-arm64-v8a.apk",
+       "url": "https://github.com/NextAlone/Nagram/releases/download/1258/Nagram-v13.1.1.1258-arm64-v8a.apk",
+       "size": 53173921,
+       "sha256": "5d6c40b986d6b565653bc62de5a56ea9ec26d8ed142fcbedc6d06cedb474f5e7",
        "abi": "arm64-v8a",
        "split": false
       },
       {
-       "name": "Nekogram-13.0.2-7175-armeabi-v7a.apk",
-       "url": "https://github.com/Nekogram/Nekogram/releases/download/v13.0.2/Nekogram-13.0.2-7175-armeabi-v7a.apk",
-       "size": 40290012,
-       "sha256": "b4f29c4c4e510808c9a79df04e0cc9010a012ca6cf9b10e2feebacc3245620d6",
+       "name": "Nagram-v13.1.1.1258-armeabi-v7a.apk",
+       "url": "https://github.com/NextAlone/Nagram/releases/download/1258/Nagram-v13.1.1.1258-armeabi-v7a.apk",
+       "size": 51379047,
+       "sha256": "ac43d4e1c03264c23b9c140b07dd29b2ce8cc695ffa28fc9c8a3ea1a97265357",
        "abi": "armeabi-v7a",
        "split": false
-      },
+      }
+     ]
+    },
+    {
+     "tag": "1255",
+     "published_at": "2026-10-25T13:28:57Z",
+     "prerelease": false,
+     "html_url": "https://github.com/NextAlone/Nagram/releases/tag/1255",
+     "assets": [
       {
-       "name": "Nekogram-13.0.2-7175-universal.apk",
-       "url": "https://github.com/Nekogram/Nekogram/releases/download/v13.0.2/Nekogram-13.0.2-7175-universal.apk",
-       "size": 73211975,
-       "sha256": "e122ce993b26cfc940cb5745da1df842dbd034121fb862053f9f5dc0b8492937",
-       "abi": "universal",
+       "name": "Nagram-v13.0.2.1255-arm64-v8a.apk",
+       "url": "https://github.com/NextAlone/Nagram/releases/download/1255/Nagram-v13.0.2.1255-arm64-v8a.apk",
+       "size": 52621113,
+       "sha256": "e6a9aad27dedf774f9ab3a19fd12a5800b5d0105619d2e5f6a299228aaba5a2c",
+       "abi": "arm64-v8a",
        "split": false
       },
       {
-       "name": "Nekogram-13.0.2-7175-x86.apk",
-       "url": "https://github.com/Nekogram/Nekogram/releases/download/v13.0.2/Nekogram-13.0.2-7175-x86.apk",
-       "size": 41851358,
-       "sha256": "e2f7d2fc6a3d94c5eb1f24c1f490a0d4ca196cae9f14343ce7bb6a06ac689088",
-       "abi": "x86",
+       "name": "Nagram-v13.0.2.1255-armeabi-v7a.apk",
+       "url": "https://github.com/NextAlone/Nagram/releases/download/1255/Nagram-v13.0.2.1255-armeabi-v7a.apk",
+       "size": 50827358,
+       "sha256": "241969976958580098d3156bb65599def27b7b441c85686651fdb8b2dae0120c",
+       "abi": "armeabi-v7a",
+       "split": false
+      }
+     ]
+    },
+    {
+     "tag": "1253",
+     "published_at": "2026-10-13T14:16:32Z",
+     "prerelease": false,
+     "html_url": "https://github.com/NextAlone/Nagram/releases/tag/1253",
+     "assets": [
+      {
+       "name": "Nagram-v12.10.6.1253-arm64-v8a.apk",
+       "url": "https://github.com/NextAlone/Nagram/releases/download/1253/Nagram-v12.10.6.1253-arm64-v8a.apk",
+       "size": 50764113,
+       "sha256": "a03fab9895bab6645c3f281ee245ae94955a3a664ed6cf1b38708eed852424ff",
+       "abi": "arm64-v8a",
        "split": false
       },
       {
-       "name": "Nekogram-13.0.2-7175-x86_64.apk",
-       "url": "https://github.com/Nekogram/Nekogram/releases/download/v13.0.2/Nekogram-13.0.2-7175-x86_64.apk",
-       "size": 41806501,
-       "sha256": "788fb769302378687cf3b37951d5200b61a8715b743c1c44a8ad11080e867680",
-       "abi": "x86_64",
+       "name": "Nagram-v12.10.6.1253-armeabi-v7a.apk",
+       "url": "https://github.com/NextAlone/Nagram/releases/download/1253/Nagram-v12.10.6.1253-armeabi-v7a.apk",
+       "size": 49171645,
+       "sha256": "f0b18c48cfd105785c0913492f9f0aba75d36ee2f89fa928e61a3399ea60da39",
+       "abi": "armeabi-v7a",
        "split": false
       }
      ]
@@ -367,12 +411,16 @@
    "repo_url": "https://github.com/Telegram-FOSS-Team/Telegram-FOSS",
    "description": "Unofficial, FOSS-friendly fork of the original Telegram client for Android",
    "stars": 3321,
+   "source": "github",
    "archived": false,
    "latest_version": "v10.14.3",
    "latest_release_url": "https://github.com/Telegram-FOSS-Team/Telegram-FOSS/releases/tag/v10.14.3",
    "releases": [
     {
      "tag": "v10.14.3",
+     "published_at": "2024-07-07T20:59:55Z",
+     "prerelease": false,
+     "html_url": "https://github.com/Telegram-FOSS-Team/Telegram-FOSS/releases/tag/v10.14.3",
      "assets": [
       {
        "name": "TF-BETA-THERMATK-v10.14.3.apk",
@@ -386,6 +434,9 @@
     },
     {
      "tag": "v10.12.0",
+     "published_at": "2024-05-18T11:31:04Z",
+     "prerelease": false,
+     "html_url": "https://github.com/Telegram-FOSS-Team/Telegram-FOSS/releases/tag/v10.12.0",
      "assets": [
       {
        "name": "TF-BETA-THERMATK-v10.12.0.apk",
@@ -399,6 +450,9 @@
     },
     {
      "tag": "v10.10.1",
+     "published_at": "2024-04-21T21:59:56Z",
+     "prerelease": false,
+     "html_url": "https://github.com/Telegram-FOSS-Team/Telegram-FOSS/releases/tag/v10.10.1",
      "assets": [
       {
        "name": "TF-BETA-THERMATK-v10.10.1.apk",
@@ -414,6 +468,182 @@
    "scan": null
   },
   {
+   "id": "forkgram-telegramandroid",
+   "package_name": "org.forkclient.messenger",
+   "label": "TelegramAndroid",
+   "repo": "forkgram/TelegramAndroid",
+   "repo_url": "https://github.com/forkgram/TelegramAndroid",
+   "description": "Fork client of Telegram app for Android.",
+   "stars": 1622,
+   "source": "github",
+   "archived": false,
+   "latest_version": "13.2.3.0",
+   "latest_release_url": "https://github.com/forkgram/TelegramAndroid/releases/tag/13.2.3.0",
+   "releases": [
+    {
+     "tag": "13.2.3.0",
+     "published_at": "2026-11-12T11:19:05Z",
+     "prerelease": false,
+     "html_url": "https://github.com/forkgram/TelegramAndroid/releases/tag/13.2.3.0",
+     "assets": [
+      {
+       "name": "ForkClient.13.2.3.0.apk",
+       "url": "https://github.com/forkgram/TelegramAndroid/releases/download/13.2.3.0/ForkClient.13.2.3.0.apk",
+       "size": 54728713,
+       "sha256": "98a2e8ae3d08842da1f72eb84fc3418182ae3587b170005d745b4c1d7a73360e",
+       "abi": null,
+       "split": false
+      }
+     ]
+    },
+    {
+     "tag": "13.2.1.0",
+     "published_at": "2026-11-08T04:48:47Z",
+     "prerelease": false,
+     "html_url": "https://github.com/forkgram/TelegramAndroid/releases/tag/13.2.1.0",
+     "assets": [
+      {
+       "name": "ForkClient.13.2.1.0.apk",
+       "url": "https://github.com/forkgram/TelegramAndroid/releases/download/13.2.1.0/ForkClient.13.2.1.0.apk",
+       "size": 54556173,
+       "sha256": "17fd88c7660eff4baea9bfab14448a58cbc5d796ceba7974abffc6b6a7982c4b",
+       "abi": null,
+       "split": false
+      }
+     ]
+    },
+    {
+     "tag": "13.1.1.0",
+     "published_at": "2026-10-26T10:42:14Z",
+     "prerelease": false,
+     "html_url": "https://github.com/forkgram/TelegramAndroid/releases/tag/13.1.1.0",
+     "assets": [
+      {
+       "name": "ForkClient.13.1.1.0.apk",
+       "url": "https://github.com/forkgram/TelegramAndroid/releases/download/13.1.1.0/ForkClient.13.1.1.0.apk",
+       "size": 49342855,
+       "sha256": "9a02e339130306bdc156be6e1e7abca8c010db3138b4351e3854bf76f7488977",
+       "abi": null,
+       "split": false
+      }
+     ]
+    }
+   ],
+   "scan": null
+  },
+  {
+   "id": "arslan4k1390-cherrygram",
+   "package_name": "org.telegram.messenger.regular",
+   "label": "Cherrygram",
+   "repo": "arsLan4k1390/Cherrygram",
+   "repo_url": "https://github.com/arsLan4k1390/Cherrygram",
+   "description": "",
+   "stars": 1520,
+   "source": "github",
+   "archived": false,
+   "latest_version": "11.4.0",
+   "latest_release_url": "https://github.com/arsLan4k1390/Cherrygram/releases/tag/11.4.0",
+   "releases": [
+    {
+     "tag": "11.4.0",
+     "published_at": "2026-10-29T08:24:59Z",
+     "prerelease": false,
+     "html_url": "https://github.com/arsLan4k1390/Cherrygram/releases/tag/11.4.0",
+     "assets": [
+      {
+       "name": "Cherrygram-11.4.0-TG-13.1.1-arm64-v8a.apk",
+       "url": "https://github.com/arsLan4k1390/Cherrygram/releases/download/11.4.0/Cherrygram-11.4.0-TG-13.1.1-arm64-v8a.apk",
+       "size": 44077560,
+       "sha256": "1b72b5c067a29c1a4b645ca0d9c8ed6f47882ef94e3254d9f82c24bbfb15565a",
+       "abi": "arm64-v8a",
+       "split": false
+      },
+      {
+       "name": "Cherrygram-11.4.0-TG-13.1.1-armeabi-v7a.apk",
+       "url": "https://github.com/arsLan4k1390/Cherrygram/releases/download/11.4.0/Cherrygram-11.4.0-TG-13.1.1-armeabi-v7a.apk",
+       "size": 42893306,
+       "sha256": "6ca3785cfc2d7f97627fa52b843e4629da96a145cf2d16807d82d722d1112c3b",
+       "abi": "armeabi-v7a",
+       "split": false
+      },
+      {
+       "name": "Cherrygram-11.4.0-TG-13.1.1-universal.apk",
+       "url": "https://github.com/arsLan4k1390/Cherrygram/releases/download/11.4.0/Cherrygram-11.4.0-TG-13.1.1-universal.apk",
+       "size": 53417956,
+       "sha256": "f200c121c861a19a5b9c42e7de99d371cdaf759006e661c42526e03877bb1a63",
+       "abi": "universal",
+       "split": false
+      }
+     ]
+    },
+    {
+     "tag": "11.3.0",
+     "published_at": "2026-10-01T08:59:27Z",
+     "prerelease": false,
+     "html_url": "https://github.com/arsLan4k1390/Cherrygram/releases/tag/11.3.0",
+     "assets": [
+      {
+       "name": "Cherrygram-11.3.0-TG-12.10.6-arm64-v8a.apk",
+       "url": "https://github.com/arsLan4k1390/Cherrygram/releases/download/11.3.0/Cherrygram-11.3.0-TG-12.10.6-arm64-v8a.apk",
+       "size": 52331111,
+       "sha256": "de590abd19cf22c634da297f9a55e625d719ce7e0afc3720fc368c4065edf58e",
+       "abi": "arm64-v8a",
+       "split": false
+      },
+      {
+       "name": "Cherrygram-11.3.0-TG-12.10.6-armeabi-v7a.apk",
+       "url": "https://github.com/arsLan4k1390/Cherrygram/releases/download/11.3.0/Cherrygram-11.3.0-TG-12.10.6-armeabi-v7a.apk",
+       "size": 48734453,
+       "sha256": "79f39e07d722fca24a358e2d05ae9b1d2c7d87348d57f5e41870970b9e292acc",
+       "abi": "armeabi-v7a",
+       "split": false
+      },
+      {
+       "name": "Cherrygram-11.3.0-TG-12.10.6-universal.apk",
+       "url": "https://github.com/arsLan4k1390/Cherrygram/releases/download/11.3.0/Cherrygram-11.3.0-TG-12.10.6-universal.apk",
+       "size": 69542559,
+       "sha256": "3107992bc1cfd6da224996aae712976e3087c536dd58d64301ff9d8f674b2974",
+       "abi": "universal",
+       "split": false
+      }
+     ]
+    },
+    {
+     "tag": "11.2.0",
+     "published_at": "2026-08-30T14:27:29Z",
+     "prerelease": false,
+     "html_url": "https://github.com/arsLan4k1390/Cherrygram/releases/tag/11.2.0",
+     "assets": [
+      {
+       "name": "Cherrygram-11.2.0-TG-12.10.1-arm64-v8a.apk",
+       "url": "https://github.com/arsLan4k1390/Cherrygram/releases/download/11.2.0/Cherrygram-11.2.0-TG-12.10.1-arm64-v8a.apk",
+       "size": 55342715,
+       "sha256": "04d09252e7764ca15ed913c5135c03a764761109abebe6206ef44fd74703479c",
+       "abi": "arm64-v8a",
+       "split": false
+      },
+      {
+       "name": "Cherrygram-11.2.0-TG-12.10.1-armeabi-v7a.apk",
+       "url": "https://github.com/arsLan4k1390/Cherrygram/releases/download/11.2.0/Cherrygram-11.2.0-TG-12.10.1-armeabi-v7a.apk",
+       "size": 52276909,
+       "sha256": "48b58a176d76f9ca63e0ac142c583a1a22f3499d3827d42260a3287c8706bc4b",
+       "abi": "armeabi-v7a",
+       "split": false
+      },
+      {
+       "name": "Cherrygram-11.2.0-TG-12.10.1-universal.apk",
+       "url": "https://github.com/arsLan4k1390/Cherrygram/releases/download/11.2.0/Cherrygram-11.2.0-TG-12.10.1-universal.apk",
+       "size": 72921175,
+       "sha256": "c192a08900652a3e8600d019bbc2de28abd95a281d2e6f7da3a3dc003189f2c8",
+       "abi": "universal",
+       "split": false
+      }
+     ]
+    }
+   ],
+   "scan": null
+  },
+  {
    "id": "exterasquad-exteragram",
    "package_name": null,
    "label": "exteraGram",
@@ -421,12 +651,16 @@
    "repo_url": "https://github.com/exteraSquad/exteraGram",
    "description": "Telegram client based on Android sources with new features",
    "stars": 1460,
+   "source": "github",
    "archived": true,
    "latest_version": "v9.6.6",
    "latest_release_url": "https://github.com/exteraSquad/exteraGram/releases/tag/v9.6.6",
    "releases": [
     {
      "tag": "v9.6.6",
+     "published_at": "2023-05-27T17:38:08Z",
+     "prerelease": false,
+     "html_url": "https://github.com/exteraSquad/exteraGram/releases/tag/v9.6.6",
      "assets": [
       {
        "name": "exteraGram-arm64-v8a-27052023.apk",
@@ -472,6 +706,9 @@
     },
     {
      "tag": "v9.5.2",
+     "published_at": "2023-03-12T09:06:36Z",
+     "prerelease": false,
+     "html_url": "https://github.com/exteraSquad/exteraGram/releases/tag/v9.5.2",
      "assets": [
       {
        "name": "exteraGram-arm64-v8a-12032023.apk",
@@ -517,6 +754,9 @@
     },
     {
      "tag": "v9.4.9",
+     "published_at": "2023-02-28T20:59:14Z",
+     "prerelease": false,
+     "html_url": "https://github.com/exteraSquad/exteraGram/releases/tag/v9.4.9",
      "assets": [
       {
        "name": "exteraGram-arm64-v8a-01032023.apk",
@@ -564,19 +804,247 @@
    "scan": null
   },
   {
+   "id": "monogram-android-monogram",
+   "package_name": null,
+   "label": "monogram",
+   "repo": "monogram-android/monogram",
+   "repo_url": "https://github.com/monogram-android/monogram",
+   "description": "Telegram client for Android",
+   "stars": 983,
+   "source": "github",
+   "archived": false,
+   "latest_version": "0.4.3",
+   "latest_release_url": "https://github.com/monogram-android/monogram/releases/tag/0.4.3",
+   "releases": [
+    {
+     "tag": "0.4.3",
+     "published_at": "2026-11-01T12:02:16Z",
+     "prerelease": true,
+     "html_url": "https://github.com/monogram-android/monogram/releases/tag/0.4.3",
+     "assets": [
+      {
+       "name": "monogram-arm64-v8a-0.4.3-release.apk",
+       "url": "https://github.com/monogram-android/monogram/releases/download/0.4.3/monogram-arm64-v8a-0.4.3-release.apk",
+       "size": 17027038,
+       "sha256": "e3047efbe3f0c681b3d578b6e6c67c50211d8405d2175d40446a29a58d80eb9c",
+       "abi": "arm64-v8a",
+       "split": false
+      },
+      {
+       "name": "monogram-armeabi-v7a-0.4.3-release.apk",
+       "url": "https://github.com/monogram-android/monogram/releases/download/0.4.3/monogram-armeabi-v7a-0.4.3-release.apk",
+       "size": 15092304,
+       "sha256": "c46d20102685e244980aeba7da0817bcbcad36612395623db372f35d0781a862",
+       "abi": "armeabi-v7a",
+       "split": false
+      },
+      {
+       "name": "monogram-universal-0.4.3-release.apk",
+       "url": "https://github.com/monogram-android/monogram/releases/download/0.4.3/monogram-universal-0.4.3-release.apk",
+       "size": 34985093,
+       "sha256": "1582560a8562e2ff8a49abfe40ba885826b4255af8bd45de3f8a84adf2521d69",
+       "abi": "universal",
+       "split": false
+      },
+      {
+       "name": "monogram-x86_64-0.4.3-release.apk",
+       "url": "https://github.com/monogram-android/monogram/releases/download/0.4.3/monogram-x86_64-0.4.3-release.apk",
+       "size": 20041689,
+       "sha256": "cc54993e2ecb5d6f9dd3c52cc214d311e6d282c7267f6c9e3c6136fc9fab2320",
+       "abi": "x86_64",
+       "split": false
+      }
+     ]
+    },
+    {
+     "tag": "0.4.2",
+     "published_at": "2026-10-17T10:19:53Z",
+     "prerelease": true,
+     "html_url": "https://github.com/monogram-android/monogram/releases/tag/0.4.2",
+     "assets": [
+      {
+       "name": "monogram-arm64-v8a-0.4.2-release.apk",
+       "url": "https://github.com/monogram-android/monogram/releases/download/0.4.2/monogram-arm64-v8a-0.4.2-release.apk",
+       "size": 14492659,
+       "sha256": "50ec760174fed51b2571611061c5e1762914bd6b51be89ca8240b265afe600aa",
+       "abi": "arm64-v8a",
+       "split": false
+      },
+      {
+       "name": "monogram-armeabi-v7a-0.4.2-release.apk",
+       "url": "https://github.com/monogram-android/monogram/releases/download/0.4.2/monogram-armeabi-v7a-0.4.2-release.apk",
+       "size": 12705017,
+       "sha256": "56cc70b0464bd8e59eb65ab5fa7634be1a92eb5695ddd966bee57f8ca8f399cb",
+       "abi": "armeabi-v7a",
+       "split": false
+      },
+      {
+       "name": "monogram-universal-0.4.2-release.apk",
+       "url": "https://github.com/monogram-android/monogram/releases/download/0.4.2/monogram-universal-0.4.2-release.apk",
+       "size": 29023386,
+       "sha256": "8ffacd276541bca32c4bb510550d665231bbdac54ea949dcac4b37040cc53db0",
+       "abi": "universal",
+       "split": false
+      },
+      {
+       "name": "monogram-x86_64-0.4.2-release.apk",
+       "url": "https://github.com/monogram-android/monogram/releases/download/0.4.2/monogram-x86_64-0.4.2-release.apk",
+       "size": 16554316,
+       "sha256": "4f9ab2734af35938af9375f3a9bb1afac2c5d5f2cc8aee3d9862a0b1ef047518",
+       "abi": "x86_64",
+       "split": false
+      }
+     ]
+    },
+    {
+     "tag": "0.4.1",
+     "published_at": "2026-10-07T18:00:29Z",
+     "prerelease": true,
+     "html_url": "https://github.com/monogram-android/monogram/releases/tag/0.4.1",
+     "assets": [
+      {
+       "name": "monogram-arm64-v8a-0.4.1-release.apk",
+       "url": "https://github.com/monogram-android/monogram/releases/download/0.4.1/monogram-arm64-v8a-0.4.1-release.apk",
+       "size": 15895796,
+       "sha256": "ae0bcd14da038b447c6a23da6e06423bbe3705fe18555f7cdd917b218edd9f23",
+       "abi": "arm64-v8a",
+       "split": false
+      },
+      {
+       "name": "monogram-armeabi-v7a-0.4.1-release.apk",
+       "url": "https://github.com/monogram-android/monogram/releases/download/0.4.1/monogram-armeabi-v7a-0.4.1-release.apk",
+       "size": 14175586,
+       "sha256": "e11bc4153b20eb97c16ac07124fa251a2b7decb0fee419cd3b53c68e797ac753",
+       "abi": "armeabi-v7a",
+       "split": false
+      },
+      {
+       "name": "monogram-universal-0.4.1-release.apk",
+       "url": "https://github.com/monogram-android/monogram/releases/download/0.4.1/monogram-universal-0.4.1-release.apk",
+       "size": 29646091,
+       "sha256": "413026299230d3a8c5a0ed76b66af80b62666497c0ae4c0380b98f6484a7d9c1",
+       "abi": "universal",
+       "split": false
+      },
+      {
+       "name": "monogram-x86_64-0.4.1-release.apk",
+       "url": "https://github.com/monogram-android/monogram/releases/download/0.4.1/monogram-x86_64-0.4.1-release.apk",
+       "size": 17799613,
+       "sha256": "590f0b3769b73da95644a425d80f0045d8d32ecab6f0aa6f04085d90453e1c54",
+       "abi": "x86_64",
+       "split": false
+      }
+     ]
+    }
+   ],
+   "scan": null
+  },
+  {
+   "id": "qwq233-nullgram",
+   "package_name": null,
+   "label": "Nullgram",
+   "repo": "qwq233/Nullgram",
+   "repo_url": "https://github.com/qwq233/Nullgram",
+   "description": "3rd party client of Telegram",
+   "stars": 760,
+   "source": "github",
+   "archived": false,
+   "latest_version": "v11.13.0-05eecdb",
+   "latest_release_url": "https://github.com/qwq233/Nullgram/releases/tag/v11.13.0-05eecdb",
+   "releases": [
+    {
+     "tag": "v11.13.0-05eecdb",
+     "published_at": "2025-07-06T10:58:20Z",
+     "prerelease": false,
+     "html_url": "https://github.com/qwq233/Nullgram/releases/tag/v11.13.0-05eecdb",
+     "assets": [
+      {
+       "name": "Nullgram-v11.13.0-05eecdb-arm32.apk",
+       "url": "https://github.com/qwq233/Nullgram/releases/download/v11.13.0-05eecdb/Nullgram-v11.13.0-05eecdb-arm32.apk",
+       "size": 57686671,
+       "sha256": "67df8321ec81075b1edecff8a9242112af7247a4f12816e0fe97a3e1150abdcc",
+       "abi": null,
+       "split": false
+      },
+      {
+       "name": "Nullgram-v11.13.0-05eecdb-arm64.apk",
+       "url": "https://github.com/qwq233/Nullgram/releases/download/v11.13.0-05eecdb/Nullgram-v11.13.0-05eecdb-arm64.apk",
+       "size": 62731185,
+       "sha256": "f075cad3e891cc6330cbe1c0cde6116d2b3703ffc16a1acf969b5be8554f8404",
+       "abi": "arm64-v8a",
+       "split": false
+      }
+     ]
+    },
+    {
+     "tag": "v11.12.0-3d76896",
+     "published_at": "2025-06-05T12:32:15Z",
+     "prerelease": false,
+     "html_url": "https://github.com/qwq233/Nullgram/releases/tag/v11.12.0-3d76896",
+     "assets": [
+      {
+       "name": "Nullgram-v11.12.0-3d76896-arm32.apk",
+       "url": "https://github.com/qwq233/Nullgram/releases/download/v11.12.0-3d76896/Nullgram-v11.12.0-3d76896-arm32.apk",
+       "size": 56368039,
+       "sha256": "ac4cda2a4ebb83470f285afe60107a7b22a4be3f614259bc24de919f5289e6e4",
+       "abi": null,
+       "split": false
+      },
+      {
+       "name": "Nullgram-v11.12.0-3d76896-arm64.apk",
+       "url": "https://github.com/qwq233/Nullgram/releases/download/v11.12.0-3d76896/Nullgram-v11.12.0-3d76896-arm64.apk",
+       "size": 61219611,
+       "sha256": "f682e1524a165ad6b98ef01fa79568d16da0d756f3c288d43da1cdf6a04aee3c",
+       "abi": "arm64-v8a",
+       "split": false
+      }
+     ]
+    },
+    {
+     "tag": "v11.8.2-e3fa787",
+     "published_at": "2025-03-23T15:01:51Z",
+     "prerelease": false,
+     "html_url": "https://github.com/qwq233/Nullgram/releases/tag/v11.8.2-e3fa787",
+     "assets": [
+      {
+       "name": "Nullgram-v11.8.2-e3fa787-arm32.apk",
+       "url": "https://github.com/qwq233/Nullgram/releases/download/v11.8.2-e3fa787/Nullgram-v11.8.2-e3fa787-arm32.apk",
+       "size": 55599995,
+       "sha256": null,
+       "abi": null,
+       "split": false
+      },
+      {
+       "name": "Nullgram-v11.8.2-e3fa787-arm64.apk",
+       "url": "https://github.com/qwq233/Nullgram/releases/download/v11.8.2-e3fa787/Nullgram-v11.8.2-e3fa787-arm64.apk",
+       "size": 59075423,
+       "sha256": null,
+       "abi": "arm64-v8a",
+       "split": false
+      }
+     ]
+    }
+   ],
+   "scan": null
+  },
+  {
    "id": "nicegram-nicegram-android",
    "package_name": "org.telegram.messenger.regular",
    "label": "Nicegram-Android",
    "repo": "nicegram/Nicegram-Android",
    "repo_url": "https://github.com/nicegram/Nicegram-Android",
    "description": "Nicegram for Android — an independent Telegram client with Nicegram-specific integrations.",
-   "stars": 434,
+   "stars": 435,
+   "source": "github",
    "archived": false,
    "latest_version": "1.64.1",
    "latest_release_url": "https://github.com/nicegram/Nicegram-Android/releases/tag/1.64.1",
    "releases": [
     {
      "tag": "1.64.1",
+     "published_at": "2026-11-10T09:07:28Z",
+     "prerelease": false,
+     "html_url": "https://github.com/nicegram/Nicegram-Android/releases/tag/1.64.1",
      "assets": [
       {
        "name": "app.apk",
@@ -590,6 +1058,9 @@
     },
     {
      "tag": "1.64.0",
+     "published_at": "2026-11-03T12:18:58Z",
+     "prerelease": false,
+     "html_url": "https://github.com/nicegram/Nicegram-Android/releases/tag/1.64.0",
      "assets": [
       {
        "name": "app.apk",
@@ -603,6 +1074,9 @@
     },
     {
      "tag": "1.62.1",
+     "published_at": "2026-10-15T13:12:43Z",
+     "prerelease": false,
+     "html_url": "https://github.com/nicegram/Nicegram-Android/releases/tag/1.62.1",
      "assets": [
       {
        "name": "app.apk",
@@ -618,6 +1092,118 @@
    "scan": null
   },
   {
+   "id": "owlgramdev-owlgram",
+   "package_name": "org.telegram.messenger.regular",
+   "label": "OwlGram",
+   "repo": "OwlGramDev/OwlGram",
+   "repo_url": "https://github.com/OwlGramDev/OwlGram",
+   "description": "OwlGram is an unofficial messaging app that uses Telegram's API.",
+   "stars": 291,
+   "source": "github",
+   "archived": true,
+   "latest_version": "#stable",
+   "latest_release_url": "https://github.com/OwlGramDev/OwlGram/releases/tag/%23stable",
+   "releases": [
+    {
+     "tag": "#beta",
+     "published_at": "2023-03-18T16:20:36Z",
+     "prerelease": true,
+     "html_url": "https://github.com/OwlGramDev/OwlGram/releases/tag/%23beta",
+     "assets": [
+      {
+       "name": "OwlGram.2.8.0.arm-v7a.apk",
+       "url": "https://github.com/OwlGramDev/OwlGram/releases/download/%23beta/OwlGram.2.8.0.arm-v7a.apk",
+       "size": 40663657,
+       "sha256": null,
+       "abi": null,
+       "split": false
+      },
+      {
+       "name": "OwlGram.2.8.0.arm64-v8a.apk",
+       "url": "https://github.com/OwlGramDev/OwlGram/releases/download/%23beta/OwlGram.2.8.0.arm64-v8a.apk",
+       "size": 40892503,
+       "sha256": null,
+       "abi": "arm64-v8a",
+       "split": false
+      },
+      {
+       "name": "OwlGram.2.8.0.universal.apk",
+       "url": "https://github.com/OwlGramDev/OwlGram/releases/download/%23beta/OwlGram.2.8.0.universal.apk",
+       "size": 71624548,
+       "sha256": null,
+       "abi": "universal",
+       "split": false
+      },
+      {
+       "name": "OwlGram.2.8.0.x86.apk",
+       "url": "https://github.com/OwlGramDev/OwlGram/releases/download/%23beta/OwlGram.2.8.0.x86.apk",
+       "size": 41984699,
+       "sha256": null,
+       "abi": "x86",
+       "split": false
+      },
+      {
+       "name": "OwlGram.2.8.0.x86_64.apk",
+       "url": "https://github.com/OwlGramDev/OwlGram/releases/download/%23beta/OwlGram.2.8.0.x86_64.apk",
+       "size": 42114042,
+       "sha256": null,
+       "abi": "x86_64",
+       "split": false
+      }
+     ]
+    },
+    {
+     "tag": "#stable",
+     "published_at": "2023-03-18T16:20:14Z",
+     "prerelease": false,
+     "html_url": "https://github.com/OwlGramDev/OwlGram/releases/tag/%23stable",
+     "assets": [
+      {
+       "name": "OwlGram.2.8.0.arm-v7a.apk",
+       "url": "https://github.com/OwlGramDev/OwlGram/releases/download/%23stable/OwlGram.2.8.0.arm-v7a.apk",
+       "size": 40663657,
+       "sha256": null,
+       "abi": null,
+       "split": false
+      },
+      {
+       "name": "OwlGram.2.8.0.arm64-v8a.apk",
+       "url": "https://github.com/OwlGramDev/OwlGram/releases/download/%23stable/OwlGram.2.8.0.arm64-v8a.apk",
+       "size": 40892503,
+       "sha256": null,
+       "abi": "arm64-v8a",
+       "split": false
+      },
+      {
+       "name": "OwlGram.2.8.0.universal.apk",
+       "url": "https://github.com/OwlGramDev/OwlGram/releases/download/%23stable/OwlGram.2.8.0.universal.apk",
+       "size": 71624548,
+       "sha256": null,
+       "abi": "universal",
+       "split": false
+      },
+      {
+       "name": "OwlGram.2.8.0.x86.apk",
+       "url": "https://github.com/OwlGramDev/OwlGram/releases/download/%23stable/OwlGram.2.8.0.x86.apk",
+       "size": 41984699,
+       "sha256": null,
+       "abi": "x86",
+       "split": false
+      },
+      {
+       "name": "OwlGram.2.8.0.x86_64.apk",
+       "url": "https://github.com/OwlGramDev/OwlGram/releases/download/%23stable/OwlGram.2.8.0.x86_64.apk",
+       "size": 42114042,
+       "sha256": null,
+       "abi": "x86_64",
+       "split": false
+      }
+     ]
+    }
+   ],
+   "scan": null
+  },
+  {
    "id": "teidesu-inugram",
    "package_name": null,
    "label": "inugram",
@@ -625,12 +1211,16 @@
    "repo_url": "https://github.com/teidesu/inugram",
    "description": "a very cool and dog-pilled fork (or rather, patchset) of Telegram Android",
    "stars": 289,
+   "source": "github",
    "archived": false,
    "latest_version": "v13.2.2-56",
    "latest_release_url": "https://github.com/teidesu/inugram/releases/tag/v13.2.2-56",
    "releases": [
     {
      "tag": "v13.2.2-56",
+     "published_at": "2026-11-13T00:39:04Z",
+     "prerelease": false,
+     "html_url": "https://github.com/teidesu/inugram/releases/tag/v13.2.2-56",
      "assets": [
       {
        "name": "inugram-13.2.2-4f55bd6-56-full.apk",
@@ -652,6 +1242,9 @@
     },
     {
      "tag": "v13.2.1-55",
+     "published_at": "2026-11-10T21:04:31Z",
+     "prerelease": false,
+     "html_url": "https://github.com/teidesu/inugram/releases/tag/v13.2.1-55",
      "assets": [
       {
        "name": "inugram-13.2.1-369ee70-55-full.apk",
@@ -673,6 +1266,9 @@
     },
     {
      "tag": "v13.2.1-54",
+     "published_at": "2026-11-09T02:33:34Z",
+     "prerelease": false,
+     "html_url": "https://github.com/teidesu/inugram/releases/tag/v13.2.1-54",
      "assets": [
       {
        "name": "inugram-13.2.1-1cb15fe-54-full.apk",
@@ -703,12 +1299,16 @@
    "repo_url": "https://github.com/NavoMessenger/Navo",
    "description": "Independent, unofficial Telegram client for Android, Windows, and macOS. Sign in with your existing Telegram account — built with Flutter on TDLib.",
    "stars": 250,
+   "source": "github",
    "archived": false,
    "latest_version": "4.3.3",
    "latest_release_url": "https://github.com/NavoMessenger/Navo/releases/tag/4.3.3",
    "releases": [
     {
      "tag": "4.3.3",
+     "published_at": "2026-10-25T13:04:38Z",
+     "prerelease": false,
+     "html_url": "https://github.com/NavoMessenger/Navo/releases/tag/4.3.3",
      "assets": [
       {
        "name": "navo-4.3.3+26102507-arm64-v8a-release.apk",
@@ -722,6 +1322,9 @@
     },
     {
      "tag": "4.3.1",
+     "published_at": "2026-10-15T06:37:32Z",
+     "prerelease": false,
+     "html_url": "https://github.com/NavoMessenger/Navo/releases/tag/4.3.1",
      "assets": [
       {
        "name": "navo-4.3.1+26101313-arm64-v8a-release.apk",
@@ -735,6 +1338,9 @@
     },
     {
      "tag": "4.2.1",
+     "published_at": "2026-09-17T00:27:58Z",
+     "prerelease": false,
+     "html_url": "https://github.com/NavoMessenger/Navo/releases/tag/4.2.1",
      "assets": [
       {
        "name": "navo-4.2.1+26091700-android-v8a-release.apk",
@@ -757,12 +1363,16 @@
    "repo_url": "https://github.com/Catogram/Catogram",
    "description": "Experimental telegram client based on official Android sources",
    "stars": 227,
+   "source": "github",
    "archived": true,
    "latest_version": "3.9,7",
    "latest_release_url": "https://github.com/Catogram/Catogram/releases/tag/3.9%2C7",
    "releases": [
     {
      "tag": "3.9,7",
+     "published_at": "2021-11-05T11:59:08Z",
+     "prerelease": false,
+     "html_url": "https://github.com/Catogram/Catogram/releases/tag/3.9%2C7",
      "assets": [
       {
        "name": "app.apk",
@@ -776,6 +1386,9 @@
     },
     {
      "tag": "3.9.6",
+     "published_at": "2021-09-29T17:54:14Z",
+     "prerelease": false,
+     "html_url": "https://github.com/Catogram/Catogram/releases/tag/3.9.6",
      "assets": [
       {
        "name": "app.apk",
@@ -789,6 +1402,9 @@
     },
     {
      "tag": "3.9.5",
+     "published_at": "2021-09-23T16:20:58Z",
+     "prerelease": false,
+     "html_url": "https://github.com/Catogram/Catogram/releases/tag/3.9.5",
      "assets": [
       {
        "name": "app.apk",
@@ -811,12 +1427,16 @@
    "repo_url": "https://github.com/saieshshirodkar/Tele",
    "description": "Telegram client for Android TV",
    "stars": 85,
+   "source": "github",
    "archived": false,
    "latest_version": "v0.1",
    "latest_release_url": "https://github.com/saieshshirodkar/Tele/releases/tag/v0.1",
    "releases": [
     {
      "tag": "v0.1",
+     "published_at": "2026-04-14T23:33:10Z",
+     "prerelease": false,
+     "html_url": "https://github.com/saieshshirodkar/Tele/releases/tag/v0.1",
      "assets": [
       {
        "name": "Tele-v0.1.apk",
@@ -830,6 +1450,9 @@
     },
     {
      "tag": "v0.0.2",
+     "published_at": "2026-03-08T00:22:55Z",
+     "prerelease": false,
+     "html_url": "https://github.com/saieshshirodkar/Tele/releases/tag/v0.0.2",
      "assets": [
       {
        "name": "Tele-0.0.2.apk",
@@ -843,6 +1466,9 @@
     },
     {
      "tag": "v0.0.1",
+     "published_at": "2026-01-31T13:33:37Z",
+     "prerelease": false,
+     "html_url": "https://github.com/saieshshirodkar/Tele/releases/tag/v0.0.1",
      "assets": [
       {
        "name": "Tele-0.0.1-fixed_libs.apk",
@@ -865,12 +1491,16 @@
    "repo_url": "https://github.com/AmanoTeam/Telegram-X-FOSS",
    "description": "An unofficial FOSS-friendly fork of Telegram X",
    "stars": 36,
+   "source": "github",
    "archived": false,
    "latest_version": "0.28.11.1800",
    "latest_release_url": "https://github.com/AmanoTeam/Telegram-X-FOSS/releases/tag/0.28.11.1800",
    "releases": [
     {
      "tag": "0.28.11.1800",
+     "published_at": "2026-08-18T02:08:21Z",
+     "prerelease": false,
+     "html_url": "https://github.com/AmanoTeam/Telegram-X-FOSS/releases/tag/0.28.11.1800",
      "assets": [
       {
        "name": "app-release.apk",
@@ -886,6 +1516,350 @@
    "scan": null
   },
   {
+   "id": "hxreborn-re-telegram-cherryfork",
+   "package_name": "nep.timeline.re_telegram",
+   "label": "Re-Telegram-CherryFork",
+   "repo": "hxreborn/Re-Telegram-CherryFork",
+   "repo_url": "https://github.com/hxreborn/Re-Telegram-CherryFork",
+   "description": "A community-maintained fork of the popular ReTelegram Xposed module, adding back compatibility with CherryGram.",
+   "stars": 17,
+   "source": "github",
+   "archived": false,
+   "latest_version": "v19.0",
+   "latest_release_url": "https://github.com/hxreborn/Re-Telegram-CherryFork/releases/tag/v19.0",
+   "releases": [
+    {
+     "tag": "v19.0",
+     "published_at": "2026-01-22T18:32:43Z",
+     "prerelease": false,
+     "html_url": "https://github.com/hxreborn/Re-Telegram-CherryFork/releases/tag/v19.0",
+     "assets": [
+      {
+       "name": "app-release.apk",
+       "url": "https://github.com/hxreborn/Re-Telegram-CherryFork/releases/download/v19.0/app-release.apk",
+       "size": 82575,
+       "sha256": "53ffb4c78fba0f68d62c5db36660b6466f426cc623ca18a5570f031772e9ce96",
+       "abi": null,
+       "split": false
+      }
+     ]
+    },
+    {
+     "tag": "v18.5",
+     "published_at": "2025-02-24T11:10:39Z",
+     "prerelease": false,
+     "html_url": "https://github.com/hxreborn/Re-Telegram-CherryFork/releases/tag/v18.5",
+     "assets": [
+      {
+       "name": "app-release.apk",
+       "url": "https://github.com/hxreborn/Re-Telegram-CherryFork/releases/download/v18.5/app-release.apk",
+       "size": 77320,
+       "sha256": null,
+       "abi": null,
+       "split": false
+      }
+     ]
+    }
+   ],
+   "scan": null
+  },
+  {
+   "id": "et-ness-yatgram",
+   "package_name": "org.telegram.messenger.regular",
+   "label": "YATGram",
+   "repo": "et-ness/YATGram",
+   "repo_url": "https://github.com/et-ness/YATGram",
+   "description": "Fork of forkgram/TelegramAndroid with my changes",
+   "stars": 13,
+   "source": "github",
+   "archived": false,
+   "latest_version": "12.2.10.1",
+   "latest_release_url": "https://github.com/et-ness/YATGram/releases/tag/12.2.10.1",
+   "releases": [
+    {
+     "tag": "12.2.10.1",
+     "published_at": "2025-12-29T17:34:55Z",
+     "prerelease": false,
+     "html_url": "https://github.com/et-ness/YATGram/releases/tag/12.2.10.1",
+     "assets": [
+      {
+       "name": "YATGram_12.2.10.1-allarm.apk",
+       "url": "https://github.com/et-ness/YATGram/releases/download/12.2.10.1/YATGram_12.2.10.1-allarm.apk",
+       "size": 81183417,
+       "sha256": "a54b532fa31ba13ccbe6159c7b5bbf61242c15eaa4be5afdfacf2832b21bc7df",
+       "abi": null,
+       "split": false
+      },
+      {
+       "name": "YATGram_12.2.10.1-arm64-v8a.apk",
+       "url": "https://github.com/et-ness/YATGram/releases/download/12.2.10.1/YATGram_12.2.10.1-arm64-v8a.apk",
+       "size": 59269133,
+       "sha256": "725b41aa51a4aa8b2c6b71361c45f77ea4a2e1b09f2727541ae19e1d83655ae5",
+       "abi": "arm64-v8a",
+       "split": false
+      },
+      {
+       "name": "YATGram_12.2.10.1-armeabi-v7a.apk",
+       "url": "https://github.com/et-ness/YATGram/releases/download/12.2.10.1/YATGram_12.2.10.1-armeabi-v7a.apk",
+       "size": 55558763,
+       "sha256": "152b0a73d913ce908f97e1df8d33c20e08cb7c5f3e7abd944bd984b17de63b97",
+       "abi": "armeabi-v7a",
+       "split": false
+      },
+      {
+       "name": "YATGram_12.2.10.1_2-allarm.apk",
+       "url": "https://github.com/et-ness/YATGram/releases/download/12.2.10.1/YATGram_12.2.10.1_2-allarm.apk",
+       "size": 81183413,
+       "sha256": "41ab801236c730c70bd932b16d5e09d34d3cd5d21e23d8119bfe1c620c8dbbf1",
+       "abi": null,
+       "split": false
+      },
+      {
+       "name": "YATGram_12.2.10.1_2-arm64-v8a.apk",
+       "url": "https://github.com/et-ness/YATGram/releases/download/12.2.10.1/YATGram_12.2.10.1_2-arm64-v8a.apk",
+       "size": 59269129,
+       "sha256": "b4e54d57e9347a17f706f192fa9752c235cefb73a778d54c4608ea3daccd629a",
+       "abi": "arm64-v8a",
+       "split": false
+      },
+      {
+       "name": "YATGram_12.2.10.1_2-armeabi-v7a.apk",
+       "url": "https://github.com/et-ness/YATGram/releases/download/12.2.10.1/YATGram_12.2.10.1_2-armeabi-v7a.apk",
+       "size": 55558759,
+       "sha256": "b666d6e0fdfcf5d8657911c606da0686b9cd1c12b9dfb7c477bbb0a1e6147a83",
+       "abi": "armeabi-v7a",
+       "split": false
+      }
+     ]
+    },
+    {
+     "tag": "12.2.10.0",
+     "published_at": "2025-12-26T10:00:28Z",
+     "prerelease": false,
+     "html_url": "https://github.com/et-ness/YATGram/releases/tag/12.2.10.0",
+     "assets": [
+      {
+       "name": "YATGram_12.2.10.0-allarm.apk",
+       "url": "https://github.com/et-ness/YATGram/releases/download/12.2.10.0/YATGram_12.2.10.0-allarm.apk",
+       "size": 81183417,
+       "sha256": "9aff40a1e8e0d306de7eea06f30aca4bc37de66a7accccfadda72a2ee4ef66ab",
+       "abi": null,
+       "split": false
+      },
+      {
+       "name": "YATGram_12.2.10.0-arm64-v8a.apk",
+       "url": "https://github.com/et-ness/YATGram/releases/download/12.2.10.0/YATGram_12.2.10.0-arm64-v8a.apk",
+       "size": 59269133,
+       "sha256": "54c9792b4e1a8a49255c5cc8903331cee403395190730282c48b7e1a6539ae32",
+       "abi": "arm64-v8a",
+       "split": false
+      },
+      {
+       "name": "YATGram_12.2.10.0-armeabi-v7a.apk",
+       "url": "https://github.com/et-ness/YATGram/releases/download/12.2.10.0/YATGram_12.2.10.0-armeabi-v7a.apk",
+       "size": 55558763,
+       "sha256": "8d570a4e46fabac6da35e72646c001af741d9c4aca123c7d5a7c16ff0842761a",
+       "abi": "armeabi-v7a",
+       "split": false
+      },
+      {
+       "name": "YATGram_12.2.10.0_2-allarm.apk",
+       "url": "https://github.com/et-ness/YATGram/releases/download/12.2.10.0/YATGram_12.2.10.0_2-allarm.apk",
+       "size": 81183413,
+       "sha256": "6c0a729ffe56bed618ae7283981a266ca2eb21a7c24d1eaac0627b8d88a13a0d",
+       "abi": null,
+       "split": false
+      },
+      {
+       "name": "YATGram_12.2.10.0_2-arm64-v8a.apk",
+       "url": "https://github.com/et-ness/YATGram/releases/download/12.2.10.0/YATGram_12.2.10.0_2-arm64-v8a.apk",
+       "size": 59269129,
+       "sha256": "7eaa136d4c9bbbb19a954cac672b3bf3bfb840eb3f4b33369a715d08b5751dd8",
+       "abi": "arm64-v8a",
+       "split": false
+      },
+      {
+       "name": "YATGram_12.2.10.0_2-armeabi-v7a.apk",
+       "url": "https://github.com/et-ness/YATGram/releases/download/12.2.10.0/YATGram_12.2.10.0_2-armeabi-v7a.apk",
+       "size": 55558759,
+       "sha256": "09050700ae1a46e1ac3de7fa1260160125c26dd8453fafb208166ae52b6e9b49",
+       "abi": "armeabi-v7a",
+       "split": false
+      }
+     ]
+    },
+    {
+     "tag": "12.1.1.0",
+     "published_at": "2025-10-15T19:09:56Z",
+     "prerelease": false,
+     "html_url": "https://github.com/et-ness/YATGram/releases/tag/12.1.1.0",
+     "assets": [
+      {
+       "name": "YATGram_12.1.1.0-allarm.apk",
+       "url": "https://github.com/et-ness/YATGram/releases/download/12.1.1.0/YATGram_12.1.1.0-allarm.apk",
+       "size": 80210652,
+       "sha256": "78214fbae3f187788fa38a78c6317df422a10f44c173d537f7a0d7759fbea79c",
+       "abi": null,
+       "split": false
+      },
+      {
+       "name": "YATGram_12.1.1.0-arm64-v8a.apk",
+       "url": "https://github.com/et-ness/YATGram/releases/download/12.1.1.0/YATGram_12.1.1.0-arm64-v8a.apk",
+       "size": 58309408,
+       "sha256": "bff3980fc54932dd29b41688a2a59fd152aef4499acb40165e8ecd9ea48d31dc",
+       "abi": "arm64-v8a",
+       "split": false
+      },
+      {
+       "name": "YATGram_12.1.1.0-armeabi-v7a.apk",
+       "url": "https://github.com/et-ness/YATGram/releases/download/12.1.1.0/YATGram_12.1.1.0-armeabi-v7a.apk",
+       "size": 54602382,
+       "sha256": "f4a0bea033228cedb5450adb6f8af14e4ceb6c0c6974e4507b886c9826e850e9",
+       "abi": "armeabi-v7a",
+       "split": false
+      },
+      {
+       "name": "YATGram_12.1.1.0_2-allarm.apk",
+       "url": "https://github.com/et-ness/YATGram/releases/download/12.1.1.0/YATGram_12.1.1.0_2-allarm.apk",
+       "size": 80210652,
+       "sha256": "c97a2570041bf254dc089380304acdb812d2e067a56ae11769abbdd85bec3ce9",
+       "abi": null,
+       "split": false
+      },
+      {
+       "name": "YATGram_12.1.1.0_2-arm64-v8a.apk",
+       "url": "https://github.com/et-ness/YATGram/releases/download/12.1.1.0/YATGram_12.1.1.0_2-arm64-v8a.apk",
+       "size": 58309408,
+       "sha256": "37a3e1c8577b80d7783fad5a2076081277fd201a97f42dde5bca85a2b2266d4b",
+       "abi": "arm64-v8a",
+       "split": false
+      },
+      {
+       "name": "YATGram_12.1.1.0_2-armeabi-v7a.apk",
+       "url": "https://github.com/et-ness/YATGram/releases/download/12.1.1.0/YATGram_12.1.1.0_2-armeabi-v7a.apk",
+       "size": 54602382,
+       "sha256": "f1601100857cbdaf70124613a4b2dda6ac8998801ed1439bc5ed6129a6443f0f",
+       "abi": "armeabi-v7a",
+       "split": false
+      }
+     ]
+    }
+   ],
+   "scan": null
+  },
+  {
+   "id": "th3nekit-finegram",
+   "package_name": null,
+   "label": "Finegram",
+   "repo": "Th3Nekit/Finegram",
+   "repo_url": "https://github.com/Th3Nekit/Finegram",
+   "description": "Finegram — клиент Telegram для Android на базе Cherrygram. Плагины, обход блокировок и настройки оформления.",
+   "stars": 11,
+   "source": "github",
+   "archived": false,
+   "latest_version": "v2.1.2",
+   "latest_release_url": "https://github.com/Th3Nekit/Finegram/releases/tag/v2.1.2",
+   "releases": [
+    {
+     "tag": "v2.1.2",
+     "published_at": "2026-11-12T20:35:57Z",
+     "prerelease": false,
+     "html_url": "https://github.com/Th3Nekit/Finegram/releases/tag/v2.1.2",
+     "assets": [
+      {
+       "name": "Finegram-2.1.2-TG-13.2.1-arm64-v8a.apk",
+       "url": "https://github.com/Th3Nekit/Finegram/releases/download/v2.1.2/Finegram-2.1.2-TG-13.2.1-arm64-v8a.apk",
+       "size": 114095326,
+       "sha256": "34d2fe2aaaec66e7ff57bcf4636d9f91b6123fa4dd60264a31f1611123500f45",
+       "abi": "arm64-v8a",
+       "split": false
+      },
+      {
+       "name": "Finegram-2.1.2-TG-13.2.1-armeabi-v7a.apk",
+       "url": "https://github.com/Th3Nekit/Finegram/releases/download/v2.1.2/Finegram-2.1.2-TG-13.2.1-armeabi-v7a.apk",
+       "size": 97377549,
+       "sha256": "9bedb03633cef4d6cba9a304838d42d374e511f9076b744bfc87b2f2ff2b0366",
+       "abi": "armeabi-v7a",
+       "split": false
+      },
+      {
+       "name": "Finegram-2.1.2-TG-13.2.1-universal.apk",
+       "url": "https://github.com/Th3Nekit/Finegram/releases/download/v2.1.2/Finegram-2.1.2-TG-13.2.1-universal.apk",
+       "size": 141959769,
+       "sha256": "e4bbf54005a3788bf505238a56103f9b0a617cfc48891c09005424c8b38cd166",
+       "abi": "universal",
+       "split": false
+      }
+     ]
+    },
+    {
+     "tag": "v2.0.0",
+     "published_at": "2026-11-02T15:19:37Z",
+     "prerelease": false,
+     "html_url": "https://github.com/Th3Nekit/Finegram/releases/tag/v2.0.0",
+     "assets": [
+      {
+       "name": "Finegram-2.0.0-TG-13.1.1-arm64-v8a.apk",
+       "url": "https://github.com/Th3Nekit/Finegram/releases/download/v2.0.0/Finegram-2.0.0-TG-13.1.1-arm64-v8a.apk",
+       "size": 97736254,
+       "sha256": "33d750a926e36ae9cc573188f392684908bafecfa062b80dc1eb95f3f496e32a",
+       "abi": "arm64-v8a",
+       "split": false
+      },
+      {
+       "name": "Finegram-2.0.0-TG-13.1.1-armeabi-v7a.apk",
+       "url": "https://github.com/Th3Nekit/Finegram/releases/download/v2.0.0/Finegram-2.0.0-TG-13.1.1-armeabi-v7a.apk",
+       "size": 80985283,
+       "sha256": "f632f78711f69b7f9fe9e411e41fc9d84ccfe4b1b52702d0cd7fdc5c2c1cf54e",
+       "abi": "armeabi-v7a",
+       "split": false
+      },
+      {
+       "name": "Finegram-2.0.0-TG-13.1.1-universal.apk",
+       "url": "https://github.com/Th3Nekit/Finegram/releases/download/v2.0.0/Finegram-2.0.0-TG-13.1.1-universal.apk",
+       "size": 110592649,
+       "sha256": "f824b51934f74e4f87749c367392e0ba300cc64457364fe6d3cebb41cfa7cda0",
+       "abi": "universal",
+       "split": false
+      }
+     ]
+    },
+    {
+     "tag": "v1.7.0",
+     "published_at": "2026-11-02T15:19:08Z",
+     "prerelease": false,
+     "html_url": "https://github.com/Th3Nekit/Finegram/releases/tag/v1.7.0",
+     "assets": [
+      {
+       "name": "Finegram-1.7.0-TG-13.1.1-arm64-v8a.apk",
+       "url": "https://github.com/Th3Nekit/Finegram/releases/download/v1.7.0/Finegram-1.7.0-TG-13.1.1-arm64-v8a.apk",
+       "size": 96501196,
+       "sha256": "34f67a24701e3c3637769b6535c20c2eac78dd4131b5ca553aaa0c357d060a2f",
+       "abi": "arm64-v8a",
+       "split": false
+      },
+      {
+       "name": "Finegram-1.7.0-TG-13.1.1-armeabi-v7a.apk",
+       "url": "https://github.com/Th3Nekit/Finegram/releases/download/v1.7.0/Finegram-1.7.0-TG-13.1.1-armeabi-v7a.apk",
+       "size": 79793675,
+       "sha256": "2a045567dd9e7b71b7a372f3536cacb2f784db7117356489b9a6dbbd09cb7e46",
+       "abi": "armeabi-v7a",
+       "split": false
+      },
+      {
+       "name": "Finegram-1.7.0-TG-13.1.1-universal.apk",
+       "url": "https://github.com/Th3Nekit/Finegram/releases/download/v1.7.0/Finegram-1.7.0-TG-13.1.1-universal.apk",
+       "size": 109175062,
+       "sha256": "ac6c98499e63971feaae5fe17555176f52417b98b5a5868e5417cb22a2fc7796",
+       "abi": "universal",
+       "split": false
+      }
+     ]
+    }
+   ],
+   "scan": null
+  },
+  {
    "id": "eterocell-nekoegram",
    "package_name": "org.telegram.messenger.regular",
    "label": "Nekoegram",
@@ -893,12 +1867,16 @@
    "repo_url": "https://github.com/Eterocell/Nekoegram",
    "description": "A fork of original Nekogram (https://gitlab.com/Nekogram/Nekogram)",
    "stars": 6,
+   "source": "github",
    "archived": true,
    "latest_version": "v9.5.6",
    "latest_release_url": "https://github.com/Eterocell/Nekoegram/releases/tag/v9.5.6",
    "releases": [
     {
      "tag": "v9.5.6",
+     "published_at": "2023-03-28T13:27:13Z",
+     "prerelease": false,
+     "html_url": "https://github.com/Eterocell/Nekoegram/releases/tag/v9.5.6",
      "assets": [
       {
        "name": "Nekoegram-9.5.6-3238-arm64-v8a.apk",
@@ -912,6 +1890,9 @@
     },
     {
      "tag": "v9.5.2",
+     "published_at": "2023-03-17T01:43:12Z",
+     "prerelease": false,
+     "html_url": "https://github.com/Eterocell/Nekoegram/releases/tag/v9.5.2",
      "assets": [
       {
        "name": "Nekoegram-9.5.2-3208-arm64-v8a.apk",
@@ -925,1137 +1906,15 @@
     },
     {
      "tag": "v9.5.1",
+     "published_at": "2023-03-11T04:02:06Z",
+     "prerelease": false,
+     "html_url": "https://github.com/Eterocell/Nekoegram/releases/tag/v9.5.1",
      "assets": [
       {
        "name": "Nekoegram-9.5.1-3199-arm64-v8a.apk",
        "url": "https://github.com/Eterocell/Nekoegram/releases/download/v9.5.1/Nekoegram-9.5.1-3199-arm64-v8a.apk",
        "size": 40293943,
        "sha256": null,
-       "abi": "arm64-v8a",
-       "split": false
-      }
-     ]
-    }
-   ],
-   "scan": null
-  },
-  {
-   "id": "nicegram-nicegram-vr",
-   "package_name": "org.telegram.messenger.regular",
-   "label": "Nicegram-VR",
-   "repo": "nicegram/Nicegram-VR",
-   "repo_url": "https://github.com/nicegram/Nicegram-VR",
-   "description": "An open-source, unofficial Telegram client for Meta Quest 3 and 3S. Quiet by default, answer by voice. Fork of Telegram for Android (GPL-2.0).",
-   "stars": 4,
-   "archived": false,
-   "latest_version": "v0.1.0-alpha.3",
-   "latest_release_url": "https://github.com/nicegram/Nicegram-VR/releases/tag/v0.1.0-alpha.3",
-   "releases": [
-    {
-     "tag": "v0.1.0-alpha.3",
-     "assets": [
-      {
-       "name": "nicegram-vr-v0.1.0-alpha.3.apk",
-       "url": "https://github.com/nicegram/Nicegram-VR/releases/download/v0.1.0-alpha.3/nicegram-vr-v0.1.0-alpha.3.apk",
-       "size": 60648388,
-       "sha256": "8ed1dad17c8abc9b85c4af2d203c21f0eba3b812b4c411f3fa9414e02404a350",
-       "abi": null,
-       "split": false
-      }
-     ]
-    },
-    {
-     "tag": "v0.1.0-alpha.1",
-     "assets": [
-      {
-       "name": "nicegram-vr-v0.1.0-alpha.1.apk",
-       "url": "https://github.com/nicegram/Nicegram-VR/releases/download/v0.1.0-alpha.1/nicegram-vr-v0.1.0-alpha.1.apk",
-       "size": 60647132,
-       "sha256": "c8ea56507a116acb1a5292a698e7674178dc58930e8ab11fc0519d227cf6302e",
-       "abi": null,
-       "split": false
-      }
-     ]
-    }
-   ],
-   "scan": null
-  },
-  {
-   "id": "nextalone-nagram-depracated",
-   "package_name": null,
-   "label": "Nagram-depracated",
-   "repo": "NextAlone/Nagram-depracated",
-   "repo_url": "https://github.com/NextAlone/Nagram-depracated",
-   "description": "Based on https://gitlab.com/Nekogram/Nekogram",
-   "stars": 3,
-   "archived": true,
-   "latest_version": "v8.4.4",
-   "latest_release_url": "https://github.com/NextAlone/Nagram-depracated/releases/tag/v8.4.4",
-   "releases": [
-    {
-     "tag": "v8.4.4",
-     "assets": [
-      {
-       "name": "Nagram-8.4.4-2538-arm64-v8a.apk",
-       "url": "https://github.com/NextAlone/Nagram-depracated/releases/download/v8.4.4/Nagram-8.4.4-2538-arm64-v8a.apk",
-       "size": 40862675,
-       "sha256": null,
-       "abi": "arm64-v8a",
-       "split": false
-      },
-      {
-       "name": "Nagram-8.4.4-2538-armeabi-v7a.apk",
-       "url": "https://github.com/NextAlone/Nagram-depracated/releases/download/v8.4.4/Nagram-8.4.4-2538-armeabi-v7a.apk",
-       "size": 40248128,
-       "sha256": null,
-       "abi": "armeabi-v7a",
-       "split": false
-      },
-      {
-       "name": "Nagram-8.4.4-2538-universal.apk",
-       "url": "https://github.com/NextAlone/Nagram-depracated/releases/download/v8.4.4/Nagram-8.4.4-2538-universal.apk",
-       "size": 70211264,
-       "sha256": null,
-       "abi": "universal",
-       "split": false
-      },
-      {
-       "name": "Nagram-8.4.4-2538-x86.apk",
-       "url": "https://github.com/NextAlone/Nagram-depracated/releases/download/v8.4.4/Nagram-8.4.4-2538-x86.apk",
-       "size": 42650188,
-       "sha256": null,
-       "abi": "x86",
-       "split": false
-      },
-      {
-       "name": "Nagram-8.4.4-2538-x86_64.apk",
-       "url": "https://github.com/NextAlone/Nagram-depracated/releases/download/v8.4.4/Nagram-8.4.4-2538-x86_64.apk",
-       "size": 42968536,
-       "sha256": null,
-       "abi": "x86_64",
-       "split": false
-      }
-     ]
-    },
-    {
-     "tag": "v8.4.3",
-     "assets": [
-      {
-       "name": "Nagram-8.4.3-2531-arm64-v8a.apk",
-       "url": "https://github.com/NextAlone/Nagram-depracated/releases/download/v8.4.3/Nagram-8.4.3-2531-arm64-v8a.apk",
-       "size": 32167558,
-       "sha256": null,
-       "abi": "arm64-v8a",
-       "split": false
-      },
-      {
-       "name": "Nagram-8.4.3-2531-armeabi-v7a.apk",
-       "url": "https://github.com/NextAlone/Nagram-depracated/releases/download/v8.4.3/Nagram-8.4.3-2531-armeabi-v7a.apk",
-       "size": 31894366,
-       "sha256": null,
-       "abi": "armeabi-v7a",
-       "split": false
-      },
-      {
-       "name": "Nagram-8.4.3-2531-universal.apk",
-       "url": "https://github.com/NextAlone/Nagram-depracated/releases/download/v8.4.3/Nagram-8.4.3-2531-universal.apk",
-       "size": 60976779,
-       "sha256": null,
-       "abi": "universal",
-       "split": false
-      },
-      {
-       "name": "Nagram-8.4.3-2531-x86.apk",
-       "url": "https://github.com/NextAlone/Nagram-depracated/releases/download/v8.4.3/Nagram-8.4.3-2531-x86.apk",
-       "size": 33111605,
-       "sha256": null,
-       "abi": "x86",
-       "split": false
-      },
-      {
-       "name": "Nagram-8.4.3-2531-x86_64.apk",
-       "url": "https://github.com/NextAlone/Nagram-depracated/releases/download/v8.4.3/Nagram-8.4.3-2531-x86_64.apk",
-       "size": 33293820,
-       "sha256": null,
-       "abi": "x86_64",
-       "split": false
-      }
-     ]
-    },
-    {
-     "tag": "v8.4.2.3",
-     "assets": [
-      {
-       "name": "Nagram-8.4.2-2526-arm64-v8a.apk",
-       "url": "https://github.com/NextAlone/Nagram-depracated/releases/download/v8.4.2.3/Nagram-8.4.2-2526-arm64-v8a.apk",
-       "size": 37451805,
-       "sha256": null,
-       "abi": "arm64-v8a",
-       "split": false
-      },
-      {
-       "name": "Nagram-8.4.2-2526-armeabi-v7a.apk",
-       "url": "https://github.com/NextAlone/Nagram-depracated/releases/download/v8.4.2.3/Nagram-8.4.2-2526-armeabi-v7a.apk",
-       "size": 37178591,
-       "sha256": null,
-       "abi": "armeabi-v7a",
-       "split": false
-      },
-      {
-       "name": "Nagram-8.4.2-2526-universal.apk",
-       "url": "https://github.com/NextAlone/Nagram-depracated/releases/download/v8.4.2.3/Nagram-8.4.2-2526-universal.apk",
-       "size": 66260881,
-       "sha256": null,
-       "abi": "universal",
-       "split": false
-      },
-      {
-       "name": "Nagram-8.4.2-2526-x86.apk",
-       "url": "https://github.com/NextAlone/Nagram-depracated/releases/download/v8.4.2.3/Nagram-8.4.2-2526-x86.apk",
-       "size": 38395839,
-       "sha256": null,
-       "abi": "x86",
-       "split": false
-      },
-      {
-       "name": "Nagram-8.4.2-2526-x86_64.apk",
-       "url": "https://github.com/NextAlone/Nagram-depracated/releases/download/v8.4.2.3/Nagram-8.4.2-2526-x86_64.apk",
-       "size": 38578050,
-       "sha256": null,
-       "abi": "x86_64",
-       "split": false
-      }
-     ]
-    }
-   ],
-   "scan": null
-  },
-  {
-   "id": "laosb-laogram-android",
-   "package_name": null,
-   "label": "laogram-android",
-   "repo": "laosb/laogram-android",
-   "repo_url": "https://github.com/laosb/laogram-android",
-   "description": "laosb's fork of Telegram Android.",
-   "stars": 2,
-   "archived": true,
-   "latest_version": "1.1.1-beta",
-   "latest_release_url": "https://github.com/laosb/laogram-android/releases/tag/1.1.1-beta",
-   "releases": [
-    {
-     "tag": "1.1.1-beta",
-     "assets": [
-      {
-       "name": "LaogramAndroid-111-1237.apk",
-       "url": "https://github.com/laosb/laogram-android/releases/download/1.1.1-beta/LaogramAndroid-111-1237.apk",
-       "size": 16068612,
-       "sha256": null,
-       "abi": null,
-       "split": false
-      }
-     ]
-    },
-    {
-     "tag": "v1.1.0-beta",
-     "assets": [
-      {
-       "name": "LaogramAndroid-110-1233.apk",
-       "url": "https://github.com/laosb/laogram-android/releases/download/v1.1.0-beta/LaogramAndroid-110-1233.apk",
-       "size": 16061377,
-       "sha256": null,
-       "abi": null,
-       "split": false
-      }
-     ]
-    }
-   ],
-   "scan": null
-  },
-  {
-   "id": "0siriss-telegram-gx",
-   "package_name": "org.telegram.messenger.regular",
-   "label": "telegram_gx",
-   "repo": "0siriss/telegram_gx",
-   "repo_url": "https://github.com/0siriss/telegram_gx",
-   "description": "Telegram Android fork with TLS DPI bypass patches",
-   "stars": 2,
-   "archived": false,
-   "latest_version": "v2.4",
-   "latest_release_url": "https://github.com/0siriss/telegram_gx/releases/tag/v2.4",
-   "releases": [
-    {
-     "tag": "v2.4",
-     "assets": [
-      {
-       "name": "app.apk",
-       "url": "https://github.com/0siriss/telegram_gx/releases/download/v2.4/app.apk",
-       "size": 70040172,
-       "sha256": "319f81a7d50d057ffd0d39769995e7347599fc9b05b53b1b473a98b7e595ac69",
-       "abi": null,
-       "split": false
-      }
-     ]
-    },
-    {
-     "tag": "v2.3.1",
-     "assets": [
-      {
-       "name": "app.apk",
-       "url": "https://github.com/0siriss/telegram_gx/releases/download/v2.3.1/app.apk",
-       "size": 70040065,
-       "sha256": "122ddc12ed6cfc805d3ae1f1bc7ce6e5d864af3b2e56e5607c598a250dbc1302",
-       "abi": null,
-       "split": false
-      }
-     ]
-    },
-    {
-     "tag": "v2.3",
-     "assets": [
-      {
-       "name": "app.apk",
-       "url": "https://github.com/0siriss/telegram_gx/releases/download/v2.3/app.apk",
-       "size": 76928034,
-       "sha256": "05936dd1ac95047b80d5351da72a448554c9e3147640f97fded11a9f36cccd45",
-       "abi": null,
-       "split": false
-      }
-     ]
-    }
-   ],
-   "scan": null
-  },
-  {
-   "id": "notmyst33d-nxperiments",
-   "package_name": null,
-   "label": "NXperiments",
-   "repo": "notmyst33d/NXperiments",
-   "repo_url": "https://github.com/notmyst33d/NXperiments",
-   "description": "Nekogram Xperiments",
-   "stars": 1,
-   "archived": false,
-   "latest_version": "7.7.2-rc02",
-   "latest_release_url": "https://github.com/notmyst33d/NXperiments/releases/tag/7.7.2-rc02",
-   "releases": [
-    {
-     "tag": "webmtest",
-     "assets": [
-      {
-       "name": "NXperiments-full-arm64-v8a-release.apk",
-       "url": "https://github.com/notmyst33d/NXperiments/releases/download/webmtest/NXperiments-full-arm64-v8a-release.apk",
-       "size": 39269148,
-       "sha256": null,
-       "abi": "arm64-v8a",
-       "split": false
-      },
-      {
-       "name": "NXperiments-full-arm64-v8a-releaseNoGcm.apk",
-       "url": "https://github.com/notmyst33d/NXperiments/releases/download/webmtest/NXperiments-full-arm64-v8a-releaseNoGcm.apk",
-       "size": 38958610,
-       "sha256": null,
-       "abi": "arm64-v8a",
-       "split": false
-      },
-      {
-       "name": "NXperiments-full-armeabi-v7a-release.apk",
-       "url": "https://github.com/notmyst33d/NXperiments/releases/download/webmtest/NXperiments-full-armeabi-v7a-release.apk",
-       "size": 46248500,
-       "sha256": null,
-       "abi": "armeabi-v7a",
-       "split": false
-      },
-      {
-       "name": "NXperiments-full-armeabi-v7a-releaseNoGcm.apk",
-       "url": "https://github.com/notmyst33d/NXperiments/releases/download/webmtest/NXperiments-full-armeabi-v7a-releaseNoGcm.apk",
-       "size": 45937952,
-       "sha256": null,
-       "abi": "armeabi-v7a",
-       "split": false
-      },
-      {
-       "name": "NXperiments-full-x86-release.apk",
-       "url": "https://github.com/notmyst33d/NXperiments/releases/download/webmtest/NXperiments-full-x86-release.apk",
-       "size": 48579620,
-       "sha256": null,
-       "abi": "x86",
-       "split": false
-      },
-      {
-       "name": "NXperiments-full-x86-releaseNoGcm.apk",
-       "url": "https://github.com/notmyst33d/NXperiments/releases/download/webmtest/NXperiments-full-x86-releaseNoGcm.apk",
-       "size": 48269067,
-       "sha256": null,
-       "abi": "x86",
-       "split": false
-      },
-      {
-       "name": "NXperiments-full-x86_64-release.apk",
-       "url": "https://github.com/notmyst33d/NXperiments/releases/download/webmtest/NXperiments-full-x86_64-release.apk",
-       "size": 49407805,
-       "sha256": null,
-       "abi": "x86_64",
-       "split": false
-      },
-      {
-       "name": "NXperiments-full-x86_64-releaseNoGcm.apk",
-       "url": "https://github.com/notmyst33d/NXperiments/releases/download/webmtest/NXperiments-full-x86_64-releaseNoGcm.apk",
-       "size": 49097265,
-       "sha256": null,
-       "abi": "x86_64",
-       "split": false
-      },
-      {
-       "name": "NXperiments-fullAppleEmoji-arm64-v8a-release.apk",
-       "url": "https://github.com/notmyst33d/NXperiments/releases/download/webmtest/NXperiments-fullAppleEmoji-arm64-v8a-release.apk",
-       "size": 36600652,
-       "sha256": null,
-       "abi": "arm64-v8a",
-       "split": false
-      },
-      {
-       "name": "NXperiments-fullAppleEmoji-arm64-v8a-releaseNoGcm.apk",
-       "url": "https://github.com/notmyst33d/NXperiments/releases/download/webmtest/NXperiments-fullAppleEmoji-arm64-v8a-releaseNoGcm.apk",
-       "size": 36290086,
-       "sha256": null,
-       "abi": "arm64-v8a",
-       "split": false
-      },
-      {
-       "name": "NXperiments-fullAppleEmoji-armeabi-v7a-release.apk",
-       "url": "https://github.com/notmyst33d/NXperiments/releases/download/webmtest/NXperiments-fullAppleEmoji-armeabi-v7a-release.apk",
-       "size": 43580001,
-       "sha256": null,
-       "abi": "armeabi-v7a",
-       "split": false
-      },
-      {
-       "name": "NXperiments-fullAppleEmoji-armeabi-v7a-releaseNoGcm.apk",
-       "url": "https://github.com/notmyst33d/NXperiments/releases/download/webmtest/NXperiments-fullAppleEmoji-armeabi-v7a-releaseNoGcm.apk",
-       "size": 43269436,
-       "sha256": null,
-       "abi": "armeabi-v7a",
-       "split": false
-      },
-      {
-       "name": "NXperiments-fullAppleEmoji-x86-release.apk",
-       "url": "https://github.com/notmyst33d/NXperiments/releases/download/webmtest/NXperiments-fullAppleEmoji-x86-release.apk",
-       "size": 45911118,
-       "sha256": null,
-       "abi": "x86",
-       "split": false
-      },
-      {
-       "name": "NXperiments-fullAppleEmoji-x86-releaseNoGcm.apk",
-       "url": "https://github.com/notmyst33d/NXperiments/releases/download/webmtest/NXperiments-fullAppleEmoji-x86-releaseNoGcm.apk",
-       "size": 45600563,
-       "sha256": null,
-       "abi": "x86",
-       "split": false
-      },
-      {
-       "name": "NXperiments-fullAppleEmoji-x86_64-release.apk",
-       "url": "https://github.com/notmyst33d/NXperiments/releases/download/webmtest/NXperiments-fullAppleEmoji-x86_64-release.apk",
-       "size": 46739305,
-       "sha256": null,
-       "abi": "x86_64",
-       "split": false
-      },
-      {
-       "name": "NXperiments-fullAppleEmoji-x86_64-releaseNoGcm.apk",
-       "url": "https://github.com/notmyst33d/NXperiments/releases/download/webmtest/NXperiments-fullAppleEmoji-x86_64-releaseNoGcm.apk",
-       "size": 46428751,
-       "sha256": null,
-       "abi": "x86_64",
-       "split": false
-      },
-      {
-       "name": "NXperiments-mini-arm64-v8a-release.apk",
-       "url": "https://github.com/notmyst33d/NXperiments/releases/download/webmtest/NXperiments-mini-arm64-v8a-release.apk",
-       "size": 30775979,
-       "sha256": null,
-       "abi": "arm64-v8a",
-       "split": false
-      },
-      {
-       "name": "NXperiments-mini-arm64-v8a-releaseNoGcm.apk",
-       "url": "https://github.com/notmyst33d/NXperiments/releases/download/webmtest/NXperiments-mini-arm64-v8a-releaseNoGcm.apk",
-       "size": 30463036,
-       "sha256": null,
-       "abi": "arm64-v8a",
-       "split": false
-      },
-      {
-       "name": "NXperiments-mini-armeabi-v7a-release.apk",
-       "url": "https://github.com/notmyst33d/NXperiments/releases/download/webmtest/NXperiments-mini-armeabi-v7a-release.apk",
-       "size": 38158092,
-       "sha256": null,
-       "abi": "armeabi-v7a",
-       "split": false
-      },
-      {
-       "name": "NXperiments-mini-armeabi-v7a-releaseNoGcm.apk",
-       "url": "https://github.com/notmyst33d/NXperiments/releases/download/webmtest/NXperiments-mini-armeabi-v7a-releaseNoGcm.apk",
-       "size": 37845151,
-       "sha256": null,
-       "abi": "armeabi-v7a",
-       "split": false
-      },
-      {
-       "name": "NXperiments-mini-x86-release.apk",
-       "url": "https://github.com/notmyst33d/NXperiments/releases/download/webmtest/NXperiments-mini-x86-release.apk",
-       "size": 39713140,
-       "sha256": null,
-       "abi": "x86",
-       "split": false
-      },
-      {
-       "name": "NXperiments-mini-x86-releaseNoGcm.apk",
-       "url": "https://github.com/notmyst33d/NXperiments/releases/download/webmtest/NXperiments-mini-x86-releaseNoGcm.apk",
-       "size": 39400190,
-       "sha256": null,
-       "abi": "x86",
-       "split": false
-      },
-      {
-       "name": "NXperiments-mini-x86_64-release.apk",
-       "url": "https://github.com/notmyst33d/NXperiments/releases/download/webmtest/NXperiments-mini-x86_64-release.apk",
-       "size": 40105310,
-       "sha256": null,
-       "abi": "x86_64",
-       "split": false
-      },
-      {
-       "name": "NXperiments-mini-x86_64-releaseNoGcm.apk",
-       "url": "https://github.com/notmyst33d/NXperiments/releases/download/webmtest/NXperiments-mini-x86_64-releaseNoGcm.apk",
-       "size": 39792371,
-       "sha256": null,
-       "abi": "x86_64",
-       "split": false
-      },
-      {
-       "name": "NXperiments-miniAppleEmoji-arm64-v8a-release.apk",
-       "url": "https://github.com/notmyst33d/NXperiments/releases/download/webmtest/NXperiments-miniAppleEmoji-arm64-v8a-release.apk",
-       "size": 28153201,
-       "sha256": null,
-       "abi": "arm64-v8a",
-       "split": false
-      },
-      {
-       "name": "NXperiments-miniAppleEmoji-arm64-v8a-releaseNoGcm.apk",
-       "url": "https://github.com/notmyst33d/NXperiments/releases/download/webmtest/NXperiments-miniAppleEmoji-arm64-v8a-releaseNoGcm.apk",
-       "size": 27840299,
-       "sha256": null,
-       "abi": "arm64-v8a",
-       "split": false
-      },
-      {
-       "name": "NXperiments-miniAppleEmoji-armeabi-v7a-release.apk",
-       "url": "https://github.com/notmyst33d/NXperiments/releases/download/webmtest/NXperiments-miniAppleEmoji-armeabi-v7a-release.apk",
-       "size": 35535323,
-       "sha256": null,
-       "abi": "armeabi-v7a",
-       "split": false
-      },
-      {
-       "name": "NXperiments-miniAppleEmoji-armeabi-v7a-releaseNoGcm.apk",
-       "url": "https://github.com/notmyst33d/NXperiments/releases/download/webmtest/NXperiments-miniAppleEmoji-armeabi-v7a-releaseNoGcm.apk",
-       "size": 35222420,
-       "sha256": null,
-       "abi": "armeabi-v7a",
-       "split": false
-      },
-      {
-       "name": "NXperiments-miniAppleEmoji-x86-release.apk",
-       "url": "https://github.com/notmyst33d/NXperiments/releases/download/webmtest/NXperiments-miniAppleEmoji-x86-release.apk",
-       "size": 37090363,
-       "sha256": null,
-       "abi": "x86",
-       "split": false
-      },
-      {
-       "name": "NXperiments-miniAppleEmoji-x86-releaseNoGcm.apk",
-       "url": "https://github.com/notmyst33d/NXperiments/releases/download/webmtest/NXperiments-miniAppleEmoji-x86-releaseNoGcm.apk",
-       "size": 36777463,
-       "sha256": null,
-       "abi": "x86",
-       "split": false
-      },
-      {
-       "name": "NXperiments-miniAppleEmoji-x86_64-release.apk",
-       "url": "https://github.com/notmyst33d/NXperiments/releases/download/webmtest/NXperiments-miniAppleEmoji-x86_64-release.apk",
-       "size": 37482531,
-       "sha256": null,
-       "abi": "x86_64",
-       "split": false
-      },
-      {
-       "name": "NXperiments-miniAppleEmoji-x86_64-releaseNoGcm.apk",
-       "url": "https://github.com/notmyst33d/NXperiments/releases/download/webmtest/NXperiments-miniAppleEmoji-x86_64-releaseNoGcm.apk",
-       "size": 37169643,
-       "sha256": null,
-       "abi": "x86_64",
-       "split": false
-      }
-     ]
-    },
-    {
-     "tag": "mkvtest",
-     "assets": [
-      {
-       "name": "NXperiments-full-arm64-v8a-release.apk",
-       "url": "https://github.com/notmyst33d/NXperiments/releases/download/mkvtest/NXperiments-full-arm64-v8a-release.apk",
-       "size": 39267229,
-       "sha256": null,
-       "abi": "arm64-v8a",
-       "split": false
-      },
-      {
-       "name": "NXperiments-full-arm64-v8a-releaseNoGcm.apk",
-       "url": "https://github.com/notmyst33d/NXperiments/releases/download/mkvtest/NXperiments-full-arm64-v8a-releaseNoGcm.apk",
-       "size": 38956391,
-       "sha256": null,
-       "abi": "arm64-v8a",
-       "split": false
-      },
-      {
-       "name": "NXperiments-full-armeabi-v7a-release.apk",
-       "url": "https://github.com/notmyst33d/NXperiments/releases/download/mkvtest/NXperiments-full-armeabi-v7a-release.apk",
-       "size": 46246580,
-       "sha256": null,
-       "abi": "armeabi-v7a",
-       "split": false
-      },
-      {
-       "name": "NXperiments-full-armeabi-v7a-releaseNoGcm.apk",
-       "url": "https://github.com/notmyst33d/NXperiments/releases/download/mkvtest/NXperiments-full-armeabi-v7a-releaseNoGcm.apk",
-       "size": 45935737,
-       "sha256": null,
-       "abi": "armeabi-v7a",
-       "split": false
-      },
-      {
-       "name": "NXperiments-full-x86-release.apk",
-       "url": "https://github.com/notmyst33d/NXperiments/releases/download/mkvtest/NXperiments-full-x86-release.apk",
-       "size": 48577699,
-       "sha256": null,
-       "abi": "x86",
-       "split": false
-      },
-      {
-       "name": "NXperiments-full-x86-releaseNoGcm.apk",
-       "url": "https://github.com/notmyst33d/NXperiments/releases/download/mkvtest/NXperiments-full-x86-releaseNoGcm.apk",
-       "size": 48266858,
-       "sha256": null,
-       "abi": "x86",
-       "split": false
-      },
-      {
-       "name": "NXperiments-full-x86_64-release.apk",
-       "url": "https://github.com/notmyst33d/NXperiments/releases/download/mkvtest/NXperiments-full-x86_64-release.apk",
-       "size": 49405892,
-       "sha256": null,
-       "abi": "x86_64",
-       "split": false
-      },
-      {
-       "name": "NXperiments-full-x86_64-releaseNoGcm.apk",
-       "url": "https://github.com/notmyst33d/NXperiments/releases/download/mkvtest/NXperiments-full-x86_64-releaseNoGcm.apk",
-       "size": 49095057,
-       "sha256": null,
-       "abi": "x86_64",
-       "split": false
-      },
-      {
-       "name": "NXperiments-fullAppleEmoji-arm64-v8a-release.apk",
-       "url": "https://github.com/notmyst33d/NXperiments/releases/download/mkvtest/NXperiments-fullAppleEmoji-arm64-v8a-release.apk",
-       "size": 36598190,
-       "sha256": null,
-       "abi": "arm64-v8a",
-       "split": false
-      },
-      {
-       "name": "NXperiments-fullAppleEmoji-arm64-v8a-releaseNoGcm.apk",
-       "url": "https://github.com/notmyst33d/NXperiments/releases/download/mkvtest/NXperiments-fullAppleEmoji-arm64-v8a-releaseNoGcm.apk",
-       "size": 36287968,
-       "sha256": null,
-       "abi": "arm64-v8a",
-       "split": false
-      },
-      {
-       "name": "NXperiments-fullAppleEmoji-armeabi-v7a-release.apk",
-       "url": "https://github.com/notmyst33d/NXperiments/releases/download/mkvtest/NXperiments-fullAppleEmoji-armeabi-v7a-release.apk",
-       "size": 43577542,
-       "sha256": null,
-       "abi": "armeabi-v7a",
-       "split": false
-      },
-      {
-       "name": "NXperiments-fullAppleEmoji-armeabi-v7a-releaseNoGcm.apk",
-       "url": "https://github.com/notmyst33d/NXperiments/releases/download/mkvtest/NXperiments-fullAppleEmoji-armeabi-v7a-releaseNoGcm.apk",
-       "size": 43267310,
-       "sha256": null,
-       "abi": "armeabi-v7a",
-       "split": false
-      },
-      {
-       "name": "NXperiments-fullAppleEmoji-x86-release.apk",
-       "url": "https://github.com/notmyst33d/NXperiments/releases/download/mkvtest/NXperiments-fullAppleEmoji-x86-release.apk",
-       "size": 45908663,
-       "sha256": null,
-       "abi": "x86",
-       "split": false
-      },
-      {
-       "name": "NXperiments-fullAppleEmoji-x86-releaseNoGcm.apk",
-       "url": "https://github.com/notmyst33d/NXperiments/releases/download/mkvtest/NXperiments-fullAppleEmoji-x86-releaseNoGcm.apk",
-       "size": 45598439,
-       "sha256": null,
-       "abi": "x86",
-       "split": false
-      },
-      {
-       "name": "NXperiments-fullAppleEmoji-x86_64-release.apk",
-       "url": "https://github.com/notmyst33d/NXperiments/releases/download/mkvtest/NXperiments-fullAppleEmoji-x86_64-release.apk",
-       "size": 46736853,
-       "sha256": null,
-       "abi": "x86_64",
-       "split": false
-      },
-      {
-       "name": "NXperiments-fullAppleEmoji-x86_64-releaseNoGcm.apk",
-       "url": "https://github.com/notmyst33d/NXperiments/releases/download/mkvtest/NXperiments-fullAppleEmoji-x86_64-releaseNoGcm.apk",
-       "size": 46426628,
-       "sha256": null,
-       "abi": "x86_64",
-       "split": false
-      },
-      {
-       "name": "NXperiments-mini-arm64-v8a-release.apk",
-       "url": "https://github.com/notmyst33d/NXperiments/releases/download/mkvtest/NXperiments-mini-arm64-v8a-release.apk",
-       "size": 30773686,
-       "sha256": null,
-       "abi": "arm64-v8a",
-       "split": false
-      },
-      {
-       "name": "NXperiments-mini-arm64-v8a-releaseNoGcm.apk",
-       "url": "https://github.com/notmyst33d/NXperiments/releases/download/mkvtest/NXperiments-mini-arm64-v8a-releaseNoGcm.apk",
-       "size": 30460454,
-       "sha256": null,
-       "abi": "arm64-v8a",
-       "split": false
-      },
-      {
-       "name": "NXperiments-mini-armeabi-v7a-release.apk",
-       "url": "https://github.com/notmyst33d/NXperiments/releases/download/mkvtest/NXperiments-mini-armeabi-v7a-release.apk",
-       "size": 38155796,
-       "sha256": null,
-       "abi": "armeabi-v7a",
-       "split": false
-      },
-      {
-       "name": "NXperiments-mini-armeabi-v7a-releaseNoGcm.apk",
-       "url": "https://github.com/notmyst33d/NXperiments/releases/download/mkvtest/NXperiments-mini-armeabi-v7a-releaseNoGcm.apk",
-       "size": 37842568,
-       "sha256": null,
-       "abi": "armeabi-v7a",
-       "split": false
-      },
-      {
-       "name": "NXperiments-mini-x86-release.apk",
-       "url": "https://github.com/notmyst33d/NXperiments/releases/download/mkvtest/NXperiments-mini-x86-release.apk",
-       "size": 39710838,
-       "sha256": null,
-       "abi": "x86",
-       "split": false
-      },
-      {
-       "name": "NXperiments-mini-x86-releaseNoGcm.apk",
-       "url": "https://github.com/notmyst33d/NXperiments/releases/download/mkvtest/NXperiments-mini-x86-releaseNoGcm.apk",
-       "size": 39397608,
-       "sha256": null,
-       "abi": "x86",
-       "split": false
-      },
-      {
-       "name": "NXperiments-mini-x86_64-release.apk",
-       "url": "https://github.com/notmyst33d/NXperiments/releases/download/mkvtest/NXperiments-mini-x86_64-release.apk",
-       "size": 40103015,
-       "sha256": null,
-       "abi": "x86_64",
-       "split": false
-      },
-      {
-       "name": "NXperiments-mini-x86_64-releaseNoGcm.apk",
-       "url": "https://github.com/notmyst33d/NXperiments/releases/download/mkvtest/NXperiments-mini-x86_64-releaseNoGcm.apk",
-       "size": 39789776,
-       "sha256": null,
-       "abi": "x86_64",
-       "split": false
-      },
-      {
-       "name": "NXperiments-miniAppleEmoji-arm64-v8a-release.apk",
-       "url": "https://github.com/notmyst33d/NXperiments/releases/download/mkvtest/NXperiments-miniAppleEmoji-arm64-v8a-release.apk",
-       "size": 28150948,
-       "sha256": null,
-       "abi": "arm64-v8a",
-       "split": false
-      },
-      {
-       "name": "NXperiments-miniAppleEmoji-arm64-v8a-releaseNoGcm.apk",
-       "url": "https://github.com/notmyst33d/NXperiments/releases/download/mkvtest/NXperiments-miniAppleEmoji-arm64-v8a-releaseNoGcm.apk",
-       "size": 27837734,
-       "sha256": null,
-       "abi": "arm64-v8a",
-       "split": false
-      },
-      {
-       "name": "NXperiments-miniAppleEmoji-armeabi-v7a-release.apk",
-       "url": "https://github.com/notmyst33d/NXperiments/releases/download/mkvtest/NXperiments-miniAppleEmoji-armeabi-v7a-release.apk",
-       "size": 35533059,
-       "sha256": null,
-       "abi": "armeabi-v7a",
-       "split": false
-      },
-      {
-       "name": "NXperiments-miniAppleEmoji-armeabi-v7a-releaseNoGcm.apk",
-       "url": "https://github.com/notmyst33d/NXperiments/releases/download/mkvtest/NXperiments-miniAppleEmoji-armeabi-v7a-releaseNoGcm.apk",
-       "size": 35219855,
-       "sha256": null,
-       "abi": "armeabi-v7a",
-       "split": false
-      },
-      {
-       "name": "NXperiments-miniAppleEmoji-x86-release.apk",
-       "url": "https://github.com/notmyst33d/NXperiments/releases/download/mkvtest/NXperiments-miniAppleEmoji-x86-release.apk",
-       "size": 37088100,
-       "sha256": null,
-       "abi": "x86",
-       "split": false
-      },
-      {
-       "name": "NXperiments-miniAppleEmoji-x86-releaseNoGcm.apk",
-       "url": "https://github.com/notmyst33d/NXperiments/releases/download/mkvtest/NXperiments-miniAppleEmoji-x86-releaseNoGcm.apk",
-       "size": 36774897,
-       "sha256": null,
-       "abi": "x86",
-       "split": false
-      },
-      {
-       "name": "NXperiments-miniAppleEmoji-x86_64-release.apk",
-       "url": "https://github.com/notmyst33d/NXperiments/releases/download/mkvtest/NXperiments-miniAppleEmoji-x86_64-release.apk",
-       "size": 37480269,
-       "sha256": null,
-       "abi": "x86_64",
-       "split": false
-      },
-      {
-       "name": "NXperiments-miniAppleEmoji-x86_64-releaseNoGcm.apk",
-       "url": "https://github.com/notmyst33d/NXperiments/releases/download/mkvtest/NXperiments-miniAppleEmoji-x86_64-releaseNoGcm.apk",
-       "size": 37167066,
-       "sha256": null,
-       "abi": "x86_64",
-       "split": false
-      }
-     ]
-    },
-    {
-     "tag": "7.7.2-rc02",
-     "assets": [
-      {
-       "name": "NXperiments-full-arm64-v8a-release.apk",
-       "url": "https://github.com/notmyst33d/NXperiments/releases/download/7.7.2-rc02/NXperiments-full-arm64-v8a-release.apk",
-       "size": 47333828,
-       "sha256": null,
-       "abi": "arm64-v8a",
-       "split": false
-      },
-      {
-       "name": "NXperiments-full-arm64-v8a-releaseNoGcm.apk",
-       "url": "https://github.com/notmyst33d/NXperiments/releases/download/7.7.2-rc02/NXperiments-full-arm64-v8a-releaseNoGcm.apk",
-       "size": 47023080,
-       "sha256": null,
-       "abi": "arm64-v8a",
-       "split": false
-      },
-      {
-       "name": "NXperiments-full-armeabi-v7a-release.apk",
-       "url": "https://github.com/notmyst33d/NXperiments/releases/download/7.7.2-rc02/NXperiments-full-armeabi-v7a-release.apk",
-       "size": 46246426,
-       "sha256": null,
-       "abi": "armeabi-v7a",
-       "split": false
-      },
-      {
-       "name": "NXperiments-full-armeabi-v7a-releaseNoGcm.apk",
-       "url": "https://github.com/notmyst33d/NXperiments/releases/download/7.7.2-rc02/NXperiments-full-armeabi-v7a-releaseNoGcm.apk",
-       "size": 45935674,
-       "sha256": null,
-       "abi": "armeabi-v7a",
-       "split": false
-      },
-      {
-       "name": "NXperiments-full-x86-release.apk",
-       "url": "https://github.com/notmyst33d/NXperiments/releases/download/7.7.2-rc02/NXperiments-full-x86-release.apk",
-       "size": 48577512,
-       "sha256": null,
-       "abi": "x86",
-       "split": false
-      },
-      {
-       "name": "NXperiments-full-x86-releaseNoGcm.apk",
-       "url": "https://github.com/notmyst33d/NXperiments/releases/download/7.7.2-rc02/NXperiments-full-x86-releaseNoGcm.apk",
-       "size": 48266761,
-       "sha256": null,
-       "abi": "x86",
-       "split": false
-      },
-      {
-       "name": "NXperiments-full-x86_64-release.apk",
-       "url": "https://github.com/notmyst33d/NXperiments/releases/download/7.7.2-rc02/NXperiments-full-x86_64-release.apk",
-       "size": 49405721,
-       "sha256": null,
-       "abi": "x86_64",
-       "split": false
-      },
-      {
-       "name": "NXperiments-full-x86_64-releaseNoGcm.apk",
-       "url": "https://github.com/notmyst33d/NXperiments/releases/download/7.7.2-rc02/NXperiments-full-x86_64-releaseNoGcm.apk",
-       "size": 49094963,
-       "sha256": null,
-       "abi": "x86_64",
-       "split": false
-      },
-      {
-       "name": "NXperiments-fullAppleEmoji-arm64-v8a-release.apk",
-       "url": "https://github.com/notmyst33d/NXperiments/releases/download/7.7.2-rc02/NXperiments-fullAppleEmoji-arm64-v8a-release.apk",
-       "size": 44664946,
-       "sha256": null,
-       "abi": "arm64-v8a",
-       "split": false
-      },
-      {
-       "name": "NXperiments-fullAppleEmoji-arm64-v8a-releaseNoGcm.apk",
-       "url": "https://github.com/notmyst33d/NXperiments/releases/download/7.7.2-rc02/NXperiments-fullAppleEmoji-arm64-v8a-releaseNoGcm.apk",
-       "size": 44354786,
-       "sha256": null,
-       "abi": "arm64-v8a",
-       "split": false
-      },
-      {
-       "name": "NXperiments-fullAppleEmoji-armeabi-v7a-release.apk",
-       "url": "https://github.com/notmyst33d/NXperiments/releases/download/7.7.2-rc02/NXperiments-fullAppleEmoji-armeabi-v7a-release.apk",
-       "size": 43577529,
-       "sha256": null,
-       "abi": "armeabi-v7a",
-       "split": false
-      },
-      {
-       "name": "NXperiments-fullAppleEmoji-armeabi-v7a-releaseNoGcm.apk",
-       "url": "https://github.com/notmyst33d/NXperiments/releases/download/7.7.2-rc02/NXperiments-fullAppleEmoji-armeabi-v7a-releaseNoGcm.apk",
-       "size": 43267359,
-       "sha256": null,
-       "abi": "armeabi-v7a",
-       "split": false
-      },
-      {
-       "name": "NXperiments-fullAppleEmoji-x86-release.apk",
-       "url": "https://github.com/notmyst33d/NXperiments/releases/download/7.7.2-rc02/NXperiments-fullAppleEmoji-x86-release.apk",
-       "size": 45908645,
-       "sha256": null,
-       "abi": "x86",
-       "split": false
-      },
-      {
-       "name": "NXperiments-fullAppleEmoji-x86-releaseNoGcm.apk",
-       "url": "https://github.com/notmyst33d/NXperiments/releases/download/7.7.2-rc02/NXperiments-fullAppleEmoji-x86-releaseNoGcm.apk",
-       "size": 45598470,
-       "sha256": null,
-       "abi": "x86",
-       "split": false
-      },
-      {
-       "name": "NXperiments-fullAppleEmoji-x86_64-release.apk",
-       "url": "https://github.com/notmyst33d/NXperiments/releases/download/7.7.2-rc02/NXperiments-fullAppleEmoji-x86_64-release.apk",
-       "size": 46736831,
-       "sha256": null,
-       "abi": "x86_64",
-       "split": false
-      },
-      {
-       "name": "NXperiments-fullAppleEmoji-x86_64-releaseNoGcm.apk",
-       "url": "https://github.com/notmyst33d/NXperiments/releases/download/7.7.2-rc02/NXperiments-fullAppleEmoji-x86_64-releaseNoGcm.apk",
-       "size": 46426672,
-       "sha256": null,
-       "abi": "x86_64",
-       "split": false
-      },
-      {
-       "name": "NXperiments-mini-arm64-v8a-release.apk",
-       "url": "https://github.com/notmyst33d/NXperiments/releases/download/7.7.2-rc02/NXperiments-mini-arm64-v8a-release.apk",
-       "size": 38840503,
-       "sha256": null,
-       "abi": "arm64-v8a",
-       "split": false
-      },
-      {
-       "name": "NXperiments-mini-arm64-v8a-releaseNoGcm.apk",
-       "url": "https://github.com/notmyst33d/NXperiments/releases/download/7.7.2-rc02/NXperiments-mini-arm64-v8a-releaseNoGcm.apk",
-       "size": 38527449,
-       "sha256": null,
-       "abi": "arm64-v8a",
-       "split": false
-      },
-      {
-       "name": "NXperiments-mini-armeabi-v7a-release.apk",
-       "url": "https://github.com/notmyst33d/NXperiments/releases/download/7.7.2-rc02/NXperiments-mini-armeabi-v7a-release.apk",
-       "size": 38155828,
-       "sha256": null,
-       "abi": "armeabi-v7a",
-       "split": false
-      },
-      {
-       "name": "NXperiments-mini-armeabi-v7a-releaseNoGcm.apk",
-       "url": "https://github.com/notmyst33d/NXperiments/releases/download/7.7.2-rc02/NXperiments-mini-armeabi-v7a-releaseNoGcm.apk",
-       "size": 37842772,
-       "sha256": null,
-       "abi": "armeabi-v7a",
-       "split": false
-      },
-      {
-       "name": "NXperiments-mini-x86-release.apk",
-       "url": "https://github.com/notmyst33d/NXperiments/releases/download/7.7.2-rc02/NXperiments-mini-x86-release.apk",
-       "size": 39710865,
-       "sha256": null,
-       "abi": "x86",
-       "split": false
-      },
-      {
-       "name": "NXperiments-mini-x86-releaseNoGcm.apk",
-       "url": "https://github.com/notmyst33d/NXperiments/releases/download/7.7.2-rc02/NXperiments-mini-x86-releaseNoGcm.apk",
-       "size": 39397807,
-       "sha256": null,
-       "abi": "x86",
-       "split": false
-      },
-      {
-       "name": "NXperiments-mini-x86_64-release.apk",
-       "url": "https://github.com/notmyst33d/NXperiments/releases/download/7.7.2-rc02/NXperiments-mini-x86_64-release.apk",
-       "size": 40103031,
-       "sha256": null,
-       "abi": "x86_64",
-       "split": false
-      },
-      {
-       "name": "NXperiments-mini-x86_64-releaseNoGcm.apk",
-       "url": "https://github.com/notmyst33d/NXperiments/releases/download/7.7.2-rc02/NXperiments-mini-x86_64-releaseNoGcm.apk",
-       "size": 39789981,
-       "sha256": null,
-       "abi": "x86_64",
-       "split": false
-      },
-      {
-       "name": "NXperiments-miniAppleEmoji-arm64-v8a-release.apk",
-       "url": "https://github.com/notmyst33d/NXperiments/releases/download/7.7.2-rc02/NXperiments-miniAppleEmoji-arm64-v8a-release.apk",
-       "size": 36217752,
-       "sha256": null,
-       "abi": "arm64-v8a",
-       "split": false
-      },
-      {
-       "name": "NXperiments-miniAppleEmoji-arm64-v8a-releaseNoGcm.apk",
-       "url": "https://github.com/notmyst33d/NXperiments/releases/download/7.7.2-rc02/NXperiments-miniAppleEmoji-arm64-v8a-releaseNoGcm.apk",
-       "size": 35904731,
-       "sha256": null,
-       "abi": "arm64-v8a",
-       "split": false
-      },
-      {
-       "name": "NXperiments-miniAppleEmoji-armeabi-v7a-release.apk",
-       "url": "https://github.com/notmyst33d/NXperiments/releases/download/7.7.2-rc02/NXperiments-miniAppleEmoji-armeabi-v7a-release.apk",
-       "size": 35533083,
-       "sha256": null,
-       "abi": "armeabi-v7a",
-       "split": false
-      },
-      {
-       "name": "NXperiments-miniAppleEmoji-armeabi-v7a-releaseNoGcm.apk",
-       "url": "https://github.com/notmyst33d/NXperiments/releases/download/7.7.2-rc02/NXperiments-miniAppleEmoji-armeabi-v7a-releaseNoGcm.apk",
-       "size": 35220051,
-       "sha256": null,
-       "abi": "armeabi-v7a",
-       "split": false
-      },
-      {
-       "name": "NXperiments-miniAppleEmoji-x86-release.apk",
-       "url": "https://github.com/notmyst33d/NXperiments/releases/download/7.7.2-rc02/NXperiments-miniAppleEmoji-x86-release.apk",
-       "size": 37088111,
-       "sha256": null,
-       "abi": "x86",
-       "split": false
-      },
-      {
-       "name": "NXperiments-miniAppleEmoji-x86-releaseNoGcm.apk",
-       "url": "https://github.com/notmyst33d/NXperiments/releases/download/7.7.2-rc02/NXperiments-miniAppleEmoji-x86-releaseNoGcm.apk",
-       "size": 36775095,
-       "sha256": null,
-       "abi": "x86",
-       "split": false
-      },
-      {
-       "name": "NXperiments-miniAppleEmoji-x86_64-release.apk",
-       "url": "https://github.com/notmyst33d/NXperiments/releases/download/7.7.2-rc02/NXperiments-miniAppleEmoji-x86_64-release.apk",
-       "size": 37480274,
-       "sha256": null,
-       "abi": "x86_64",
-       "split": false
-      },
-      {
-       "name": "NXperiments-miniAppleEmoji-x86_64-releaseNoGcm.apk",
-       "url": "https://github.com/notmyst33d/NXperiments/releases/download/7.7.2-rc02/NXperiments-miniAppleEmoji-x86_64-releaseNoGcm.apk",
-       "size": 37167268,
-       "sha256": null,
-       "abi": "x86_64",
-       "split": false
-      }
-     ]
-    }
-   ],
-   "scan": null
-  },
-  {
-   "id": "sing0626-singgram",
-   "package_name": null,
-   "label": "SingGram",
-   "repo": "sing0626/SingGram",
-   "repo_url": "https://github.com/sing0626/SingGram",
-   "description": "SingGram Android fork based on Telegram Android",
-   "stars": 1,
-   "archived": false,
-   "latest_version": "singgram-68078-65",
-   "latest_release_url": "https://github.com/sing0626/SingGram/releases/tag/singgram-68078-65",
-   "releases": [
-    {
-     "tag": "singgram-68078-65",
-     "assets": [
-      {
-       "name": "SingGram-arm64-release.apk",
-       "url": "https://github.com/sing0626/SingGram/releases/download/singgram-68078-65/SingGram-arm64-release.apk",
-       "size": 66255718,
-       "sha256": "2dd099f495f1fb8564142571b05b8ed93bc85330a0e1f93cd919547275c8d8df",
-       "abi": "arm64-v8a",
-       "split": false
-      }
-     ]
-    },
-    {
-     "tag": "singgram-68068-64",
-     "assets": [
-      {
-       "name": "SingGram-arm64-release.apk",
-       "url": "https://github.com/sing0626/SingGram/releases/download/singgram-68068-64/SingGram-arm64-release.apk",
-       "size": 66255725,
-       "sha256": "46cb78fc1976b73f336f7579e4e001b0c60072a9c4f5274e0dc2862da7925e5b",
        "abi": "arm64-v8a",
        "split": false
       }

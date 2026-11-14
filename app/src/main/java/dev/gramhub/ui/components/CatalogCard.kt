@@ -15,6 +15,7 @@ import androidx.compose.material.icons.rounded.Android
 import androidx.compose.material.icons.rounded.CheckCircle
 import androidx.compose.material.icons.rounded.NewReleases
 import androidx.compose.material.icons.rounded.Refresh
+import androidx.compose.material.icons.rounded.Star
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -151,6 +152,12 @@ fun CatalogCard(
                 VerdictChip(verdict)
 
                 if (entry.stars > 0) {
+                    Icon(
+                        imageVector = Icons.Rounded.Star,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier = Modifier.size(14.dp),
+                    )
                     Text(
                         text = stringResource(R.string.catalog_stars, entry.stars),
                         style = MaterialTheme.typography.labelMedium,

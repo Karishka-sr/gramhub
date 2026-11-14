@@ -15,6 +15,16 @@ DEFAULT_SEED_REPOS: tuple[str, ...] = (
     "Nekogram/Nekogram",
     "Telegram-FOSS-Team/Telegram-FOSS",
     "teidesu/inugram",
+    # Forks people actually run, added because the search does not always surface
+    # them: they are often named after the brand alone and carry no "telegram" in
+    # the repository description.
+    "forkgram/TelegramAndroid",
+    "qwq233/Nullgram",
+    "monogram-android/monogram",
+    "exteraSquad/exteraGram",
+    "NextAlone/Nagram",
+    "Catogram/Catogram",
+    "Th3Nekit/Finegram",
 )
 
 # Package names owned by the official Telegram client. An APK that claims one of

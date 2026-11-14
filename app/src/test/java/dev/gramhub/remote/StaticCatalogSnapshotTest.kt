@@ -25,9 +25,18 @@ class StaticCatalogSnapshotTest {
         val clients = CatalogJson.parseClients(snapshot!!.readText())
 
         assertTrue("snapshot parsed to nothing", clients.isNotEmpty())
+        assertTrue("the catalog lost clients", clients.size >= 20)
         assertTrue("no client has an installable APK", clients.any { it.apk != null })
         assertTrue("every client needs an id", clients.all { it.id.isNotBlank() })
         assertTrue("every client needs a label", clients.all { it.label.isNotBlank() })
+        assertTrue("ids must be unique", clients.map { it.id }.toSet().size == clients.size)
+        assertTrue(
+            "no junk repository may slip into the snapshot",
+            clients.none { client ->
+                val repo = client.repo.lowercase()
+                listOf("-apk", "-files", "-website", "-docs", "-mirror").any(repo::endsWith)
+            },
+        )
     }
 
     /** Walks up from the test working directory to the repository root. */

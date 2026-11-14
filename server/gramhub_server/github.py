@@ -34,6 +34,16 @@ SEARCH_QUERIES = (
     "telegram fork android in:name,description",
     "nekogram in:name,description",
     "telegram-foss in:name,description",
+    # Brand-named forks never mention "telegram", so they only show up when
+    # searched for by name.
+    "finegram in:name,description",
+    "flexgram in:name,description",
+    "owlgram in:name,description",
+    "cherrygram in:name,description",
+    "materialgram in:name,description",
+    "forkgram in:name,description",
+    "nullgram in:name,description",
+    "monogram telegram in:name,description",
 )
 
 # A repository is only considered a client when its name or description carries
@@ -91,6 +101,17 @@ NEGATIVE_PHRASES = (
 # Repository names that are never the client itself even when the description
 # mentions Telegram.
 NEGATIVE_NAME_SUFFIXES = ("-files", "-website", "-docs", "-backup", "-mirror", "-check")
+
+# Words in a repository name or description that mark it as a download mirror for
+# someone else's client rather than a client in its own right. The search drags
+# these in because they attach APKs to releases, but offering them next to the
+# real project is how a user ends up installing a build nobody maintains.
+MIRROR_WORDS = ("apks", "apk files", "release hub", "releases for", "binary apks")
+
+# A discovery-only entry (not in the seed list) has to look like a real project to
+# be offered: a repo that does not even expose its package id and has no community
+# behind it is usually a repackaging job.
+MIN_DISCOVERED_STARS = 5
 
 ABI_PATTERNS: tuple[tuple[str, str], ...] = (
     ("arm64-v8a", "arm64-v8a"),
@@ -215,6 +236,8 @@ def looks_like_client(repo: dict) -> bool:
         return False
     if any(phrase in haystack for phrase in NEGATIVE_PHRASES):
         return False
+    if any(word in haystack for word in MIRROR_WORDS):
+        return False
     if name.endswith(NEGATIVE_NAME_SUFFIXES):
         return False
     # The clients we care about are Android apps.
@@ -326,6 +349,11 @@ async def discover(settings: Settings, github: GitHubClient) -> list[CatalogEntr
             # Nothing installable to offer, and it is not a seed we want to keep
             # around as a pointer either.
             log.info("skipping %s: no APK assets in its releases", full_name)
+            continue
+        if entry.repo not in settings.seed_repos and entry.stars < MIN_DISCOVERED_STARS:
+            # A freshly discovered repo with almost no community is far more likely
+            # to be a repackaging job than a client worth offering.
+            log.info("skipping %s: only %s stars", full_name, entry.stars)
             continue
         entries.append(entry)
 

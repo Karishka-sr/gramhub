@@ -1,0 +1,46 @@
+name: Refresh catalog
+
+# Keeps the static catalog that the app reads from GitHub Pages up to date.
+# Without this the snapshot would freeze at whatever was committed last.
+on:
+  schedule:
+    - cron: "17 4 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: refresh-catalog
+  cancel-in-progress: true
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install server dependencies
+        run: pip install -r server/requirements.txt
+
+      - name: Re-discover clients and write the snapshot
+        env:
+          # The default token is enough for public repository reads.
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python tools/refresh_catalog.py -o docs/clients.json
+
+      - name: Commit the snapshot when it changed
+        run: |
+          if git diff --quiet -- docs/clients.json; then
+            echo "catalog unchanged"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/clients.json
+          git commit -m "chore: refresh client catalog"
+          git push

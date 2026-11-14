@@ -100,7 +100,7 @@
     <string name="catalog_disabled_message">Включите каталог в настройках, чтобы видеть клиентов, которых нет на телефоне.</string>
     <string name="catalog_search_hint">Поиск в каталоге</string>
     <string name="catalog_count">Доступно: %1$d</string>
-    <string name="catalog_stars">%1$d ★</string>
+    <string name="catalog_stars">%1$d</string>
     <string name="catalog_repository">Открыть репозиторий</string>
     <string name="catalog_release_page">Страница релиза</string>
 
@@ -160,4 +160,57 @@
     <string name="settings_catalog_fail">Сервер не отвечает</string>
     <string name="settings_catalog_saved">Адрес сохранён</string>
     <string name="settings_catalog_reload">Обновить каталог</string>
+
+    <!-- Карточка клиента: подробности и действия -->
+    <string name="client_details">Подробности</string>
+    <string name="client_description_title">Описание</string>
+    <string name="client_no_description">Описание не указано.</string>
+    <string name="client_version">Версия: %1$s</string>
+    <string name="client_size">Размер: %1$s</string>
+    <string name="client_repository">Репозиторий: %1$s</string>
+    <string name="client_installed_version">Установлено: %1$s</string>
+    <string name="client_downloaded_badge">Файл загружен</string>
+    <string name="client_check">Проверить</string>
+    <string name="client_check_summary">Проверка на сервере: подпись, разрешения, версия</string>
+    <string name="client_full_check">Проверить полностью</string>
+    <string name="client_full_check_summary">Полная проверка файла на устройстве: все записи, хэши, код и подпись</string>
+    <string name="client_delete">Удалить файл</string>
+    <string name="client_delete_summary">Удалить загруженный APK с устройства</string>
+    <string name="client_delete_confirm_title">Удалить файл?</string>
+    <string name="client_delete_confirm_message">Загруженный APK будет удалён. Установленное приложение останется на месте.</string>
+    <string name="client_open">Открыть</string>
+    <string name="client_open_repo">Открыть репозиторий</string>
+    <string name="client_open_release">Страница релиза</string>
+    <string name="client_file_missing">Файл ещё не загружен</string>
+
+    <!-- Полная проверка -->
+    <string name="fullcheck_running">Полная проверка…</string>
+    <string name="fullcheck_title">Полная проверка</string>
+    <string name="fullcheck_progress">Обработано %1$d%% · %2$s</string>
+    <string name="fullcheck_summary_ok">Все записи целы, подпись и разрешения проверены</string>
+    <string name="fullcheck_summary_caution">Проверка завершена, есть замечания</string>
+    <string name="fullcheck_summary_bad">Проверка нашла опасные признаки</string>
+    <string name="fullcheck_entries">Записей в APK: %1$d, проверено: %2$d</string>
+    <string name="fullcheck_integrity_ok">Целостность архива в порядке</string>
+    <string name="fullcheck_integrity_bad">Повреждённые или подозрительные записи: %1$d</string>
+    <string name="fullcheck_signature_ok">Подпись APK проверена</string>
+    <string name="fullcheck_signature_missing">APK не подписан</string>
+    <string name="fullcheck_dex">Классов в коде: %1$d</string>
+    <string name="fullcheck_native">Библиотек: %1$d</string>
+    <string name="fullcheck_suspicious">Подозрительные строки: %1$d</string>
+    <string name="fullcheck_ok">Проверка пройдена</string>
+    <string name="fullcheck_failed">Не удалось выполнить проверку</string>
+    <string name="fullcheck_no_file">Сначала загрузите APK</string>
+
+    <!-- Стиль Material Design -->
+    <string name="settings_design_style">Стиль Material Design</string>
+    <string name="settings_design_style_summary">Форма карточек и элементов интерфейса</string>
+    <string name="settings_design_standard">Классический M3</string>
+    <string name="settings_design_expressive">Выразительный M3</string>
+
+    <!-- Ссылка на канал -->
+    <string name="settings_group_community">Сообщество</string>
+    <string name="settings_channel">Телеграм-канал</string>
+    <string name="settings_channel_summary">Новости и обновления GramHub</string>
+    <string name="settings_channel_open">Открыть</string>
 </resources>

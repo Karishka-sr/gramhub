@@ -6,24 +6,31 @@ import androidx.lifecycle.viewModelScope
 import dev.gramhub.data.CatalogJoiner
 import dev.gramhub.data.ClientOrganizer
 import dev.gramhub.data.ClientRepository
+import dev.gramhub.data.DesignStyle
 import dev.gramhub.data.GramHubSettings
 import dev.gramhub.data.ListDensity
 import dev.gramhub.data.SettingsRepository
 import dev.gramhub.data.SortMode
 import dev.gramhub.data.TelegramClient
 import dev.gramhub.data.ThemeMode
+import dev.gramhub.remote.ApkFullCheck
 import dev.gramhub.remote.ApkInstaller
 import dev.gramhub.remote.CatalogApi
 import dev.gramhub.remote.CatalogSource
 import dev.gramhub.remote.DownloadProgress
+import dev.gramhub.remote.FullCheckOutcome
+import dev.gramhub.remote.FullCheckReport
 import dev.gramhub.remote.InstallOutcome
 import dev.gramhub.remote.RemoteClient
 import dev.gramhub.util.AppActions
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
@@ -75,6 +82,24 @@ data class CatalogUiState(
 /** Result of the connection test in settings. */
 enum class HealthState { UNKNOWN, CHECKING, OK, FAILED }
 
+/**
+ * State of a full on-device verification of one catalog entry's APK.
+ *
+ * [Phase.DOWNLOADING] is part of the flow because the full check has to run on
+ * real bytes: when nothing is on disk yet, the sheet fetches the APK first and
+ * then verifies it, without handing anything to the installer.
+ */
+data class FullCheckState(
+    val clientId: String,
+    val phase: Phase,
+    val fraction: Float = 0f,
+    val step: String = "",
+    val report: FullCheckReport? = null,
+    val error: String? = null,
+) {
+    enum class Phase { DOWNLOADING, RUNNING, DONE, FAILED }
+}
+
 /** A download or install currently in flight, for one catalog entry. */
 data class InstallState(
     val clientId: String,
@@ -97,6 +122,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     private val clients = ClientRepository(application)
     private val settingsRepo = SettingsRepository(application)
     private val installer = ApkInstaller(application)
+    private val fullCheck = ApkFullCheck(application)
     private val catalog = CatalogApi(application) { settings.value.catalogUrl }
 
     val settings: StateFlow<GramHubSettings> = settingsRepo.settings
@@ -106,6 +132,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     private val _catalogQuery = MutableStateFlow("")
     private val _remote = MutableStateFlow(RemoteCatalog())
     private val _installState = MutableStateFlow<InstallState?>(null)
+    private val _fullCheckState = MutableStateFlow<FullCheckState?>(null)
     private val _scanning = MutableStateFlow<Set<String>>(emptySet())
     private val _health = MutableStateFlow<HealthState>(HealthState.UNKNOWN)
 
@@ -115,6 +142,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     val query: StateFlow<String> = _query.asStateFlow()
     val catalogQuery: StateFlow<String> = _catalogQuery.asStateFlow()
     val installState: StateFlow<InstallState?> = _installState.asStateFlow()
+
+    /** The full check currently running, or its last result, if any. */
+    val fullCheckState: StateFlow<FullCheckState?> = _fullCheckState.asStateFlow()
 
     /** Ids of catalog entries whose scan is in flight, so the card can show it. */
     val scanning: StateFlow<Set<String>> = _scanning.asStateFlow()
@@ -142,7 +172,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         refreshTrigger,
     ) { all, prefs, query, _ ->
         buildState(all, prefs, query)
-    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), LauncherUiState())
+    }.flowOn(Dispatchers.Default)
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), LauncherUiState())
 
     /**
      * The "Not installed" tab.
@@ -172,10 +203,20 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             enabled = prefs.catalogEnabled,
             serverUrl = prefs.catalogUrl,
         )
-    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), CatalogUiState())
+    }.flowOn(Dispatchers.Default)
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), CatalogUiState())
 
     init {
-        refreshCatalog()
+        viewModelScope.launch {
+            // DataStore delivers the saved address asynchronously, so a refresh
+            // fired at construction time would query the built-in default instead
+            // of the server the user configured. Reacting to the address itself
+            // waits for it and also re-fetches when it is changed in Settings.
+            settingsRepo.settings
+                .map { it.catalogUrl }
+                .distinctUntilChanged()
+                .collect { refreshCatalog() }
+        }
     }
 
     private fun buildState(
@@ -344,6 +385,102 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         _health.value = if (catalog.health()) HealthState.OK else HealthState.FAILED
     }
 
+    /**
+     * Runs the full on-device check for one catalog entry.
+     *
+     * The APK has to be on disk first, so an entry that was never downloaded is
+     * fetched here. Nothing is handed to the installer: the check only reads the
+     * file and reports what it finds.
+     */
+    fun runFullCheck(entry: RemoteClient) = viewModelScope.launch {
+        val apk = entry.apk
+        if (apk == null) {
+            _fullCheckState.value = FullCheckState(entry.id, FullCheckState.Phase.FAILED, error = "no_apk")
+            return@launch
+        }
+
+        val target = installer.fileFor(entry)
+
+        if (!installer.hasDownload(entry)) {
+            _fullCheckState.value = FullCheckState(
+                entry.id,
+                FullCheckState.Phase.DOWNLOADING,
+                step = "download",
+            )
+            val failure = runCatching {
+                installer.download(apk, target).collect { progress ->
+                    when (progress) {
+                        is DownloadProgress.Progress -> {
+                            val total = if (progress.total > 0) progress.total else apk.size
+                            val fraction = if (total > 0) progress.downloaded.toFloat() / total else 0f
+                            _fullCheckState.value = FullCheckState(
+                                entry.id,
+                                FullCheckState.Phase.DOWNLOADING,
+                                fraction = fraction.coerceIn(0f, 1f),
+                                step = "download",
+                            )
+                        }
+
+                        is DownloadProgress.Failed -> throw IllegalStateException(progress.reason)
+
+                        is DownloadProgress.Finished -> Unit
+                    }
+                }
+            }.exceptionOrNull()
+
+            if (failure != null) {
+                _fullCheckState.value = FullCheckState(
+                    entry.id,
+                    FullCheckState.Phase.FAILED,
+                    error = failure.message ?: "download_failed",
+                )
+                return@launch
+            }
+        }
+
+        val file = installer.resolveDownloaded(target.name) ?: target
+        _fullCheckState.value = FullCheckState(entry.id, FullCheckState.Phase.RUNNING, step = "scan")
+
+        val outcome = fullCheck.verify(file, apk.sha256) { progress ->
+            _fullCheckState.value = FullCheckState(
+                entry.id,
+                FullCheckState.Phase.RUNNING,
+                fraction = progress.fraction,
+                step = progress.step,
+            )
+        }
+
+        _fullCheckState.value = when (outcome) {
+            is FullCheckOutcome.Completed -> FullCheckState(
+                entry.id,
+                FullCheckState.Phase.DONE,
+                fraction = 1f,
+                report = outcome.report,
+            )
+
+            is FullCheckOutcome.Failed -> FullCheckState(
+                entry.id,
+                FullCheckState.Phase.FAILED,
+                error = outcome.reason,
+            )
+        }
+    }
+
+    fun clearFullCheck() {
+        _fullCheckState.value = null
+    }
+
+    /** True when a verified download for this entry is already on disk. */
+    fun hasDownload(entry: RemoteClient): Boolean = installer.hasDownload(entry)
+
+    /** Deletes the downloaded APK of an entry and clears any in-flight install. */
+    fun deleteDownload(entry: RemoteClient) {
+        runCatching { installer.fileFor(entry).delete() }
+        runCatching { installer.resolveDownloaded(installer.fileFor(entry).name)?.delete() }
+        _installState.value = null
+        if (_fullCheckState.value?.clientId == entry.id) _fullCheckState.value = null
+    }
+
     fun resetHealth() {
         _health.value = HealthState.UNKNOWN
     }
@@ -397,6 +534,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     fun setDynamicColor(enabled: Boolean) = viewModelScope.launch { settingsRepo.setDynamicColor(enabled) }
     fun setAmoled(enabled: Boolean) = viewModelScope.launch { settingsRepo.setAmoled(enabled) }
     fun setDensity(density: ListDensity) = viewModelScope.launch { settingsRepo.setDensity(density) }
+    fun setDesignStyle(style: DesignStyle) = viewModelScope.launch { settingsRepo.setDesignStyle(style) }
     fun setShowOtherApps(show: Boolean) = viewModelScope.launch { settingsRepo.setShowOtherApps(show) }
     fun setPinFavorites(pin: Boolean) = viewModelScope.launch { settingsRepo.setPinFavorites(pin) }
     fun setShowHidden(show: Boolean) = viewModelScope.launch { settingsRepo.setShowHidden(show) }
