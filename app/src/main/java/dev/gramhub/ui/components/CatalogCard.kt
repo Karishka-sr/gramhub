@@ -25,6 +25,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -54,6 +55,7 @@ fun CatalogCard(
     scanNotice: ScanNotice?,
     onClick: () -> Unit,
     onInstall: () -> Unit,
+    onCancelInstall: () -> Unit,
     onScan: () -> Unit,
     onOpenRepository: () -> Unit,
     onOpenReleasePage: () -> Unit,
@@ -205,6 +207,7 @@ fun CatalogCard(
                 failed = failed,
                 installState = installState,
                 onInstall = onInstall,
+                onCancelInstall = onCancelInstall,
                 onScan = onScan,
             )
 
@@ -226,6 +229,7 @@ private fun InstallRow(
     failed: Boolean,
     installState: InstallState?,
     onInstall: () -> Unit,
+    onCancelInstall: () -> Unit,
     onScan: () -> Unit,
 ) {
     Row(
@@ -265,7 +269,15 @@ private fun InstallRow(
                         ),
                         style = MaterialTheme.typography.labelMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier = Modifier.weight(1f),
                     )
+                }
+
+                // The escape hatch for a mis-tap: an install in progress can be
+                // stopped here, and it really stops the download rather than
+                // hiding the progress bar.
+                TextButton(onClick = onCancelInstall) {
+                    Text(stringResource(R.string.install_cancel))
                 }
             }
 

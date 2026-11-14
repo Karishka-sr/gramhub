@@ -45,6 +45,14 @@ sealed interface InstallOutcome {
  */
 class ApkInstaller(private val context: Context) {
 
+    /**
+     * The [DownloadManager] job id for each in-flight download, keyed by the
+     * target file name. Needed to cancel a transfer the user aborts: the id is
+     * only known inside [download], and removing the job is the only way to stop
+     * the system downloader rather than merely stop watching it.
+     */
+    private val activeDownloadIds = java.util.concurrent.ConcurrentHashMap<String, Long>()
+
     private val downloadsDir: File
         get() = File(context.filesDir, "downloads").apply { mkdirs() }
 
@@ -102,6 +110,7 @@ class ApkInstaller(private val context: Context) {
             close()
             return@callbackFlow
         }
+        activeDownloadIds[target.name] = id
 
         val receiver = object : BroadcastReceiver() {
             override fun onReceive(receiverContext: Context?, intent: Intent?) {
@@ -162,8 +171,32 @@ class ApkInstaller(private val context: Context) {
         awaitClose {
             runCatching { context.unregisterReceiver(receiver) }
             poller.cancel()
+            activeDownloadIds.remove(target.name)
         }
     }.flowOn(Dispatchers.IO)
+
+    /**
+     * Stops an in-flight download of [target] and deletes whatever arrived.
+     *
+     * Removing the [DownloadManager] job is what actually aborts the transfer;
+     * cancelling the coroutine that watches it would only stop the progress
+     * readout and let the file keep downloading in the background. The partial
+     * file is removed too, so a later retry starts from a clean slate instead of
+     * verifying a half-written APK.
+     */
+    fun cancelDownload(target: File) {
+        val id = activeDownloadIds.remove(target.name)
+        if (id != null) {
+            runCatching { context.getSystemService(DownloadManager::class.java).remove(id) }
+        }
+        discardFile(target)
+    }
+
+    /** Deletes [target] from both storage roots the downloader may have used. */
+    fun discardFile(target: File) {
+        runCatching { target.delete() }
+        runCatching { resolveDownloaded(target.name)?.delete() }
+    }
 
     /** Locates a file a [DownloadManager] job produced, under either storage root. */
     fun resolveDownloaded(name: String): File? {

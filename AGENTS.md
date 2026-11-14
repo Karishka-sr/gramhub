@@ -7,9 +7,8 @@ the one the user taps. Jetpack Compose + Material 3, single `:app` module.
 ## Build and test
 
 ```bash
-export JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64
 ./gradlew :app:testDebugUnitTest :app:assembleDebug     # APK -> app/build/outputs/apk/debug/
-./gradlew :app:assembleRelease                          # unsigned release APK
+./gradlew :app:assembleRelease                          # signed release APK
 ```
 
 Toolchain: AGP 8.7.3, Kotlin 2.1.0, Compose BOM 2024.12.01, `compileSdk` 35,
@@ -215,13 +214,39 @@ surfaced as the "Сообщество" group at the bottom of Settings and as a 
 ## Session state (resume here)
 
 Branch `main`, tracking `origin/main` (the local branch was renamed from
-`master`; the remote default is `main`). The latest commit is "Update notes for
-the snapshot-verdict change", pushed to `origin/main`; no PR is open. Build is
-green:
+`master`; the remote default is `main`). Build is green:
 `server/.venv/bin/python -m pytest -q` reports **85 passed** and
-`./gradlew testDebugUnitTest` reports **70 passed** (14 classes).
+`./gradlew :app:testDebugUnitTest` reports **70 passed** (14 classes).
 `docs/clients.json` holds 20 clients, all 20 with a verdict (18 caution,
-1 dangerous, 1 trusted). Version is `1.2.1` (versionCode 4).
+1 dangerous, 1 trusted). Version is `1.3.0` (versionCode 5).
+
+The JDK lives at `$HOME/tools/jdk-17.0.21+9` and is already on `PATH`; do not
+export the `java-21-openjdk-amd64` path the older notes mention, it no longer
+exists and Gradle then refuses to start. Build with plain `./gradlew ...`.
+
+This session added a live catalog and install control:
+
+- The catalog re-fetches on its own. `GramHubSettings.autoRefresh` (off / 15 / 30
+  min / hour, default 30) drives a polling loop in `MainViewModel.init`, and
+  `refreshOnResume` makes `MainActivity.onResume` -> `MainViewModel.onResume()`
+  re-read it when the app returns to the foreground. `CatalogUiState.fetchedAt`
+  feeds the "Обновлено: N назад" line in `CatalogScreen.relativeTime`.
+- A running install can be cancelled. `ApkInstaller.cancelDownload` removes the
+  `DownloadManager` job and deletes the partial file — cancelling the watching
+  coroutine alone would leave the transfer running. `MainViewModel.cancelInstall`
+  cancels `_installJob`; the `CancellationException` branch in `install` treats it
+  as a normal end, not a failure.
+- **One subscription to DataStore per value.** The catalog address used to be
+  read by two independent collectors (`settingsRepo.settings` in `init` and
+  `catalogState`'s `combine`), and they could deliver a new address at different
+  moments, so a fetch could read the old URL while the UI already showed the new
+  one — this is what made `MainViewModelTest` fail intermittently. `init` and the
+  poller now both listen to the single `settings` StateFlow that `catalogState`
+  uses. Keep it that way; do not add a second `settingsRepo.settings` collector.
+- `refreshCatalog` is guarded by `_catalogGeneration`: cancelling a superseded
+  fetch only stops it at its next suspension point, and its blocking request has
+  usually already finished, so without the check the stale answer would be
+  published on top of the fresh one.
 
 This session made the catalog's verdicts visible in the default install. The
 catalog is a static JSON snapshot, not a running server, so "Проверить" had no

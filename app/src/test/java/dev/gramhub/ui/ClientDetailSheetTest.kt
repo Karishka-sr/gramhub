@@ -93,6 +93,7 @@ class ClientDetailSheetTest {
                     scanNotice = scanNotice,
                     onDismiss = {},
                     onInstall = onInstall,
+                    onCancelInstall = {},
                     onCheck = onCheck,
                     onFullCheck = onFullCheck,
                     onDelete = onDelete,

@@ -54,6 +54,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.gramhub.BuildConfig
 import dev.gramhub.R
+import dev.gramhub.data.AutoRefresh
 import dev.gramhub.data.DesignStyle
 import dev.gramhub.data.GramHubSettings
 import dev.gramhub.data.ListDensity
@@ -110,6 +111,14 @@ fun SettingsScreen(viewModel: MainViewModel) {
                         onCheckedChange = viewModel::setAmoled,
                         enabled = settings.themeMode != ThemeMode.LIGHT,
                     )
+                    HorizontalDivider(modifier = Modifier.padding(vertical = 4.dp))
+                    // The Material Design style shapes every screen, so it belongs
+                    // with the other appearance choices rather than under the list.
+                    SectionLabel(R.string.settings_design_style)
+                    DesignStylePicker(
+                        current = settings.designStyle,
+                        onSelect = viewModel::setDesignStyle,
+                    )
                 }
             }
 
@@ -117,12 +126,6 @@ fun SettingsScreen(viewModel: MainViewModel) {
                 SettingsGroup(title = stringResource(R.string.settings_group_list)) {
                     SectionLabel(R.string.settings_density)
                     DensityPicker(current = settings.density, onSelect = viewModel::setDensity)
-                    HorizontalDivider(modifier = Modifier.padding(vertical = 4.dp))
-                    SectionLabel(R.string.settings_design_style)
-                    DesignStylePicker(
-                        current = settings.designStyle,
-                        onSelect = viewModel::setDesignStyle,
-                    )
                     HorizontalDivider(modifier = Modifier.padding(vertical = 4.dp))
                     SectionLabel(R.string.settings_sort)
                     SortPicker(current = settings.sortMode, onSelect = viewModel::setSortMode)
@@ -155,6 +158,19 @@ fun SettingsScreen(viewModel: MainViewModel) {
                         summary = stringResource(R.string.settings_catalog_enabled_summary),
                         checked = settings.catalogEnabled,
                         onCheckedChange = viewModel::setCatalogEnabled,
+                    )
+                    HorizontalDivider(modifier = Modifier.padding(vertical = 4.dp))
+                    SectionLabel(R.string.settings_catalog_auto)
+                    AutoRefreshPicker(
+                        current = settings.autoRefresh,
+                        onSelect = viewModel::setAutoRefresh,
+                    )
+                    HorizontalDivider(modifier = Modifier.padding(vertical = 4.dp))
+                    SwitchRow(
+                        title = stringResource(R.string.settings_catalog_on_resume),
+                        summary = stringResource(R.string.settings_catalog_on_resume_summary),
+                        checked = settings.refreshOnResume,
+                        onCheckedChange = viewModel::setRefreshOnResume,
                     )
                     HorizontalDivider(modifier = Modifier.padding(vertical = 4.dp))
                     CatalogUrlRow(
@@ -411,6 +427,30 @@ private fun DesignStylePicker(current: DesignStyle, onSelect: (DesignStyle) -> U
             onClick = { onSelect(DesignStyle.EXPRESSIVE) },
             label = { Text(stringResource(R.string.settings_design_expressive)) },
         )
+    }
+}
+
+@Composable
+private fun AutoRefreshPicker(current: AutoRefresh, onSelect: (AutoRefresh) -> Unit) {
+    ChipRow {
+        AutoRefresh.entries.forEach { mode ->
+            FilterChip(
+                selected = current == mode,
+                onClick = { onSelect(mode) },
+                label = {
+                    Text(
+                        stringResource(
+                            when (mode) {
+                                AutoRefresh.OFF -> R.string.settings_catalog_auto_off
+                                AutoRefresh.MIN_15 -> R.string.settings_catalog_auto_15
+                                AutoRefresh.MIN_30 -> R.string.settings_catalog_auto_30
+                                AutoRefresh.HOUR_1 -> R.string.settings_catalog_auto_60
+                            },
+                        ),
+                    )
+                },
+            )
+        }
     }
 }
 

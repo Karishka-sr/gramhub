@@ -31,6 +31,19 @@
 
 ## Что нового
 
+### 1.3.0
+
+- Каталог обновляется сам: клиенты, опубликованные на GitHub, появляются без
+  ручного нажатия. Интервал задаётся в настройках (выкл., 15 мин, 30 мин, час), а
+  при возвращении в приложение список обновляется сразу
+- Под заголовком каталога видно, когда он обновлялся в последний раз
+- Загрузку APK можно отменить: кнопка «Отмена» на карточке и в карточке клиента
+  прерывает скачивание и удаляет недокачанный файл
+- Повторная загрузка не запускается дважды: повторное нажатие не создаёт вторую
+  параллельную загрузку
+- Исправлена редкая гонка, из-за которой после смены адреса каталога в настройках
+  список мог остаться от прежнего сервера
+
 ### 1.2.1
 
 - Кнопка «Проверить» теперь показывает вердикт: снимок каталога создаётся уже с
@@ -166,6 +179,19 @@ Material Design 3 UI (Material You dynamic colour on Android 12+). Russian and
 English localisation. Requires Android 7.0 (API 24) or newer.
 
 ## What's new
+
+### 1.3.0
+
+- The catalog refreshes on its own: clients published on GitHub show up with no
+  manual tap. The interval is configurable in Settings (off, 15 min, 30 min, one
+  hour), and the list refreshes when the app returns to the foreground
+- The catalog header shows when it was last updated
+- An APK download can be cancelled: a Cancel button on the card and in the client
+  detail sheet aborts the download and deletes the partial file
+- A repeat download no longer starts twice: tapping again does not create a second
+  parallel download
+- Fixed a rare race that could leave the list from the previous server after the
+  catalog address was changed in Settings
 
 ### 1.2.1
 

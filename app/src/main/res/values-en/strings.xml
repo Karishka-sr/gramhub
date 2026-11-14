@@ -141,6 +141,7 @@
     <string name="install_permission">Allow GramHub to install apps</string>
     <string name="install_retry">Retry</string>
     <string name="install_cancel">Cancel</string>
+    <string name="install_cancelled">Install cancelled</string>
     <string name="install_confirm_title">Install %1$s?</string>
     <string name="install_confirm_message">The app will be downloaded from GitHub and installed. Continue?</string>
     <string name="install_dangerous_warning">The server considers this file dangerous. Installing it may harm your device.</string>
@@ -160,6 +161,20 @@
     <string name="settings_catalog_fail">The server does not respond</string>
     <string name="settings_catalog_saved">Address saved</string>
     <string name="settings_catalog_reload">Refresh the catalog</string>
+    <string name="settings_catalog_auto">Refresh the catalog</string>
+    <string name="settings_catalog_auto_off">Manually</string>
+    <string name="settings_catalog_auto_15">15 minutes</string>
+    <string name="settings_catalog_auto_30">30 minutes</string>
+    <string name="settings_catalog_auto_60">Hourly</string>
+    <string name="settings_catalog_on_resume">Refresh on launch</string>
+    <string name="settings_catalog_on_resume_summary">Re-read the catalog when you return to GramHub</string>
+
+    <!-- Catalog: freshness stamp -->
+    <string name="catalog_updated_at">Updated: %1$s</string>
+    <string name="catalog_updated_now">just now</string>
+    <string name="catalog_updated_minutes">%1$d min ago</string>
+    <string name="catalog_updated_hours">%1$d h ago</string>
+    <string name="catalog_updated_days">%1$d d ago</string>
 
     <!-- Client card: details and actions -->
     <string name="client_details">Details</string>

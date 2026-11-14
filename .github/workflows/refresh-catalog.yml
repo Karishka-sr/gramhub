@@ -3,8 +3,11 @@ name: Refresh catalog
 # Keeps the static catalog that the app reads from GitHub Pages up to date.
 # Without this the snapshot would freeze at whatever was committed last.
 on:
+  # Every 30 minutes, so a client published on GitHub shows up in the app the
+  # same day rather than the next morning. The job is cheap when nothing changed
+  # and skips the commit, so the extra runs mostly cost a few API calls.
   schedule:
-    - cron: "17 4 * * *"
+    - cron: "*/30 * * * *"
   workflow_dispatch:
 
 permissions:

@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -120,12 +121,33 @@ fun CatalogContent(
                 }
 
                 item(key = "catalog-count") {
-                    Text(
-                        text = stringResource(R.string.catalog_count, state.entries.size),
-                        style = MaterialTheme.typography.labelMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
                         modifier = Modifier.padding(start = 4.dp),
-                    )
+                    ) {
+                        Text(
+                            text = stringResource(R.string.catalog_count, state.entries.size),
+                            style = MaterialTheme.typography.labelMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        )
+                        if (state.isRefreshing) {
+                            CircularProgressIndicator(
+                                modifier = Modifier.size(12.dp),
+                                strokeWidth = 2.dp,
+                            )
+                        }
+                        state.fetchedAt.takeIf { it > 0L }?.let { stamp ->
+                            Text(
+                                text = stringResource(
+                                    R.string.catalog_updated_at,
+                                    relativeTime(stamp),
+                                ),
+                                style = MaterialTheme.typography.labelMedium,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            )
+                        }
+                    }
                 }
 
                 items(state.entries, key = { it.id }) { entry ->
@@ -136,6 +158,7 @@ fun CatalogContent(
                         scanNotice = scanNotice?.takeIf { it.clientId == entry.id },
                         onClick = { detailTarget = entry },
                         onInstall = { confirmTarget = entry },
+                        onCancelInstall = { viewModel.cancelInstall() },
                         onScan = { viewModel.scan(entry) },
                         onOpenRepository = { viewModel.openUrl(entry.repoUrl) },
                         onOpenReleasePage = {
@@ -166,6 +189,7 @@ fun CatalogContent(
                 viewModel.clearScanMessage()
             },
             onInstall = { confirmTarget = entry },
+            onCancelInstall = { viewModel.cancelInstall() },
             onCheck = { viewModel.scan(entry) },
             onFullCheck = { viewModel.runFullCheck(entry) },
             onDelete = { deleteTarget = entry },
@@ -210,6 +234,23 @@ fun CatalogContent(
                 }
             },
         )
+    }
+}
+
+/**
+ * Turns a fetch timestamp into "только что", "5 минут назад", "2 часа назад".
+ *
+ * The unit strings come from resources so both locales read naturally rather
+ * than being glued together from English words.
+ */
+@Composable
+private fun relativeTime(stamp: Long): String {
+    val minutes = ((System.currentTimeMillis() - stamp) / 60_000L).coerceAtLeast(0L)
+    return when {
+        minutes < 1L -> stringResource(R.string.catalog_updated_now)
+        minutes < 60L -> stringResource(R.string.catalog_updated_minutes, minutes)
+        minutes < 24L * 60L -> stringResource(R.string.catalog_updated_hours, minutes / 60L)
+        else -> stringResource(R.string.catalog_updated_days, minutes / (24L * 60L))
     }
 }
 

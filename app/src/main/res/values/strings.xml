@@ -141,6 +141,7 @@
     <string name="install_permission">Разрешите GramHub устанавливать приложения</string>
     <string name="install_retry">Повторить</string>
     <string name="install_cancel">Отмена</string>
+    <string name="install_cancelled">Установка отменена</string>
     <string name="install_confirm_title">Установить %1$s?</string>
     <string name="install_confirm_message">Приложение будет скачано с GitHub и установлено. Продолжить?</string>
     <string name="install_dangerous_warning">Сервер считает этот файл опасным. Установка может навредить устройству.</string>
@@ -160,6 +161,20 @@
     <string name="settings_catalog_fail">Сервер не отвечает</string>
     <string name="settings_catalog_saved">Адрес сохранён</string>
     <string name="settings_catalog_reload">Обновить каталог</string>
+    <string name="settings_catalog_auto">Обновлять каталог</string>
+    <string name="settings_catalog_auto_off">Вручную</string>
+    <string name="settings_catalog_auto_15">15 минут</string>
+    <string name="settings_catalog_auto_30">30 минут</string>
+    <string name="settings_catalog_auto_60">Час</string>
+    <string name="settings_catalog_on_resume">Обновлять при запуске</string>
+    <string name="settings_catalog_on_resume_summary">Перечитывать каталог, когда вы возвращаетесь в GramHub</string>
+
+    <!-- Каталог: отметка времени -->
+    <string name="catalog_updated_at">Обновлено: %1$s</string>
+    <string name="catalog_updated_now">только что</string>
+    <string name="catalog_updated_minutes">%1$d мин назад</string>
+    <string name="catalog_updated_hours">%1$d ч назад</string>
+    <string name="catalog_updated_days">%1$d дн назад</string>
 
     <!-- Карточка клиента: подробности и действия -->
     <string name="client_details">Подробности</string>

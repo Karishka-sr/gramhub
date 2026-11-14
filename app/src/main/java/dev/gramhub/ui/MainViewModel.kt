@@ -3,6 +3,7 @@ package dev.gramhub.ui
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import dev.gramhub.data.AutoRefresh
 import dev.gramhub.data.CatalogJoiner
 import dev.gramhub.data.ClientOrganizer
 import dev.gramhub.data.ClientRepository
@@ -25,16 +26,20 @@ import dev.gramhub.remote.RemoteClient
 import dev.gramhub.remote.ScanOutcome
 import dev.gramhub.util.AppActions
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 
 /** One visible row of the launcher list. */
@@ -62,6 +67,8 @@ data class RemoteCatalog(
     val isLoading: Boolean = false,
     val source: CatalogSource = CatalogSource.NONE,
     val error: String? = null,
+    /** Wall-clock time of the last successful fetch, for the "updated N ago" line. */
+    val fetchedAt: Long = 0L,
 )
 
 /** State of the "Not installed" tab. */
@@ -73,11 +80,15 @@ data class CatalogUiState(
     val query: String = "",
     val enabled: Boolean = true,
     val serverUrl: String = "",
+    /** When the catalog was last fetched successfully; 0 means never. */
+    val fetchedAt: Long = 0L,
 ) {
     val isEmpty: Boolean get() = !isLoading && entries.isEmpty()
     val isSearching: Boolean get() = query.isNotBlank()
     val isShowingCache: Boolean get() = source == CatalogSource.CACHE
     val isOffline: Boolean get() = source == CatalogSource.NONE && error != null
+    /** True while a background re-fetch is running on top of already-shown data. */
+    val isRefreshing: Boolean get() = isLoading && entries.isNotEmpty()
 }
 
 /** Result of the connection test in settings. */
@@ -155,6 +166,15 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     /** A one-shot message key; the UI shows it and calls [consumeMessage]. */
     private val _message = MutableStateFlow<String?>(null)
 
+    /** The in-flight catalog fetch, so a manual refresh can supersede a poll. */
+    private var _catalogJob: Job? = null
+
+    /** Incremented per fetch; a superseded fetch sees a stale number and drops its result. */
+    private var _catalogGeneration = 0
+
+    /** The in-flight install, so the user can abort it mid-download. */
+    private var _installJob: Job? = null
+
     val query: StateFlow<String> = _query.asStateFlow()
     val catalogQuery: StateFlow<String> = _catalogQuery.asStateFlow()
     val installState: StateFlow<InstallState?> = _installState.asStateFlow()
@@ -186,7 +206,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     val uiState: StateFlow<LauncherUiState> = combine(
         clients.clients(catalogPackages),
-        settingsRepo.settings,
+        settings,
         _query,
         refreshTrigger,
     ) { all, prefs, query, _ ->
@@ -204,7 +224,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     val catalogState: StateFlow<CatalogUiState> = combine(
         _remote,
         clients.clients(catalogPackages),
-        settingsRepo.settings,
+        settings,
         _catalogQuery,
     ) { remote, installed, prefs, query ->
         val available = if (prefs.catalogEnabled) {
@@ -221,6 +241,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             query = query,
             enabled = prefs.catalogEnabled,
             serverUrl = prefs.catalogUrl,
+            fetchedAt = remote.fetchedAt,
         )
     }.flowOn(Dispatchers.Default)
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), CatalogUiState())
@@ -231,10 +252,33 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             // fired at construction time would query the built-in default instead
             // of the server the user configured. Reacting to the address itself
             // waits for it and also re-fetches when it is changed in Settings.
-            settingsRepo.settings
+            //
+            // This listens to `settings`, the same StateFlow `catalogState` is
+            // built from, rather than to the repository directly: two separate
+            // subscriptions to DataStore can deliver a new address at different
+            // moments, which let a fetch read the old URL while the UI already
+            // showed the new one. One shared flow keeps them in step.
+            settings
                 .map { it.catalogUrl }
                 .distinctUntilChanged()
                 .collect { refreshCatalog() }
+        }
+
+        // Background polling, so a client someone publishes on GitHub appears on
+        // its own. The interval is read live, so changing it in Settings restarts
+        // the loop without a relaunch.
+        viewModelScope.launch {
+            settings
+                .map { it.autoRefresh }
+                .distinctUntilChanged()
+                .collectLatest { mode ->
+                    val interval = mode.millis
+                    if (interval <= 0L) return@collectLatest
+                    while (true) {
+                        delay(interval)
+                        refreshCatalog(silent = true)
+                    }
+                }
         }
     }
 
@@ -275,17 +319,40 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     // ----------------------------------------------------------------- catalog
 
-    fun refreshCatalog() = viewModelScope.launch {
-        _remote.update { it.copy(isLoading = true, error = null) }
+    fun refreshCatalog(silent: Boolean = false) {
+        // A background poll and a manual refresh can overlap; the newer one wins
+        // and the older is dropped, so the "updating" spinner never gets stuck on
+        // and two fetches cannot interleave their results.
+        if (_catalogJob?.isActive == true) {
+            if (silent) return
+            _catalogJob?.cancel()
+        }
 
-        val result = catalog.fetchClients(forceRefresh = true)
+        val generation = ++_catalogGeneration
+        _catalogJob = viewModelScope.launch {
+            val previousFetch = _remote.value.fetchedAt
+            _remote.update { it.copy(isLoading = true, error = null) }
 
-        _remote.value = RemoteCatalog(
-            entries = result.clients,
-            isLoading = false,
-            source = result.source,
-            error = result.error,
-        )
+            val result = catalog.fetchClients(forceRefresh = true)
+
+            // Cancelling the previous job only stops it at its next suspension
+            // point, and its blocking request has usually already finished by
+            // then, so it would publish its stale answer on top of this one. The
+            // generation check makes a superseded fetch drop its result instead.
+            if (generation != _catalogGeneration) return@launch
+
+            _remote.value = RemoteCatalog(
+                entries = result.clients,
+                isLoading = false,
+                source = result.source,
+                error = result.error,
+                fetchedAt = if (result.source == CatalogSource.NETWORK) {
+                    System.currentTimeMillis()
+                } else {
+                    previousFetch
+                },
+            )
+        }
     }
 
     fun onCatalogQueryChange(value: String) {
@@ -298,85 +365,118 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     // --------------------------------------------------------------- installing
 
-    fun install(entry: RemoteClient) = viewModelScope.launch {
-        val apk = entry.apk
-        if (apk == null) {
-            _message.value = "no_apk"
-            return@launch
-        }
+    fun install(entry: RemoteClient) {
+        // A second tap must not start a parallel download for the same entry.
+        if (_installJob?.isActive == true) return
 
-        if (!installer.canInstallPackages()) {
-            installer.requestInstallPermission()
-            _message.value = "install_permission"
-            return@launch
-        }
-
-        val target = installer.fileFor(entry)
-
-        if (!installer.hasDownload(entry)) {
-            _installState.value = InstallState(
-                entry.id,
-                InstallState.Phase.DOWNLOADING,
-                totalBytes = apk.size.coerceAtLeast(0L),
-            )
-            val failure = runCatching {
-                installer.download(apk, target).collect { progress ->
-                    when (progress) {
-                        is DownloadProgress.Progress -> _installState.value = InstallState(
-                            entry.id,
-                            InstallState.Phase.DOWNLOADING,
-                            downloadedBytes = progress.downloaded,
-                            totalBytes = if (progress.total > 0) progress.total else apk.size.coerceAtLeast(0L),
-                        )
-
-                        is DownloadProgress.Failed -> throw IllegalStateException(progress.reason)
-
-                        is DownloadProgress.Finished -> Unit
-                    }
-                }
-            }.exceptionOrNull()
-
-            if (failure != null) {
-                _installState.value = InstallState(
-                    entry.id,
-                    InstallState.Phase.FAILED,
-                    failure.message ?: "download_failed",
-                )
+        _installJob = viewModelScope.launch {
+            val apk = entry.apk
+            if (apk == null) {
+                _message.value = "no_apk"
                 return@launch
             }
-        }
 
-        _installState.value = InstallState(entry.id, InstallState.Phase.VERIFYING)
-        val file = installer.resolveDownloaded(target.name) ?: target
+            if (!installer.canInstallPackages()) {
+                installer.requestInstallPermission()
+                _message.value = "install_permission"
+                return@launch
+            }
 
-        when (val outcome = installer.verify(file, apk.sha256)) {
-            is InstallOutcome.DigestMismatch -> {
+            val target = installer.fileFor(entry)
+
+            if (!installer.hasDownload(entry)) {
                 _installState.value = InstallState(
                     entry.id,
-                    InstallState.Phase.FAILED,
-                    "digest_mismatch",
+                    InstallState.Phase.DOWNLOADING,
+                    totalBytes = apk.size.coerceAtLeast(0L),
                 )
+                val failure = runCatching {
+                    installer.download(apk, target).collect { progress ->
+                        when (progress) {
+                            is DownloadProgress.Progress -> _installState.value = InstallState(
+                                entry.id,
+                                InstallState.Phase.DOWNLOADING,
+                                downloadedBytes = progress.downloaded,
+                                totalBytes = if (progress.total > 0) progress.total else apk.size.coerceAtLeast(0L),
+                            )
+
+                            is DownloadProgress.Failed -> throw IllegalStateException(progress.reason)
+
+                            is DownloadProgress.Finished -> Unit
+                        }
+                    }
+                }.exceptionOrNull()
+
+                // Cancellation arrives here as a CancellationException, which is a
+                // normal end for an aborted install, not a failure to report.
+                if (failure is kotlinx.coroutines.CancellationException) {
+                    installer.cancelDownload(target)
+                    _installState.value = null
+                    return@launch
+                }
+
+                if (failure != null) {
+                    _installState.value = InstallState(
+                        entry.id,
+                        InstallState.Phase.FAILED,
+                        failure.message ?: "download_failed",
+                    )
+                    return@launch
+                }
             }
 
-            is InstallOutcome.Failed -> {
-                _installState.value = InstallState(entry.id, InstallState.Phase.FAILED, outcome.reason)
-            }
+            _installState.value = InstallState(entry.id, InstallState.Phase.VERIFYING)
+            val file = installer.resolveDownloaded(target.name) ?: target
 
-            is InstallOutcome.NeedsPermission -> {
-                installer.requestInstallPermission()
-                _installState.value = null
-                _message.value = "install_permission"
-            }
+            when (val outcome = installer.verify(file, apk.sha256)) {
+                is InstallOutcome.DigestMismatch -> {
+                    _installState.value = InstallState(
+                        entry.id,
+                        InstallState.Phase.FAILED,
+                        "digest_mismatch",
+                    )
+                }
 
-            is InstallOutcome.Ready -> {
-                _installState.value = InstallState(entry.id, InstallState.Phase.INSTALLING)
-                installer.promptInstall(outcome.file)
-                _installState.value = InstallState(entry.id, InstallState.Phase.DONE)
-                // The package broadcast will arrive on its own; this makes the
-                // "Installed" tab move the entry over without waiting for it.
-                refresh()
+                is InstallOutcome.Failed -> {
+                    _installState.value = InstallState(entry.id, InstallState.Phase.FAILED, outcome.reason)
+                }
+
+                is InstallOutcome.NeedsPermission -> {
+                    installer.requestInstallPermission()
+                    _installState.value = null
+                    _message.value = "install_permission"
+                }
+
+                is InstallOutcome.Ready -> {
+                    // The system installer cannot be recalled once it is on screen,
+                    // so this is the last point where the app can still be stopped.
+                    if (!isActive) return@launch
+                    _installState.value = InstallState(entry.id, InstallState.Phase.INSTALLING)
+                    installer.promptInstall(outcome.file)
+                    _installState.value = InstallState(entry.id, InstallState.Phase.DONE)
+                    // The package broadcast will arrive on its own; this makes the
+                    // "Installed" tab move the entry over without waiting for it.
+                    refresh()
+                }
             }
         }
+    }
+
+    /**
+     * Aborts the install the user started, mid-download or mid-verify.
+     *
+     * Cancelling the coroutine stops the progress loop, and [ApkInstaller] then
+     * removes the system download job and deletes the partial file, so nothing is
+     * left behind for the next attempt to trip over.
+     */
+    fun cancelInstall() {
+        val job = _installJob
+        if (job?.isActive != true) {
+            _installState.value = null
+            return
+        }
+        job.cancel()
+        _installState.value = null
     }
 
     /** Asks the catalog for this entry's verdict, then stores it. */
@@ -506,8 +606,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     /** Deletes the downloaded APK of an entry and clears any in-flight install. */
     fun deleteDownload(entry: RemoteClient) {
-        runCatching { installer.fileFor(entry).delete() }
-        runCatching { installer.resolveDownloaded(installer.fileFor(entry).name)?.delete() }
+        _installJob?.cancel()
+        installer.cancelDownload(installer.fileFor(entry))
         _installState.value = null
         if (_fullCheckState.value?.clientId == entry.id) _fullCheckState.value = null
     }
@@ -516,13 +616,10 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         _health.value = HealthState.UNKNOWN
     }
 
-    fun cancelInstall() {
-        _installState.value = null
-    }
-
     /** Drops the APK of an entry, e.g. after a failed install. */
     fun discardDownload(entry: RemoteClient) {
-        runCatching { installer.fileFor(entry).delete() }
+        _installJob?.cancel()
+        installer.cancelDownload(installer.fileFor(entry))
         _installState.value = null
     }
 
@@ -535,6 +632,19 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     fun refresh() {
         refreshTrigger.value += 1
         refreshCatalog()
+    }
+
+    /**
+     * Called when the app comes back to the foreground.
+     *
+     * A new client published while the app was in the background should be there
+     * by the time the user looks at the screen, so the catalog is re-read on
+     * resume unless the user turned that off. The installed list is always
+     * re-scanned, since an install may have finished outside the app.
+     */
+    fun onResume() {
+        refreshTrigger.value += 1
+        if (settings.value.refreshOnResume) refreshCatalog()
     }
 
     fun launch(client: TelegramClient) {
@@ -587,6 +697,12 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     fun setCatalogEnabled(enabled: Boolean) = viewModelScope.launch {
         settingsRepo.setCatalogEnabled(enabled)
         if (enabled) refreshCatalog()
+    }
+    fun setAutoRefresh(mode: AutoRefresh) = viewModelScope.launch {
+        settingsRepo.setAutoRefresh(mode)
+    }
+    fun setRefreshOnResume(enabled: Boolean) = viewModelScope.launch {
+        settingsRepo.setRefreshOnResume(enabled)
     }
     fun resetSettings() = viewModelScope.launch { settingsRepo.reset() }
 }

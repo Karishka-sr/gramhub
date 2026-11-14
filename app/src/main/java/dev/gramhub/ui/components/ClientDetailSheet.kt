@@ -13,6 +13,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.OpenInNew
 import androidx.compose.material.icons.rounded.CheckCircle
+import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.Download
 import androidx.compose.material.icons.rounded.Error
@@ -70,6 +71,7 @@ fun ClientDetailSheet(
     scanNotice: ScanNotice?,
     onDismiss: () -> Unit,
     onInstall: () -> Unit,
+    onCancelInstall: () -> Unit,
     onCheck: () -> Unit,
     onFullCheck: () -> Unit,
     onDelete: () -> Unit,
@@ -127,6 +129,7 @@ fun ClientDetailSheet(
                 busy = busy,
                 isScanning = isScanning,
                 onInstall = onInstall,
+                onCancelInstall = onCancelInstall,
                 onCheck = onCheck,
                 onFullCheck = onFullCheck,
                 onDelete = onDelete,
@@ -297,6 +300,7 @@ private fun Actions(
     busy: Boolean,
     isScanning: Boolean,
     onInstall: () -> Unit,
+    onCancelInstall: () -> Unit,
     onCheck: () -> Unit,
     onFullCheck: () -> Unit,
     onDelete: () -> Unit,
@@ -314,12 +318,21 @@ private fun Actions(
                 onClick = onOpen,
                 primary = true,
             )
+        } else if (busy) {
+            // While an install runs, the primary action becomes the way to stop
+            // it, so a mis-tap is one press away from being undone.
+            ActionButton(
+                icon = Icons.Rounded.Close,
+                label = stringResource(R.string.install_cancel),
+                onClick = onCancelInstall,
+                danger = true,
+            )
         } else {
             ActionButton(
                 icon = Icons.Rounded.Download,
                 label = stringResource(R.string.install),
                 onClick = onInstall,
-                enabled = entry.apk != null && !busy,
+                enabled = entry.apk != null,
                 primary = true,
             )
         }

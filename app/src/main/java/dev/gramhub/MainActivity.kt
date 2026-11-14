@@ -46,6 +46,13 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+
+    override fun onResume() {
+        super.onResume()
+        // Coming back to the app re-reads the catalog, so a client published while
+        // the app was in the background is already there.
+        viewModel.onResume()
+    }
 }
 
 private enum class Tab { CLIENTS, SETTINGS }
