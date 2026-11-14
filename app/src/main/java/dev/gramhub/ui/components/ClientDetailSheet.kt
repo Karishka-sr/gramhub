@@ -25,7 +25,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedButton
@@ -40,13 +39,15 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import dev.gramhub.R
+import dev.gramhub.data.TelegramClient
 import dev.gramhub.remote.CheckLevel
 import dev.gramhub.remote.FullCheckReport
 import dev.gramhub.remote.RemoteClient
 import dev.gramhub.remote.Verdict
 import dev.gramhub.ui.FullCheckState
 import dev.gramhub.ui.InstallState
-import dev.gramhub.data.TelegramClient
+import dev.gramhub.ui.ScanMessage
+import dev.gramhub.ui.ScanNotice
 import kotlin.math.roundToInt
 
 /**
@@ -66,6 +67,7 @@ fun ClientDetailSheet(
     installState: InstallState?,
     fullCheckState: FullCheckState?,
     isScanning: Boolean,
+    scanNotice: ScanNotice?,
     onDismiss: () -> Unit,
     onInstall: () -> Unit,
     onCheck: () -> Unit,
@@ -137,7 +139,47 @@ fun ClientDetailSheet(
                 HorizontalDivider(modifier = Modifier.padding(vertical = 4.dp))
                 FullCheckBlock(state = state)
             }
+
+            scanNotice?.takeIf { it.clientId == entry.id }?.let { notice ->
+                HorizontalDivider(modifier = Modifier.padding(vertical = 4.dp))
+                ScanNoticeRow(message = notice.message)
+            }
         }
+    }
+}
+
+/**
+ * Explains why "Проверить" produced no verdict.
+ *
+ * A snackbar would be hidden behind the detail sheet, and on a card it would
+ * cover the very button that produced it, so the reason is shown in place.
+ */
+@Composable
+fun ScanNoticeRow(message: ScanMessage, modifier: Modifier = Modifier) {
+    val (icon, tint) = when (message) {
+        ScanMessage.UNSUPPORTED -> Icons.Rounded.Info to MaterialTheme.colorScheme.onSurfaceVariant
+        ScanMessage.FAILED -> Icons.Rounded.Warning to MaterialTheme.colorScheme.error
+    }
+    Row(
+        modifier = modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.spacedBy(10.dp),
+    ) {
+        Icon(
+            imageVector = icon,
+            contentDescription = null,
+            tint = tint,
+            modifier = Modifier.size(20.dp),
+        )
+        Text(
+            text = stringResource(
+                when (message) {
+                    ScanMessage.UNSUPPORTED -> R.string.client_check_unsupported
+                    ScanMessage.FAILED -> R.string.client_check_failed
+                },
+            ),
+            style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+        )
     }
 }
 
@@ -386,9 +428,8 @@ private fun FullCheckBlock(state: FullCheckState) {
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
-                LinearProgressIndicator(
+                WavyLinearProgressIndicator(
                     progress = { state.fraction.coerceIn(0f, 1f) },
-                    modifier = Modifier.fillMaxWidth(),
                 )
             }
 
@@ -398,9 +439,8 @@ private fun FullCheckBlock(state: FullCheckState) {
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
-                LinearProgressIndicator(
+                WavyLinearProgressIndicator(
                     progress = { state.fraction.coerceIn(0f, 1f) },
-                    modifier = Modifier.fillMaxWidth(),
                 )
                 if (state.step.isNotBlank()) {
                     Text(

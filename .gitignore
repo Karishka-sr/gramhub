@@ -19,3 +19,9 @@ __pycache__/
 .pytest_cache/
 server/data/
 data/
+
+# Local catalog scan cache (large)
+.catalog-cache/
+
+# Local virtualenvs
+.venv/

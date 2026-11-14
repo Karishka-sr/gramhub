@@ -22,6 +22,7 @@ import dev.gramhub.remote.FullCheckOutcome
 import dev.gramhub.remote.FullCheckReport
 import dev.gramhub.remote.InstallOutcome
 import dev.gramhub.remote.RemoteClient
+import dev.gramhub.remote.ScanOutcome
 import dev.gramhub.util.AppActions
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -83,6 +84,20 @@ data class CatalogUiState(
 enum class HealthState { UNKNOWN, CHECKING, OK, FAILED }
 
 /**
+ * Why the last "Проверить" attempt produced no verdict.
+ *
+ * [UNSUPPORTED] is the normal case for the default static catalog: there is no
+ * server to scan on demand, so the UI explains that instead of looking dead.
+ */
+enum class ScanMessage { UNSUPPORTED, FAILED }
+
+/**
+ * A [ScanMessage] together with the entry whose button produced it, so the card
+ * and the detail sheet can show the explanation only where it belongs.
+ */
+data class ScanNotice(val clientId: String, val message: ScanMessage)
+
+/**
  * State of a full on-device verification of one catalog entry's APK.
  *
  * [Phase.DOWNLOADING] is part of the flow because the full check has to run on
@@ -134,6 +149,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     private val _installState = MutableStateFlow<InstallState?>(null)
     private val _fullCheckState = MutableStateFlow<FullCheckState?>(null)
     private val _scanning = MutableStateFlow<Set<String>>(emptySet())
+    private val _scanMessage = MutableStateFlow<ScanNotice?>(null)
     private val _health = MutableStateFlow<HealthState>(HealthState.UNKNOWN)
 
     /** A one-shot message key; the UI shows it and calls [consumeMessage]. */
@@ -148,6 +164,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     /** Ids of catalog entries whose scan is in flight, so the card can show it. */
     val scanning: StateFlow<Set<String>> = _scanning.asStateFlow()
+
+    /** Why the last "Проверить" produced no verdict, or null when there was none. */
+    val scanMessage: StateFlow<ScanNotice?> = _scanMessage.asStateFlow()
 
     /** Result of the last "test the connection" press in settings. */
     val health: StateFlow<HealthState> = _health.asStateFlow()
@@ -360,22 +379,29 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    /** Asks the server to download and scan this entry's APK, then stores the verdict. */
+    /** Asks the catalog for this entry's verdict, then stores it. */
     fun scan(entry: RemoteClient) = viewModelScope.launch {
+        _scanMessage.value = null
         _scanning.update { it + entry.id }
-        val result = catalog.scan(entry.id)
+        val outcome = catalog.scan(entry.id)
         _scanning.update { it - entry.id }
 
-        if (result == null) {
-            _message.value = "scan_failed"
-            return@launch
-        }
-        _remote.update { current ->
-            current.copy(
-                entries = current.entries.map {
-                    if (it.id == entry.id) it.copy(scan = result) else it
-                },
-            )
+        when (outcome) {
+            is ScanOutcome.Verdict -> _remote.update { current ->
+                current.copy(
+                    entries = current.entries.map {
+                        if (it.id == entry.id) it.copy(scan = outcome.scan) else it
+                    },
+                )
+            }
+
+            // The snapshot the app reads has no on-demand endpoint. Say so where
+            // the button is, not in a snackbar hidden behind the open sheet.
+            ScanOutcome.Unavailable -> _scanMessage.value =
+                ScanNotice(entry.id, ScanMessage.UNSUPPORTED)
+
+            is ScanOutcome.Failed -> _scanMessage.value =
+                ScanNotice(entry.id, ScanMessage.FAILED)
         }
     }
 
@@ -468,6 +494,11 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     fun clearFullCheck() {
         _fullCheckState.value = null
+    }
+
+    /** Clears the "Проверить" explanation once the sheet has shown it. */
+    fun clearScanMessage() {
+        _scanMessage.value = null
     }
 
     /** True when a verified download for this entry is already on disk. */

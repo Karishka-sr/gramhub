@@ -75,6 +75,7 @@ class ClientDetailSheetTest {
     private fun render(
         entry: RemoteClient = entry(),
         hasDownload: Boolean = false,
+        scanNotice: ScanNotice? = null,
         onInstall: () -> Unit = {},
         onCheck: () -> Unit = {},
         onFullCheck: () -> Unit = {},
@@ -89,6 +90,7 @@ class ClientDetailSheetTest {
                     installState = null,
                     fullCheckState = null,
                     isScanning = false,
+                    scanNotice = scanNotice,
                     onDismiss = {},
                     onInstall = onInstall,
                     onCheck = onCheck,
@@ -150,5 +152,34 @@ class ClientDetailSheetTest {
         render()
         composeRule.onNodeWithText("Unusual permission").assertExists()
         composeRule.onNodeWithText("READ_SMS is not typical for a messenger").assertExists()
+    }
+
+    @Test
+    fun `an unsupported check explains itself inside the sheet`() {
+        render(scanNotice = ScanNotice("nekogram-nekogram", ScanMessage.UNSUPPORTED))
+
+        composeRule.onNodeWithText(string(R.string.client_check_unsupported)).assertExists()
+    }
+
+    @Test
+    fun `a failed check explains itself inside the sheet`() {
+        render(scanNotice = ScanNotice("nekogram-nekogram", ScanMessage.FAILED))
+
+        composeRule.onNodeWithText(string(R.string.client_check_failed)).assertExists()
+    }
+
+    @Test
+    fun `an explanation for another entry is not shown`() {
+        render(scanNotice = ScanNotice("someone-else", ScanMessage.UNSUPPORTED))
+
+        composeRule.onNodeWithText(string(R.string.client_check_unsupported)).assertDoesNotExist()
+    }
+
+    @Test
+    fun `no explanation is shown before a check runs`() {
+        render()
+
+        composeRule.onNodeWithText(string(R.string.client_check_unsupported)).assertDoesNotExist()
+        composeRule.onNodeWithText(string(R.string.client_check_failed)).assertDoesNotExist()
     }
 }

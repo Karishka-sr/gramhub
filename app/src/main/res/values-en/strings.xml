@@ -172,6 +172,8 @@
     <string name="client_downloaded_badge">File downloaded</string>
     <string name="client_check">Check</string>
     <string name="client_check_summary">Server-side check: signature, permissions, version</string>
+    <string name="client_check_unsupported">The catalog is a static file, so there is no server to check against. Use "Full check" instead — it runs on this device.</string>
+    <string name="client_check_failed">Could not get a verdict. Check your connection and try again.</string>
     <string name="client_full_check">Full check</string>
     <string name="client_full_check_summary">Deep on-device check: every entry, hash, code and signature</string>
     <string name="client_delete">Delete file</string>

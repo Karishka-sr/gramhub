@@ -58,6 +58,7 @@ fun ClientsScreen(viewModel: MainViewModel) {
     val query by viewModel.query.collectAsStateWithLifecycle()
     val installState by viewModel.installState.collectAsStateWithLifecycle()
     val fullCheckState by viewModel.fullCheckState.collectAsStateWithLifecycle()
+    val scanMessage by viewModel.scanMessage.collectAsStateWithLifecycle()
     val scanning by viewModel.scanning.collectAsStateWithLifecycle()
     val message by viewModel.message.collectAsStateWithLifecycle()
 
@@ -157,6 +158,7 @@ fun ClientsScreen(viewModel: MainViewModel) {
                         installState = installState,
                         scanning = scanning,
                         fullCheckState = fullCheckState,
+                        scanNotice = scanMessage,
                         installed = state.rows.map { it.client },
                     )
 

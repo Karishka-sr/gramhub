@@ -24,10 +24,15 @@ jobs:
         with:
           python-version: "3.12"
 
+      - name: Install Android build tools
+        # apksigner and aapt2 are what let the scanner read an APK's signature and
+        # manifest. Without them every entry would be exported with a null verdict.
+        uses: android-actions/setup-android@v3
+
       - name: Install server dependencies
         run: pip install -r server/requirements.txt
 
-      - name: Re-discover clients and write the snapshot
+      - name: Re-discover clients, scan APKs, write the snapshot
         env:
           # The default token is enough for public repository reads.
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

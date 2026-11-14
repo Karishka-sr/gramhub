@@ -94,7 +94,7 @@ cd server
 pip install -r requirements.txt
 PYTHONPATH=. GRAMHUB_DATA_DIR=/tmp/gh_live \
   python3 -m uvicorn gramhub_server.api:create_app --factory --host 0.0.0.0 --port 8080
-PYTHONPATH=. pytest tests -q        # 83 теста
+PYTHONPATH=. pytest tests -q        # 85 тестов
 ```
 
 ### Адрес каталога
@@ -107,12 +107,16 @@ https://karishka-sr.github.io/gramhub/clients.json
 
 Этот файл лежит в репозитории (`docs/clients.json`) и раздаётся через GitHub Pages,
 поэтому работает без запущенного сервера и без хостинга. Раз в сутки
-workflow `.github/workflows/refresh-catalog.yml` заново ищет клиентов и обновляет
-снимок; обновить вручную можно так:
+workflow `.github/workflows/refresh-catalog.yml` заново ищет клиентов, скачивает их
+APK, проверяет подпись и разрешения и обновляет снимок. Именно вердикты из этого
+снимка показывает кнопка «Проверить» в карточке клиента. Обновить вручную можно так:
 
 ```bash
 GITHUB_TOKEN=... python3 tools/refresh_catalog.py -o docs/clients.json
 ```
+
+Нужны Android build-tools (для `apksigner` и `aapt2`): без них вердикты не считаются.
+Флаг `--no-scan` пропускает скачивание и переиспользует уже посчитанные вердикты.
 
 Можно указать и свой сервер: Настройки → Каталог клиентов → Адрес сервера. Адрес
 может быть как живым сервером (`https://catalog.example.com`, приложение
@@ -136,7 +140,7 @@ server/                 FastAPI-сервер каталога
 
 ## Тесты
 
-- Приложение: 61 юнит-тест
+- Приложение: 70 юнит-тестов
 - Сервер: 85 тестов
 
 ## Лицензия

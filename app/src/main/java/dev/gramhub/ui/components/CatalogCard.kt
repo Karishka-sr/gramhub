@@ -23,7 +23,6 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -37,6 +36,7 @@ import dev.gramhub.R
 import dev.gramhub.remote.RemoteClient
 import dev.gramhub.remote.Verdict
 import dev.gramhub.ui.InstallState
+import dev.gramhub.ui.ScanNotice
 import kotlin.math.roundToInt
 
 /**
@@ -51,6 +51,7 @@ fun CatalogCard(
     entry: RemoteClient,
     installState: InstallState?,
     isScanning: Boolean,
+    scanNotice: ScanNotice?,
     onClick: () -> Unit,
     onInstall: () -> Unit,
     onScan: () -> Unit,
@@ -206,6 +207,13 @@ fun CatalogCard(
                 onInstall = onInstall,
                 onScan = onScan,
             )
+
+            scanNotice?.let { notice ->
+                ScanNoticeRow(
+                    message = notice.message,
+                    modifier = Modifier.padding(top = 10.dp),
+                )
+            }
         }
     }
 }
@@ -241,12 +249,9 @@ private fun InstallRow(
                         )
                         val fraction = installState.fraction
                         if (fraction != null) {
-                            LinearProgressIndicator(
-                                progress = { fraction },
-                                modifier = Modifier.fillMaxWidth(),
-                            )
+                            WavyLinearProgressIndicator(progress = { fraction })
                         } else {
-                            LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
+                            WavyLinearProgressIndicator()
                         }
                     }
                 } else {

@@ -172,6 +172,8 @@
     <string name="client_downloaded_badge">Файл загружен</string>
     <string name="client_check">Проверить</string>
     <string name="client_check_summary">Проверка на сервере: подпись, разрешения, версия</string>
+    <string name="client_check_unsupported">Каталог подключён статическим файлом — на сервере проверить нельзя. Нажмите «Проверить полностью»: она работает на устройстве.</string>
+    <string name="client_check_failed">Не удалось получить вердикт. Проверьте соединение и попробуйте ещё раз.</string>
     <string name="client_full_check">Проверить полностью</string>
     <string name="client_full_check_summary">Полная проверка файла на устройстве: все записи, хэши, код и подпись</string>
     <string name="client_delete">Удалить файл</string>

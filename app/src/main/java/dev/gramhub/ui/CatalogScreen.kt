@@ -54,6 +54,7 @@ fun CatalogContent(
     installState: InstallState?,
     scanning: Set<String>,
     fullCheckState: FullCheckState?,
+    scanNotice: ScanNotice?,
     installed: List<dev.gramhub.data.TelegramClient>,
 ) {
     var detailTarget by remember { mutableStateOf<RemoteClient?>(null) }
@@ -132,6 +133,7 @@ fun CatalogContent(
                         entry = entry,
                         installState = installState?.takeIf { it.clientId == entry.id },
                         isScanning = entry.id in scanning,
+                        scanNotice = scanNotice?.takeIf { it.clientId == entry.id },
                         onClick = { detailTarget = entry },
                         onInstall = { confirmTarget = entry },
                         onScan = { viewModel.scan(entry) },
@@ -157,9 +159,11 @@ fun CatalogContent(
             installState = installState?.takeIf { it.clientId == entry.id },
             fullCheckState = fullCheckState?.takeIf { it.clientId == entry.id },
             isScanning = entry.id in scanning,
+            scanNotice = scanNotice,
             onDismiss = {
                 detailTarget = null
                 viewModel.clearFullCheck()
+                viewModel.clearScanMessage()
             },
             onInstall = { confirmTarget = entry },
             onCheck = { viewModel.scan(entry) },

@@ -17,6 +17,19 @@ data class CatalogResult(
 )
 
 /**
+ * The answer to "what does the server think of this entry's APK?".
+ *
+ * A static snapshot has no endpoint to scan on demand, so [Unavailable] is a
+ * normal answer there: the snapshot either already carries a verdict or it does
+ * not, and the UI says so rather than looking like the button did nothing.
+ */
+sealed interface ScanOutcome {
+    data class Verdict(val scan: RemoteScan) : ScanOutcome
+    data object Unavailable : ScanOutcome
+    data class Failed(val reason: String) : ScanOutcome
+}
+
+/**
  * Talks to the GramHub catalog server.
  *
  * Uses [HttpURLConnection] rather than a networking library: the API is three
@@ -79,15 +92,39 @@ class CatalogApi(
                 .also { if (forceRefresh) Unit }
         }
 
-    /** Asks the server to download and scan the entry's APK. */
-    suspend fun scan(clientId: String): RemoteScan? = withContext(Dispatchers.IO) {
-        if (baseUrl.isBlank() || isStaticCatalog) return@withContext null
+    /**
+     * Asks the catalog for the server's verdict on the entry's APK.
+     *
+     * A live server is asked to download and scan the file. A static snapshot has
+     * no such endpoint, so the snapshot is re-fetched instead: the workflow that
+     * regenerates it embeds the verdicts it already holds, so re-reading it is how
+     * a fresh verdict arrives. When the snapshot carries none, the result is
+     * [ScanOutcome.Unavailable] and the UI explains that instead of doing nothing.
+     */
+    suspend fun scan(clientId: String): ScanOutcome = withContext(Dispatchers.IO) {
+        if (baseUrl.isBlank()) return@withContext ScanOutcome.Failed("no server configured")
+
+        if (isStaticCatalog) {
+            return@withContext runCatching { get(clientsUrl) }
+                .map { body ->
+                    cacheFile.writeText(body)
+                    val entry = CatalogJson.parseClients(body).firstOrNull { it.id == clientId }
+                    entry?.scan?.let { ScanOutcome.Verdict(it) } ?: ScanOutcome.Unavailable
+                }
+                .getOrElse { failure ->
+                    ScanOutcome.Failed(failure.message ?: "network error")
+                }
+        }
+
         runCatching {
             val body = post("$baseUrl/clients/$clientId/scan")
-            CatalogJson.parseScan(
+            val scan = CatalogJson.parseScan(
                 org.json.JSONObject(body).optJSONObject("scan"),
             )
-        }.getOrNull()
+            scan?.let { ScanOutcome.Verdict(it) } ?: ScanOutcome.Failed("empty scan response")
+        }.getOrElse { failure ->
+            ScanOutcome.Failed(failure.message ?: "network error")
+        }
     }
 
     /**
